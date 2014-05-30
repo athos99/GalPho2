@@ -7,5 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+    $vendorDir . '/guzzlehttp/streams/src/functions.php',
     $vendorDir . '/swiftmailer/swiftmailer/lib/swift_required.php',
+    $vendorDir . '/guzzlehttp/guzzle/src/functions.php',
+    $vendorDir . '/codeception/verify/src/Codeception/function.php',
 );

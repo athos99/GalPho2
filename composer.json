@@ -24,15 +24,17 @@
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",
 		"yiisoft/yii2-debug": "*",
-		"yiisoft/yii2-gii": "*"
+		"yiisoft/yii2-gii": "*",
+        "codeception/codeception": "*",
+        "codeception/specify": "*",
+        "codeception/verify": "*",
+        "yiisoft/yii2-faker": "*"
 	},
-	"suggest": {
-		"codeception/codeception": "Codeception, 1.8.*@dev is currently works well with Yii.",
-		"codeception/specify": "BDD style code blocks for PHPUnit and Codeception",
-		"codeception/verify": "BDD Assertions for PHPUnit and Codeception",
-		"yiisoft/yii2-faker": "Fixtures generator for Yii2 based on Faker lib"
-	},
-	"scripts": {
+    	"suggest": {
+
+
+    },
+    "scripts": {
 		"post-create-project-cmd": [
 			"yii\\composer\\Installer::setPermission"
 		]
