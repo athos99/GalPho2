@@ -31,6 +31,26 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+
+
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => ['class' => 'yii\authclient\clients\GoogleOpenId'],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => '186837638061934',
+                    'clientSecret' => 'da329206eccb9bd1455192ede37e8896',
+                ],
+                'twitter' => [
+                    'class' => 'yii\authclient\clients\Twitter',
+                    'consumerKey' => 'IApEIlU28Nkvt5dInPVBnw',
+                    'consumerSecret' => 'orqKgDeQ2itrhd8v11nKdFZ3nYAxzjiL175qVo',
+                ],
+
+            ],
+        ]
+
     ],
     'params' => $params,
 ];

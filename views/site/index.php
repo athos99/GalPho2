@@ -4,6 +4,14 @@
  */
 $this->title = 'My Yii Application';
 ?>
+
+
+
+<?= yii\authclient\widgets\AuthChoice::widget([
+    'baseAuthUrl' => ['site/auth']
+]) ?>
+
+
 <div class="site-index">
 
     <div class="jumbotron">
