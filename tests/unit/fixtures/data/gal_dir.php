@@ -10,7 +10,7 @@ return [
         'sort_order'=>null
     ],
     'dir2' => [
-        'element_id_cover' => 1,
+        'element_id_cover' => 2,
         'path' => 'dir2',
         'title' => 'Dir2',
         'description' => 'description for dir2',

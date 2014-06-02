@@ -22,8 +22,6 @@ class GalphoTest extends DbTestCase
     protected function setUp()
     {
         parent::setUp();
-        // uncomment the following to load fixtures for user table
-        //$this->loadFixtures(['user']);
     }
 
 
@@ -31,6 +29,7 @@ class GalphoTest extends DbTestCase
         DbTableDependency::reset();
         $struct = Galpho::getCacheStructure([1,2]);
         $struct = Galpho::getCacheStructure([]);
+        $struct = Galpho::getCacheStructure([3]);
     }
 
 }

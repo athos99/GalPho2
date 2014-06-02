@@ -9,11 +9,19 @@ return [
         'rank'=>1
     ],
     'element2' => [
-        'dir_id' => '1',
+        'dir_id' => '2',
         'name' => 'element2',
         'title' => 'title2',
         'description' => 'description for element 2',
         'format' => 'img',
         'rank'=>2
+    ],
+    'element3' => [
+        'dir_id' => '2',
+        'name' => 'element3',
+        'title' => 'title3',
+        'description' => 'description for element 3',
+        'format' => 'img',
+        'rank'=>3
     ],
 ];
