@@ -2,3 +2,6 @@
 composer.lock
 vendor/autoload.php
 vendor/composer/autoload_real.php
+vendor/composer/autoload_files.php
+vendor/composer/include_paths.php
+vendor/composer/installed.json
