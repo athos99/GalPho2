@@ -1,2 +1,4 @@
 .idea/
 composer.lock
+vendor/autoload.php
+vendor/composer/autoload_real.php
