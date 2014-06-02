@@ -1,6 +1,7 @@
 <?php
 namespace app\tests\unit\models;
 
+use app\models\GalElement;
 use yii\codeception\DbTestCase;
 use app\tests\unit\fixtures;
 
@@ -9,7 +10,7 @@ class GalElementTest extends DbTestCase
     public function fixtures()
     {
         return [
-            'elements' => fixtures\GalElementFixture::className(),
+            'galElements' => fixtures\GalElementFixture::className(),
         ];
     }
 
@@ -22,8 +23,11 @@ class GalElementTest extends DbTestCase
 
 
     public function testGalElementExist() {
-        $a = $this->elements['element1'];
+        $elementData = $this->galElements['element1'];
+        $rec = GalElement::find()->Where(['id'=>$elementData['id']])->one();
+        $this->assertNotEmpty($rec);
+
+        $dir = $rec->getDir();
     }
 
-    // ...test methods...
 }
