@@ -5,28 +5,28 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "gal_element".
+ * This is the model class for table "gal_dir".
  *
  * @property integer $id
- * @property integer $dir_id
- * @property string $name
+ * @property integer $element_id_cover
+ * @property string $path
  * @property string $title
  * @property string $description
  * @property string $create_time
  * @property string $update_time
- * @property string $format
- * @property integer $rank
+ * @property string $sort_order
  *
- * @property GalDir $dir
+ * @property GalElement[] $galElements
+ * @property GalRight[] $galRights
  */
-class Element extends \yii\db\ActiveRecord
+class GalDir extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'gal_element';
+        return 'gal_dir';
     }
 
     /**
@@ -35,13 +35,11 @@ class Element extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dir_id', 'format'], 'required'],
-            [['dir_id', 'rank'], 'integer'],
-            [['description'], 'string'],
+            [['element_id_cover'], 'integer'],
+            [['path', 'description'], 'string'],
             [['create_time', 'update_time'], 'safe'],
-            [['name'], 'string', 'max' => 128],
             [['title'], 'string', 'max' => 256],
-            [['format'], 'string', 'max' => 10]
+            [['sort_order'], 'string', 'max' => 30]
         ];
     }
 
@@ -52,22 +50,29 @@ class Element extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'dir_id' => 'Dir ID',
-            'name' => 'Name',
+            'element_id_cover' => 'Element Id Cover',
+            'path' => 'Path',
             'title' => 'Title',
             'description' => 'Description',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
-            'format' => 'Format',
-            'rank' => 'Rank',
+            'sort_order' => 'Sort Order',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDir()
+    public function getGalElements()
     {
-        return $this->hasOne(GalDir::className(), ['id' => 'dir_id']);
+        return $this->hasMany(GalElement::className(), ['dir_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGalRights()
+    {
+        return $this->hasMany(GalRight::className(), ['dir_id' => 'id']);
     }
 }

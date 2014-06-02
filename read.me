@@ -1,3 +1,18 @@
-installation
-
+    installation
 composer install --dev
+
+    Update
+composer update --dev
+
+
+    Install or Update db prod ( galpho2)
+yii migrate
+
+    Install or Update db test ( galpho2_test)
+tests\unit\yii migrate
+
+config unit test
+vendor\bin\codecept build
+
+unit test
+vendor\bin\codecept run unit
