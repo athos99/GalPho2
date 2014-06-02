@@ -11,6 +11,8 @@ class GalElementTest extends DbTestCase
     {
         return [
             'galElements' => fixtures\GalElementFixture::className(),
+            'galDirs' => fixtures\GalDirFixture::className(),
+
         ];
     }
 
@@ -21,13 +23,25 @@ class GalElementTest extends DbTestCase
         //$this->loadFixtures(['user']);
     }
 
+    /**
+     * Get one record form table gal_element and get relational record from table gal_dir
+     */
+    public function testGalElementRecord() {
 
-    public function testGalElementExist() {
+
+
         $elementData = $this->galElements['element1'];
+        $elementDir = $this->galDirs['dir1'];
+
+        // get 'element1', check the name
         $rec = GalElement::find()->Where(['id'=>$elementData['id']])->one();
         $this->assertNotEmpty($rec);
+        $this->assertEquals($elementData['name'], $rec->name);
+        // get the relational dir records
+        $dir = $rec->dir;
+        $this->assertNotEmpty($rec);
+        $this->assertEquals($elementDir['title'], $dir->title);
 
-        $dir = $rec->getDir();
     }
 
 }

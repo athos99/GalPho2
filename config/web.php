@@ -10,6 +10,12 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'cacheFast' => array(
+            'class' => 'yii\caching\FileCache',
+            'serializer' => false
+            //    'serializer'=>array('json_encode','json_decode')
+        ),
+
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,

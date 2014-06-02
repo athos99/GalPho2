@@ -1,7 +1,7 @@
 <?php
 namespace app\models;
 
-use app\extensions\yii\DbTableDependency;
+//use app\models\DbTableDependency;
 use yii;
 use yii\base;
 use yii\caching;
@@ -25,18 +25,24 @@ class Galpho extends base\Object
     }
 
 
-
-
+    /**
+     *
+     * For each directory and group appartenance, compute the right value
+     *
+     * @param null $idGroups
+     * @return array
+     */
     public static function getStructure($idGroups = null)
     {
         $structure = array();
 
-        $dirRights = GalDir::getElementsRightsForGroups($idGroups);
+        $dirRights = GalDir::getDirsRightsForGroups($idGroups);
 
         foreach ($dirRights as $id => $dirRight) {
             $data = & $structure;
             $record = $dirRight[0];
             $level = 0;
+            $key = '';
             if (($path = trim($record->path, '/')) != '') {
                 foreach (explode('/', $path) as $key) {
                     if (!array_key_exists($key, $data)) {
@@ -45,8 +51,6 @@ class Galpho extends base\Object
                     $data = & $data[$key];
                     $level++;
                 }
-            } else {
-                $key = '';
             }
 
             $value = 0;
