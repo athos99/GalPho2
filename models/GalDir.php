@@ -24,14 +24,6 @@ class GalDir extends GalDirBase
         return $this->hasOne('GalElement', array('id' => 'element_id_cover'));
     }
 
-    /**
-     * Return  GalRight list indexed by group_id
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRights()
-    {
-        return $this->hasMany('GalRight', array('dir_id' => 'id'));
-    }
 
     /**
      * Return  GalRight list indexed by group_id

@@ -10,13 +10,13 @@ class Galpho extends base\Object
 {
 
 
-    public static function getCacheStructure(array $groups)
+    public static function getCacheStructure(array $idGroups)
     {
-        asort($groups);
-        $id = 'structure' . serialize($groups);
+        asort($idGroups);
+        $id = 'structure' . serialize($idGroups);
         $cache = Yii::$app->cacheFast;
         if (($value = $cache->get($id)) === false) {
-            $value = self::getStructure($groups);
+            $value = self::getStructure($idGroups);
             $cache->set($id, $value, 0, new caching\ChainedDependency(array('dependencies' => array(
                 new DbTableDependency(GalDir::tableName()),
                 new DbTableDependency(GalRight::tableName())))));
@@ -32,12 +32,10 @@ class Galpho extends base\Object
      * @param null $idGroups
      * @return array
      */
-    public static function getStructure($idGroups = null)
+    public static function getStructure(array $idGroups)
     {
         $structure = array();
-
         $dirRights = GalDir::getDirsRightsForGroups($idGroups);
-
         foreach ($dirRights as $id => $dirRight) {
             $data = & $structure;
             $record = $dirRight[0];
@@ -54,10 +52,8 @@ class Galpho extends base\Object
             }
 
             $value = 0;
-            if ($idGroups !== null) {
-                foreach ($dirRight as $right) {
-                    $value |= $right->value;
-                }
+            foreach ($dirRight as $right) {
+                $value |= $right->value;
             }
             if (isset($record->dir_id)) {
                 $cover = ($dirRights[$record->dir_id][0]->path != '') ? $dirRights[$record->dir_id][0]->path . '/' . $record->name : $record->name;
@@ -93,13 +89,13 @@ class Galpho extends base\Object
     }
 
 
-    public static function getCacheElementsForDir($idDir)
-    {
-        return GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
-    }
-
-    public static function getElementsForDir($idDir)
-    {
-        return GalElement::find()->where(array('dir_id' => $idDir))->all();
-    }
+//    public static function getCacheElementsForDir($idDir)
+//    {
+//        return GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
+//    }
+//
+//    public static function getElementsForDir($idDir)
+//    {
+//        return GalElement::find()->where(array('dir_id' => $idDir))->all();
+//    }
 }

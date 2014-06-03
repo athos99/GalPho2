@@ -12,7 +12,7 @@ $config = [
         ],
         'cacheFast' => array(
             'class' => 'yii\caching\FileCache',
-            'serializer' => false
+            //'serializer' => false
             //    'serializer'=>array('json_encode','json_decode')
         ),
 
