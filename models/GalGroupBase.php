@@ -22,7 +22,7 @@ class GalGroupBase extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'gal_group';
+        return '{{%gal_group}}';
     }
 
     /**

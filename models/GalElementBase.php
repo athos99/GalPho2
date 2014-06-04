@@ -26,7 +26,7 @@ class GalElementBase extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'gal_element';
+        return '{{%gal_element}}';
     }
 
     /**

@@ -21,7 +21,7 @@ class GalRightBase extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'gal_right';
+        return '{{%gal_right}}';
     }
 
     /**

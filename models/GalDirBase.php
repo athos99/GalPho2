@@ -26,7 +26,7 @@ class GalDirBase extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'gal_dir';
+        return '{{%gal_dir}}';
     }
 
     /**

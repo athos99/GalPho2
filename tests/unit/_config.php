@@ -7,6 +7,10 @@ return yii\helpers\ArrayHelper::merge(
         'components' => [
             'db' => [
                 'dsn' => 'mysql:host=localhost;dbname=galpho2_test',
+                'tablePrefix' => 'g2t_',
+                'username' => 'root',
+                'password' => '',
+                'charset' => 'utf8',
             ],
         ],
     ]
