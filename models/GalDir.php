@@ -62,13 +62,13 @@ class GalDir extends GalDirBase
 
         if ($idGroups !== null) {
             $query->select('t.id, t.*, r.value, e.dir_id, e.name')
-                ->from('gal_dir t')
-                ->leftJoin('gal_right r', array('and', 't.id=r.dir_id', array('group_id' => $idGroups)))
-                ->leftJoin('gal_element e', 'e.id=t.element_id_cover');
+                ->from('{{%gal_dir}} t')
+                ->leftJoin('{{%gal_right}} r', array('and', 't.id=r.dir_id', array('group_id' => $idGroups)))
+                ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');
         } else {
             $query->select('t.id, t.*, e.dir_id, e.name')
-                ->from('gal_dir t')
-                ->leftJoin('gal_element e', 'e.id=t.element_id_cover');
+                ->from('{{%gal_dir}} t')
+                ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');
 
         }
         return $query->createCommand()->queryAll(\PDO::FETCH_OBJ | \PDO::FETCH_GROUP);

@@ -59,7 +59,7 @@ class m000101_010101_galpho extends \yii\db\Migration
             '{{%user}}', 'id', 'CASCADE', 'CASCADE');
 
 
-        $this->createTable('tbl_auth_item', array(
+        $this->createTable('{{%auth_item}}', array(
                 'name' => 'VARCHAR(64) NOT NULL PRIMARY KEY',
                 'type' => 'integer NOT NULL',
                 'description' => 'text',
@@ -67,31 +67,31 @@ class m000101_010101_galpho extends \yii\db\Migration
                 'data' => 'text',
             ),
             $tableOptions);
-        $this->createIndex('i_type', 'tbl_auth_item', 'type', false);
+        $this->createIndex('i_type', '{{%auth_item}}', 'type', false);
 
 
-        $this->createTable('tbl_auth_item_child', array(
+        $this->createTable('{{%auth_item_child}}', array(
                 'parent' => 'VARCHAR(64) NOT NULL',
                 'child' => 'VARCHAR(64) NOT NULL',
             ),
             $tableOptions);
-        $this->execute('ALTER TABLE `tbl_auth_item_child` ADD PRIMARY KEY ( `parent` , `child` )');
-        $this->addForeignKey('fk_parent', 'tbl_auth_item_child', 'parent', 'tbl_auth_item', 'name', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_child', 'tbl_auth_item_child', 'child', 'tbl_auth_item', 'name', 'CASCADE', 'CASCADE');
+        $this->execute('ALTER TABLE {{%auth_item_child}} ADD PRIMARY KEY ( `parent` , `child` )');
+        $this->addForeignKey('fk_parent', '{{%auth_item_child}}', 'parent', '{{%auth_item}}', 'name', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_child', '{{%auth_item_child}}', 'child', '{{%auth_item}}', 'name', 'CASCADE', 'CASCADE');
 
 
-        $this->createTable('tbl_auth_assignment', array(
+        $this->createTable('{{%auth_assignment}}', array(
                 'item_name' => 'VARCHAR(64) NOT NULL',
                 'user_id' => 'VARCHAR(64) NOT NULL PRIMARY KEY',
                 'biz_rule' => 'text',
                 'data' => 'text'),
             $tableOptions);
-        $this->addForeignKey('fk_item_name', 'tbl_auth_assignment', 'item_name', 'tbl_auth_item', 'name', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_item_name', '{{%auth_assignment}}', 'item_name', '{{%auth_item}}', 'name', 'CASCADE', 'CASCADE');
 
 
 
 
-        $this->createTable('gal_dir', array(
+        $this->createTable('{{%gal_dir}}', array(
                 'id' => 'pk',
                 'element_id_cover' => 'integer',
                 'path' => 'text',
@@ -102,9 +102,9 @@ class m000101_010101_galpho extends \yii\db\Migration
                 'sort_order' => 'VARCHAR(30) NULL',
             ),
             $tableOptions);
-        $this->createIndex('i_path', 'gal_dir', 'path(255)', true);
+        $this->createIndex('i_path', '{{%gal_dir}}', 'path(255)', true);
 
-        $this->insert('gal_dir', array(
+        $this->insert('{{%gal_dir}}', array(
             'id' => 1,
             'element_id_cover' => null,
             'path' => '/',
@@ -113,7 +113,7 @@ class m000101_010101_galpho extends \yii\db\Migration
             'update_time' => new \yii\db\Expression('NOW()'),
         ));
 
-        $this->createTable('gal_element', array(
+        $this->createTable('{{%gal_element}}', array(
                 'id' => 'pk',
                 'dir_id' => 'integer NOT NULL',
                 'name' => 'VARCHAR(128) NULL',
@@ -127,12 +127,12 @@ class m000101_010101_galpho extends \yii\db\Migration
             $tableOptions);
 
 
-        //       $this->addForeignKey('fk_gal_dir_element_id_cover', 'gal_dir',
-        //           'element_id_cover', 'gal_element', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_gal_element_dir_id', 'gal_element',
-            'dir_id', 'gal_dir', 'id', 'CASCADE', 'CASCADE');
+        //       $this->addForeignKey('fk_gal_dir_element_id_cover', '{{%gal_dir}}',
+        //           'element_id_cover', '{{%gal_element}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_gal_element_dir_id', '{{%gal_element}}',
+            'dir_id', '{{%gal_dir}}', 'id', 'CASCADE', 'CASCADE');
 
-        $this->createTable('gal_group', array(
+        $this->createTable('{{%gal_group}}', array(
                 'id' => 'pk',
                 'permanent' => 'boolean default 0',
                 'name' => 'VARCHAR(128) NULL',
@@ -140,45 +140,45 @@ class m000101_010101_galpho extends \yii\db\Migration
             ),
             $tableOptions);
 
-        $this->createTable('gal_group_user', array(
+        $this->createTable('{{%gal_group_user}}', array(
                 'group_id' => 'integer',
                 'user_id' => 'integer',
             ),
             $tableOptions);
-        $this->addForeignKey('fk_gal_group_user_group_id', 'gal_group_user',
-            'group_id', 'gal_group', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_gal_group_user_user_id', 'gal_group_user',
+        $this->addForeignKey('fk_gal_group_user_group_id', '{{%gal_group_user}}',
+            'group_id', '{{%gal_group}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_gal_group_user_user_id', '{{%gal_group_user}}',
             'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
 
-        $this->createTable('gal_right', array(
+        $this->createTable('{{%gal_right}}', array(
                 'group_id' => 'integer',
                 'dir_id' => 'integer',
                 'value'=>'integer NOT NULL DEFAULT 0'
             ),
             $tableOptions);
-        $this->addForeignKey('fk_gal_right_group_id', 'gal_right',
-            'group_id', 'gal_group', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_gal_right_dir_id', 'gal_right',
-            'dir_id', 'gal_dir', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_gal_right_group_id', '{{%gal_right}}',
+            'group_id', '{{%gal_group}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_gal_right_dir_id', '{{%gal_right}}',
+            'dir_id', '{{%gal_dir}}', 'id', 'CASCADE', 'CASCADE');
 
         return true;
     }
 
     public function down()
     {
-        //     $this->dropForeignKey('fk_gal_dir_element_id_cover', 'gal_dir');
-        $this->dropForeignKey('fk_gal_element_dir_id', 'gal_element');
-        $this->dropTable('gal_right');
-        $this->dropTable('gal_group_user');
-        $this->dropTable('gal_group');
-        $this->dropTable('gal_dir');
-        $this->dropTable('gal_element');
+        //     $this->dropForeignKey('fk_gal_dir_element_id_cover', '{{%gal_dir}}');
+        $this->dropForeignKey('fk_gal_element_dir_id', '{{%gal_element}}');
+        $this->dropTable('{{%gal_right}}');
+        $this->dropTable('{{%gal_group_user}}');
+        $this->dropTable('{{%gal_group}}');
+        $this->dropTable('{{%gal_dir}}');
+        $this->dropTable('{{%gal_element}}');
         $this->dropTable('{{%user_field}}');
         $this->dropTable('{{%user_authenticate}}');
         $this->dropTable('{{%user}}');
-        $this->dropTable('tbl_auth_assignment');
-        $this->dropTable('tbl_auth_item_child');
-        $this->dropTable('tbl_auth_item');
+        $this->dropTable('{{%auth_assignment}}');
+        $this->dropTable('{{%auth_item_child}}');
+        $this->dropTable('{{%auth_item}}');
         return true;
     }
 }
