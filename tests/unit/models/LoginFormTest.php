@@ -1,13 +1,16 @@
 <?php
 
-namespace tests\unit\models;
+namespace app\tests\unit\models;
 
 use Yii;
 use yii\codeception\TestCase;
+
 use app\models\User;
+use yii\helpers\Security;
 
 class LoginFormTest extends TestCase
 {
+
     use \Codeception\Specify;
 
     protected function tearDown()
@@ -31,7 +34,7 @@ class LoginFormTest extends TestCase
 
     public function testLoginWrongPassword()
     {
-        $model = $this->mockUser(new User);
+        $model = $this->mockUser(new User(['password_hash' => Security::generatePasswordHash('will-not-match')]));
 
         $model->username = 'demo';
         $model->password = 'wrong-password';
@@ -45,7 +48,7 @@ class LoginFormTest extends TestCase
 
     public function testLoginCorrect()
     {
-        $model = $this->mockUser(new User(['password' => 'demo']));
+        $model = $this->mockUser(new User(['password_hash' => Security::generatePasswordHash('demo')]));
 
         $model->username = 'demo';
         $model->password = 'demo';
@@ -59,7 +62,7 @@ class LoginFormTest extends TestCase
 
     private function mockUser($user)
     {
-        $loginForm = $this->getMock('app\models\LoginForm', ['getUser']);
+        $loginForm = $this->getMock('common\models\LoginForm', ['getUser']);
         $loginForm->expects($this->any())->method('getUser')->will($this->returnValue($user));
 
         return $loginForm;

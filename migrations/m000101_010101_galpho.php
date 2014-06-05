@@ -14,12 +14,22 @@ class m000101_010101_galpho extends \yii\db\Migration
         $this->createTable('{{%user}}', array(
                 'id' => 'pk',
                 'username' => 'VARCHAR(64) NULL',
+
+
                 'email' => 'VARCHAR(100) NULL',
                 'validated' => 'boolean DEFAULT 0',
                 'active' => 'boolean DEFAULT 0',
                 'superuser' => 'boolean DEFAULT 0',
                 'create' => 'datetime',
                 'last_login' => 'datetime',
+
+                'auth_key' => Schema::TYPE_STRING . '(32) ',
+                'password_hash' => Schema::TYPE_STRING . ' ',
+                'password_reset_token' => Schema::TYPE_STRING,
+                'role' => Schema::TYPE_SMALLINT . ' DEFAULT 10',
+                'status' => Schema::TYPE_SMALLINT . ' DEFAULT 10',
+                'created_at' => Schema::TYPE_INTEGER . ' ',
+                'updated_at' => Schema::TYPE_INTEGER . ' ',
             ),
             $tableOptions);;
         $this->insert('{{%user}}', array(
