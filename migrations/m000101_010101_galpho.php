@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Schema;
+use yii\helpers\Security;
 
 class m000101_010101_galpho extends \yii\db\Migration
 {
@@ -35,6 +36,7 @@ class m000101_010101_galpho extends \yii\db\Migration
         $this->insert('{{%user}}', array(
             'id' => 1,
             'username' => 'admin',
+            'password_hash'=>Security::generatePasswordHash('admin'),
             'active' => 1,
             'validated' => 1,
             'superuser' => 1,
