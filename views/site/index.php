@@ -7,14 +7,14 @@ $this->title = 'My Yii Application';
 
 
 
-<?= yii\authclient\widgets\AuthChoice::widget([
-    'baseAuthUrl' => ['site/auth']
-]) ?>
-
-
 <div class="site-index">
 
     <div class="jumbotron">
+        xxx
+        <?= yii\authclient\widgets\AuthChoice::widget([
+            'baseAuthUrl' => ['site/auth']
+        ]) ?>
+        xxxx
         <h1>Congratulations!</h1>
 
         <p class="lead">You have successfully created your Yii-powered application.</p>
