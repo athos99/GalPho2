@@ -37,6 +37,7 @@ class m000101_010101_galpho extends \yii\db\Migration
             'id' => 1,
             'username' => 'admin',
             'password_hash'=>Security::generatePasswordHash('admin'),
+            'auth_key'=>Security::generateRandomKey(),
             'active' => 1,
             'validated' => 1,
             'superuser' => 1,
@@ -59,6 +60,15 @@ class m000101_010101_galpho extends \yii\db\Migration
         $this->addForeignKey('fk_user_authenticate_user_id', '{{%user_authenticate}}',
             'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
 
+
+        $this->insert('{{%user_authenticate}}', array(
+            'id' => 1,
+            'user_id' => 1,
+            'provider' => 'google',
+            'identifier' => 'https://www.google.com/accounts/o8/id?id=AItOawmjBilRbLs6W_kFHUl_9DGEmfXRKAe369s',
+            'expire' => new \yii\db\Expression('TIMESTAMPADD(WEEK, 4,NOW())'),
+            'active' => '1',
+        ));
 
         $this->createTable('{{%user_field}}', array(
                 'id' => 'pk',
