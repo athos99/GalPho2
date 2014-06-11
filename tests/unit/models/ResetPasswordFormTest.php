@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\tests\unit\models;
+namespace app\tests\unit\models;
 
 use yii\codeception\DbTestCase;
 use app\tests\unit\fixtures;

@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\SignupForm;
 
 class SiteController extends Controller
 {
@@ -68,7 +69,7 @@ class SiteController extends Controller
         $attributes = $client->getUserAttributes();
         // user login or signup comes here
         $user = User::findIdentityByAccessToken($attributes['id'], $client->getName());
-        return Yii::$app->user->login($user, 0);
+        return Yii::$app->user->login($user, 3600 * 24 * 30 );
     }
 
 
