@@ -129,8 +129,8 @@ class m000101_010101_galpho extends \yii\db\Migration
         $this->insert('{{%gal_dir}}', array(
             'id' => 1,
             'element_id_cover' => null,
-            'path' => '/',
-            'title' => '',
+            'path' => '',
+            'title' => 'root',
             'create_time' => new \yii\db\Expression('NOW()'),
             'update_time' => new \yii\db\Expression('NOW()'),
         ));

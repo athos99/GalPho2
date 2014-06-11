@@ -38,7 +38,18 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
 
-
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName'=> false,
+            'rules' => [
+                'v/<path:.*>' => 'v/index',
+                'admin/<controller:\w+>/<action:\w+>' => 'admin_<controller>/<action>',
+                'admin/<controller:\w+>' => 'admin_<controller>',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
+            ]
+        ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [
