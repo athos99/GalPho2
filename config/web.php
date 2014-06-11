@@ -37,6 +37,7 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'galpho' => ['class' => 'app\galpho\Galpho'],
 
         'urlManager' => [
             'enablePrettyUrl' => true,

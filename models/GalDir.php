@@ -1,9 +1,8 @@
 <?php
-
 namespace app\models;
 
 use Yii;
-use Yii\db\Query;
+use yii\db\Query;
 
 
 class GalDir extends GalDirBase

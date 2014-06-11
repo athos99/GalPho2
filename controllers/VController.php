@@ -11,16 +11,16 @@ class VController extends Controller
     {
         $path = ArrayHelper::getValue($_GET, 'path', '/');
 
-        /** @var app\galpho\Galpho $galpho */
+        /** @var \app\galpho\Galpho $galpho */
         $galpho = \yii::$app->get('galpho');
         $galpho->setPath($path);
         $galpho->setGroups(array(1, 2, 3));
 //        $galpho->repair();
         switch ($galpho->getViewMode()) {
-            case app\galpho\galpho::VIEW_LIST :
+            case \app\galpho\Galpho::VIEW_LIST :
                 echo $this->render('//site/list', array('galpho' => $galpho));
                 break;
-            case app\galpho::VIEW_DETAIL :
+            case \app\galpho\Galpho::VIEW_DETAIL :
                 echo $this->render('//site/detail', array('galpho' => $galpho));
                 break;
             default :
