@@ -1,30 +1,46 @@
 {
-	"name": "athos99/galpho2",
-	"description": "Gallery photo",
-	"keywords": ["image", "gallery", "photo", "application"],
-	"homepage": "http://www.athos99.com/",
-	"type": "project",
-	"license": "BSD-3-Clause",
-	"support": {
-		"issues": "https://github.com/yiisoft/yii2/issues?state=open",
-		"forum": "http://www.yiiframework.com/forum/",
-		"wiki": "http://www.yiiframework.com/wiki/",
-		"irc": "irc://irc.freenode.net/yii",
-		"source": "https://github.com/yiisoft/yii2"
-	},
-	"minimum-stability": "dev",
-	"require": {
-		"php": ">=5.4.0",
-		"yiisoft/yii2": "*",
-		"yiisoft/yii2-bootstrap": "*",
-		"yiisoft/yii2-swiftmailer": "*",
+    "name": "athos99/galpho2",
+    "description": "Gallery photo",
+    "keywords": ["image", "gallery", "photo", "application"],
+    "homepage": "http://www.athos99.com/",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+        "forum": "http://www.yiiframework.com/forum/",
+        "wiki": "http://www.yiiframework.com/wiki/",
+        "irc": "irc://irc.freenode.net/yii",
+        "source": "https://github.com/yiisoft/yii2"
+    },
+
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "athos99/assetparser",
+                "version": "1.0",
+                "dist": {
+                    "type": "vcs",
+                    "url": "https://github.com/athos99/assetparser"
+                }
+            }
+        }
+    ],
+    "minimum-stability": "dev",
+
+
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-bootstrap": "*",
+        "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-authclient": "*",
         "yiisoft/yii2-jui": "*"
-	},
-	"require-dev": {
-		"yiisoft/yii2-codeception": "*",
-		"yiisoft/yii2-debug": "*",
-		"yiisoft/yii2-gii": "*",
+    },
+    "require-dev": {
+        "yiisoft/yii2-codeception": "*",
+        "yiisoft/yii2-debug": "*",
+        "yiisoft/yii2-gii": "*",
         "codeception/codeception": "*",
         "codeception/specify": "*",
         "codeception/verify": "*",
@@ -32,25 +48,25 @@
         "leafo/lessphp": "0.4.*@dev",
         "leafo/scssphp": "dev-master",
         "richthegeek/phpsass": "dev-master",
-        "athos99/assetparser" : "*"
+        "athos99/assetparser": "*"
     },
-    	"suggest": {
+    "suggest": {
 
 
     },
     "scripts": {
-		"post-create-project-cmd": [
-			"yii\\composer\\Installer::setPermission"
-		]
-	},
-	"config": {
-		"process-timeout": 1800
-	},
-	"extra": {
-		"writable": [
-			"runtime",
-			"web/assets"
-		],
+        "post-create-project-cmd": [
+            "yii\\composer\\Installer::setPermission"
+        ]
+    },
+    "config": {
+        "process-timeout": 1800
+    },
+    "extra": {
+        "writable": [
+            "runtime",
+            "web/assets"
+        ],
         "executable": [
             "yii"
         ]
