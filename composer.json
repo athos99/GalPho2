@@ -18,11 +18,14 @@
             "type": "package",
             "package": {
                 "name": "athos99/assetparser",
-                "version": "1.0",
+                "version": "master",
                 "dist": {
-                    "type": "git",
-                    "url": "https://github.com/athos99/assetparser"
+                    "type": "zip",
+                    "url": "https://github.com/athos99/assetparser/archive/master.zip",
+                    "reference": "master"
+
                 }
+
             }
         }
     ],
