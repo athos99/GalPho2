@@ -1,0 +1,3 @@
+[submodule "vendor/athos99/assertparser"]
+	path = vendor/athos99/assertparser
+	url = https://github.com/athos99/assetparser.git

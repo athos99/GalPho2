@@ -28,8 +28,12 @@
         "codeception/codeception": "*",
         "codeception/specify": "*",
         "codeception/verify": "*",
-        "yiisoft/yii2-faker": "*"
-	},
+        "yiisoft/yii2-faker": "*",
+        "leafo/lessphp": "0.4.*@dev",
+        "leafo/scssphp": "dev-master",
+        "richthegeek/phpsass": "dev-master",
+        "athos99/assetparser" : "*"
+    },
     	"suggest": {
 
 
