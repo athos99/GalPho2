@@ -41,7 +41,7 @@ $config = [
 
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName'=> false,
+            'showScriptName' => false,
             'rules' => [
                 'v/<path:.*>' => 'v/index',
                 'admin/<controller:\w+>/<action:\w+>' => 'admin_<controller>/<action>',
@@ -51,6 +51,14 @@ $config = [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
             ]
         ],
+
+        'assetManager' => array(
+//            'bundles' => require(__DIR__ . '/assets.php'),
+            'converter' => array(
+                'class' => 'athos99\assetparser\Converter',
+                'force' => false
+            )
+        ),
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [
