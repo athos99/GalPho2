@@ -60,6 +60,62 @@
 
             }
         }
+
+
+        ,
+
+
+
+
+        {
+            "type": "package",
+            "package": {
+                "name": "athos99/plupload",
+                "description": "Asset parser Less scss and sass for the Yii framework",
+                "keywords": ["yii2", "less", "sass", "scss"],
+                "type": "yii2-extension",
+                "license": "BSD-3-Clause",
+                "installation-source": "dist",
+
+                "support": {
+                    "source": "https://github.com/athos99/plupload"
+                },
+                "authors": [
+                    {
+                        "name": "Michel Bobillier aka Athos99",
+                        "email": "athos99@bluewin.ch"
+                    }
+                ],
+                "version": "master",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/athos99/plupload.git",
+                    "reference": "master"
+
+                },
+
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/athos99/plupload/archive/master.zip",
+                    "reference": "master"
+
+                },
+                "require": {
+                    "leafo/lessphp": "0.4.*@dev",
+                    "leafo/scssphp": "dev-master",
+                    "richthegeek/phpsass": "dev-master"
+                },
+                "autoload": {
+                    "psr-4": {
+                        "athos99\\plupload\\": ""
+                    }
+                }
+
+            }
+        }
+
+
+
     ],
     "minimum-stability": "dev",
 
@@ -70,10 +126,7 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-authclient": "*",
-        "yiisoft/yii2-jui": "*",
-        "2amigos/yii2-gallery-widget" : "0.1.*",
-
-        "2amigos/yii2-file-upload-widget" : "*"
+        "yiisoft/yii2-jui": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
@@ -86,7 +139,8 @@
         "leafo/lessphp": "0.4.*@dev",
         "leafo/scssphp": "dev-master",
         "richthegeek/phpsass": "dev-master",
-        "athos99/assetparser": "*"
+        "athos99/assetparser": "*",
+        "athos99/plupload": "*"
     },
     "suggest": {
 
