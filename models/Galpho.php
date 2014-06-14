@@ -87,15 +87,13 @@ class Galpho extends base\Object
         }
         return $structure;
     }
+    public static function getCacheElementsForDir($idDir)
+    {
+        return GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
+    }
 
-
-//    public static function getCacheElementsForDir($idDir)
-//    {
-//        return GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
-//    }
-//
-//    public static function getElementsForDir($idDir)
-//    {
-//        return GalElement::find()->where(array('dir_id' => $idDir))->all();
-//    }
+    public static function getElementsForDir($idDir)
+    {
+        return GalElement::find()->where(array('dir_id' => $idDir))->all();
+    }
 }

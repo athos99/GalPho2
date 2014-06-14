@@ -9,7 +9,7 @@
 $request = Yii::$app->getRequest();
 
 $url = yii::$app->getUrlManager()->createUrl('v');
-$img = $request->getBaseUrl() . app\Galpho::IMG_THUMBNAIL;
+$img = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMBNAIL;
 
 
 $fullList = $galpho->getPathList();
