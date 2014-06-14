@@ -4,7 +4,7 @@
  * @var yii\Web\View $this
  */
 
-class TreeGalphoStructureWidget extends app\widgets\GalphoStructureWidget
+class TreeGalphoStructureWidget extends app\widgets\galphostructure\GalphoStructureWidget
 {
 
     public $charset;

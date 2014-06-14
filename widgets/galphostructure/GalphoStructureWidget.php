@@ -1,5 +1,5 @@
 <?php
-namespace app\widgets;
+namespace app\widgets\galphostructure;
 
 use yii\base\Widget;
 

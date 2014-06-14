@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace app\widgets;
+namespace app\widgets\galphostructure;
 use yii\web\AssetBundle;
 
 /**
@@ -14,7 +14,8 @@ use yii\web\AssetBundle;
  */
 class GalphoStructureAsset extends AssetBundle
 {
-	public $sourcePath = '@app/widgets';
+   public $sourcePath = '@app/widgets/galphostructure/assets';
+    public $baseUrl = '@web';
 	public $js = [
 		'galphoStructure.js',
 	];
