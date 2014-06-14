@@ -6,3 +6,4 @@ vendor/composer/autoload_files.php
 vendor/composer/include_paths.php
 vendor/composer/installed.json
 vendor/yiisoft/extensions.php
+vendor/composer/autoload_psr4.php
