@@ -36,7 +36,9 @@
                 "version": "master",
                 "source": {
                     "type": "git",
-                    "url": "https://github.com/athos99/assetparser.git"
+                    "url": "https://github.com/athos99/assetparser.git",
+                    "reference": "master"
+
                 },
 
                 "dist": {
