@@ -51,6 +51,9 @@ $config = [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
             ]
         ],
+        'uploadManager' => [
+            'class' => 'athos99\plupload\PluploadManager',
+        ],
 
         'assetManager' => array(
 //            'bundles' => require(__DIR__ . '/assets.php'),

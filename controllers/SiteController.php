@@ -176,4 +176,21 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
+
+
+
+    public function downloaded($x) {
+        $a=$x;
+        return mt_rand(0,1)==0;
+    }
+
+    public function actionUpload() {
+
+        Yii::$app->get('uploadManager')->run();
+
+    }
+
+
 }

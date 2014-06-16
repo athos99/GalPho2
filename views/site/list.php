@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Url;
 /**
  * @var app\galpho\Galpho $galpho
  * @var yii\Web\View $this
@@ -9,6 +10,6 @@ echo $this->render('//site/subviews/list', array('galpho' => $galpho));
 
 use \yii\helpers\Html;
 echo Html::beginForm();
-echo athos99\plupload\PluploadWidget::widget(array());
+echo athos99\plupload\PluploadWidget::widget(['urlUpload'=>Url::toRoute('/site/upload')]);
 echo Html::submitButton();
 echo Html::endForm();
