@@ -9,3 +9,4 @@ vendor/yiisoft/extensions.php
 vendor/composer/autoload_psr4.php
 runtime/
 vendor/2amigos/yii2-gallery-widget/
+vendor/
