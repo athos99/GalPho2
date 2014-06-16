@@ -183,6 +183,7 @@ class SiteController extends Controller
 
     public function downloaded($x) {
         $a=$x;
+        return true;
         return mt_rand(0,1)==0;
     }
 
