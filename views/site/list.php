@@ -16,7 +16,7 @@ echo athos99\plupload\PluploadWidget::widget(
     [
         'urlUpload' => Url::toRoute('/site/upload'),
         'data' => ['stamp' => uniqid()],
-        'baseStyle'=>'Bootstrap'
+        //'baseStyle'=>'bootstrap'
     ]
 );
 echo Html::submitButton();

@@ -1,10 +1,13 @@
 <?php
 namespace app\galpho;
 
+use Yii;
 use yii\base\Component;
+use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseInflector;
 use app\models;
+use yii\helpers\FileHelper;
 
 class Galpho extends component
 {
@@ -14,9 +17,9 @@ class Galpho extends component
     const VIEW_DETAIL = 2;
 
 
-    const IMG_STANDARD='/img';
-    const IMG_THUMBNAIL='/img/1';
-    const IMG_SMALL_THUMB='/img/2';
+    const IMG_STANDARD = '/img';
+    const IMG_THUMBNAIL = '/img/1';
+    const IMG_SMALL_THUMB = '/img/2';
 
 
     public $url;
@@ -51,6 +54,12 @@ class Galpho extends component
         return $this->_path;
     }
 
+
+    public function getIdPath()
+    {
+        $this->getPathStructure();
+        return $this->_idPath;
+    }
 
     public function getFullStructure()
     {
@@ -155,7 +164,6 @@ class Galpho extends component
     }
 
 
-
     public function getImgPathList()
     {
         $this->getPathStructure();
@@ -176,7 +184,71 @@ class Galpho extends component
         return $list;
     }
 
+    public function addElement($filename, $name)
+    {
+        $exif = null;
+        $dst = Yii::getAlias('@app/images/0') . $this->getPath();
+        try {
+            $mime = FileHelper::getMimeType($filename);
+            if ($mime == "image/jpeg") {
+                $exif = new \app\galpho\Exif($filename);
+            }
+        } catch (Exception $e) {
 
+        }
+
+        if (!is_dir($dst)) {
+            mkdir($dst, 777, true);
+        }
+        $out = @fopen($dst . $name, "wb");
+        if ($out) {
+            // Read binary input stream and append it to temp file
+            $in = @fopen($filename, "rb");
+            if ($in) {
+                while ($buff = fread($in, 4096)) {
+                    fwrite($out, $buff);
+                }
+            } else {
+                @fclose($in);
+                @fclose($out);
+                @unlink($out);
+                return false;
+            }
+            @fclose($in);
+            @fclose($out);
+            @unlink($filename);
+
+
+            $element = new models\GalElement();
+            $element->name = $name;
+            $element->title = $name;
+            $element->format = 'image';
+            $element->dir_id = $this->getIdPath();
+            $element->create_time = new \yii\db\Expression('NOW()');
+            $element->update_time = new \yii\db\Expression('NOW()');
+            $tick = null;
+            if (isset($exif)) {
+                if (ctype_digit($exif->caption)) {
+                    $tick =strtotime($exif->caption);
+                    if ( $tick) {
+
+                    $element->create_time = $exif->caption;
+                    }
+
+                }
+                $element->description = json_encode([
+                    'caption'=>$tick ? date('d.m.Y H:i',$tick) : '',
+                    'aperture'=>$exif->aperture,
+                    'speed'=>$exif->speed,
+                    'iso'=>$exif->iso,
+                    'focal'=>$exif->focal,
+                    'model'=>$exif->model
+
+                ]);
+            }
+            $element->save();
+        }
+    }
 
 
     public function getBreadcrumb()
@@ -193,7 +265,7 @@ class Galpho extends component
             $list[$structure['#']['title']] = $this->url . $structure['#']['path'];
             $structure = & $structure[$key];
         }
-        if ( isset($this->_elementName)) {
+        if (isset($this->_elementName)) {
             $info = $this->getImageInfo();
             $list[$info['title']] = $this->url . $info['path'];
         }
@@ -201,7 +273,8 @@ class Galpho extends component
     }
 
 
-    protected function _subRepairFolder(&$structure) {
+    protected function _subRepairFolder(&$structure)
+    {
         if (!isset($structure['#'])) {
             // bug, there is no father folder records !
             $galDir = new models\GalDir();
@@ -212,8 +285,8 @@ class Galpho extends component
             }
             $galDir->path = dirname(reset($structure)['#']['path']);
             $galDir->title = BaseInflector::titleize(basename($galDir->path));
-            $galDir->create_time =  new \yii\db\Expression('NOW()');
-            $galDir->update_time =  new \yii\db\Expression('NOW()');
+            $galDir->create_time = new \yii\db\Expression('NOW()');
+            $galDir->update_time = new \yii\db\Expression('NOW()');
 
             $galDir->save();
         }
