@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use \yii\helpers\Html;
 
 /**
  * @var app\galpho\Galpho $galpho
@@ -7,10 +8,9 @@ use yii\helpers\Url;
  */
 $this->blocks['header1'] = $this->render('//site/subviews/header-list', array('galpho' => &$galpho));
 $this->blocks['block1'] = $this->render('//site/subviews/tree', array('galpho' => $galpho));
+
+
 echo $this->render('//site/subviews/list', array('galpho' => $galpho));
-
-use \yii\helpers\Html;
-
 echo Html::beginForm();
 echo athos99\plupload\PluploadWidget::widget(
     [

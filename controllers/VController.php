@@ -35,10 +35,10 @@ class VController extends Controller
 //        $galpho->repair();
         switch ($galpho->getViewMode()) {
             case \app\galpho\Galpho::VIEW_LIST :
-                echo $this->render('//site/list', array('galpho' => $galpho));
+                return $this->render('//site/list', array('galpho' => $galpho));
                 break;
             case \app\galpho\Galpho::VIEW_DETAIL :
-                echo $this->render('//site/detail', array('galpho' => $galpho));
+                return $this->render('//site/detail', array('galpho' => $galpho));
                 break;
             default :
                 Yii::$app->getResponse()->redirect(array('/'));
