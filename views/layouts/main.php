@@ -11,6 +11,11 @@ use app\widgets\Alert;
  * @var string $content
  */
 AppAsset::register($this);
+
+
+/** @var \app\galpho\Galpho $galpho */
+$galpho = Yii::$app->get('galpho');
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -36,6 +41,18 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
+
+            [
+             'label' => 'Dropdown',
+             'items' => [
+                   ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id'=>$galpho->getIdPath()]],
+                 ['label' => 'Add images', 'url' => ['/admin/folder/add', 'id'=>$galpho->getIdPath()]],
+                   '<li class="divider"></li>',
+                   '<li class="dropdown-header">Dropdown Header</li>',
+                   ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
+              ],
+          ],
+
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];

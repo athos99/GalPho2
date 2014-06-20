@@ -25,7 +25,7 @@ class Galpho extends component
     public $url;
     public $_path;
     public $_idPath;
-    public $_idGroups;
+    public $_idGroups=[];
 
     public $_fullStructure;
     public $_pathStructure;
