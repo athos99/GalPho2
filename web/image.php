@@ -33,28 +33,53 @@
  *
  */
 
-$root = dirname(__FILE__);
+
+$config = require(__DIR__ . '/../config/image.php');
 
 
 class Image
 {
+    public $config;
+    public $format;
+
+
     public $img;
-    public $fileFullName ;
+    public $fileFullName;
     public $width;
     public $height;
+    public $crop=false;
+    public $sharpen=0;
+    public $watermark=null;
+
+
+
+
+    // the pos is based on numeric keyboard 7 8 9
+    //                                      4 5 6
+    //                                      1 2 3
+    public $watermarkPos = 2;
+
+
     public $type = array(
         'jpg' => 'image/jpeg',
         'gif' => 'image/gif',
         'png' => 'image/pgn',
     );
 
-    static public $format = array(
-        0 => array('width' => 300, 'height' => 300),
-        1 => array('width' => 150, 'height' => 150),
-        2 => array('width' => 50, 'height' => 50),
-        3 => array('width' => 100, 'height' => 100),
-        4 => array('width' => 100, 'height' => 100),
-    );
+
+    public function __construct($config)
+    {
+        $this->config = $config;
+        $this->getParam();
+
+//        $this->width = 100;
+//        $this->height = 150;
+        $this->getDefaultImage();
+        $this->getImage($this->fileFullName);
+        $this->output();
+
+    }
+
 
     /**
      * Output a image file to browser
@@ -102,15 +127,6 @@ class Image
         imagejpeg($this->img);
         imagedestroy($this->img);
     }
-
-
-    /**
-     * Returns the relative URL for the application.
-     * This is similar to [[scriptUrl]] except that it does not include the script file name,
-     * and the ending slashes are removed.
-     * @return string the relative URL for the application
-     * @see setScriptUrl()
-     */
 
 
     /**
@@ -209,7 +225,7 @@ class Image
         } elseif (isset($_SERVER['PHP_SELF']) && strpos($_SERVER['PHP_SELF'], $scriptUrl) === 0) {
             $pathInfo = substr($_SERVER['PHP_SELF'], strlen($scriptUrl));
         } else {
-            throw new InvalidConfigException('Unable to determine the path info of the current request.');
+            throw new Exception('Unable to determine the path info of the current request.');
         }
 
         return ltrim($pathInfo, '/');
@@ -223,30 +239,184 @@ class Image
 
         array_shift($params); // img
         $idFormat = reset($params);
-        if (isset(self::$format[$idFormat])) {
-            $format = self::$format[$idFormat];
+        if (isset($this->config['format'][$idFormat])) {
+            $this->format = $this->config['format'][$idFormat];
             array_shift($params);
         } else {
-            $format = self::$format[0];
+            $this->format= $this->config['format'][0];
         }
-        $this->height = $format['height'];
-        $this->width = $format['width'];
-        $this->fileFullName = implode('/',$params);
+        $this->height = $this->format['height'];
+        $this->width = $this->format['width'];
+
+        if ( !empty($this->format['crop'])) {
+            $this->crop=true;
+        }
+        $this->fileFullName = __DIR__ .'/../images/0/'.implode('/', $params);
     }
 
-    public function __construct()
+
+    function getImage( $filename)
     {
+        $this->img=null;
 
-        $this->getParam();
+        $infoFile = pathinfo($filename);
+        $imgType = strtolower($infoFile['extension']);
 
-//        $this->width = 100;
-//        $this->height = 150;
-        $this->getDefaultImage();
-        $this->output();
+        switch ($imgType) {
+            case 'jpg':
+            case 'jpeg':
+                $fctCreate = 'imagecreatefromjpeg';
+                break;
+            case 'gif':
+                $fctCreate = 'imagecreatefromgif';
+                break;
+            case 'png':
+                $fctCreate = 'imagecreatefrompng';
+                break;
+            default :
+                return FALSE;
+        }
+        $img = @$fctCreate($filename);
+        if (!$img) {
+            return false;
+        }
+        $w1 = imagesx($img);
+        $h1 = imagesy($img);
+        $w2 = $this->width;
+        $h2 = $this->height;
+        $ox = 0;
+        $oy = 0;
+        $ratioW = $w2 / $w1;
+        $ratioH = $h2 / $h1;
+        $maxRatio = min($ratioW, $ratioH);
+        if ($maxRatio > 1) {
+            // can't resize image bigger than original
+            $w2 = $w1;
+            $h2 = $h1;
+            $ratioW = 1;
+            $ratioH = 1;
+        }
+        if ($this->crop == FALSE) {
+            // resize without crop
+            if ($ratioW < $ratioH) {
+                $h2 = (int)round($ratioW * $h1);
+            } else {
+                $w2 = (int)round($ratioH * $w1);
+            }
+        } else {
+            // crop
+            if ($ratioW < $ratioH) {
+                $w1a = (int)round($w2 / $ratioH);
+                $ox = (int)round(($w1 - $w1a) / 2);
+                $w1 = $w1a;
+            } else {
+                $h1a = (int)round($h2 / $ratioW);
+                $oy = (int)round(($h1 - $h1a) / 2);
+                $h1 = $h1a;
+            }
+        }
+        $this->img = imagecreatetruecolor($w2, $h2);
+        imagecopyresampled($this->img, $img, 0, 0, $ox, $oy, $w2, $h2, $w1, $h1);
+        imagedestroy($img);
+        if (($this->sharpen > 0) && ($maxRatio < .8)) {
+            $amount = round(abs(-28 + ($this->sharpen * 0.16)), 2);
+            // Gaussian blur matrix
+            $matrix = array(
+                array(-1, -1, -1),
+                array(-1, $amount, -1),
+                array(-1, -1, -1));
+            // Perform the sharpen
+            imageconvolution($this->img, $matrix, $amount - 8, 0);
+        }
+        if ($this->watermark) {
+            if (file_exists('image/' . $this->watermark)) {
+                $waterFile = pathinfo('image/' . $this->watermark);
+                switch (strtolower($waterFile['extension'])) {
+                    case 'jpg':
+                    case 'jpeg':
+                        $fctcreate = 'imagecreatefromjpeg';
+                        break;
+                    case 'gif':
+                        $fctcreate = 'imagecreatefromgif';
+                        break;
+                    case 'png':
+                        $fctcreate = 'imagecreatefrompng';
+                        break;
+                    default :
+                        $fctcreate = NULL;
+                }
+                if ($fctcreate) {
+                    $img = @$fctcreate('image/' . $this->watermark);
+                    if ($img) {
+                        if (isset($this->watermarkPos)) {
+                            $pos = $this->watermarkPos;
+                        } else {
+                            $pos = 2;
+                        }
+                        $w1 = imagesx($img);
+                        $h1 = imagesy($img);
+
+                        // the pos is based on numeric keyboard 7 8 9
+                        //                                      4 5 6
+                        //                                      1 2 3
+                        switch ($pos) {
+                            case 1:
+                                $ox = 0;
+                                $oy = $h2 - $h1;
+                                break;
+                            case 2:
+                                $ox = (int)round(($w2 - $w1) / 2);
+                                $oy = $h2 - $h1;
+                                break;
+                            case 3:
+                                $ox = $w2 - $w1;
+                                $oy = $h2 - $h1;
+                                break;
+                            case 4:
+                                $ox = 0;
+                                $oy = (int)round(($h2 - $h1) / 2);
+                                break;
+                            case 5:
+                                $ox = (int)round(($w2 - $w1) / 2);
+                                $oy = (int)round(($h2 - $h1) / 2);
+                                break;
+                            case 6:
+                                $ox = $w2 - $w1;
+                                $oy = (int)round(($h2 - $h1) / 2);
+                                break;
+                            case 7:
+                                $ox = $oy = 0;
+                                break;
+                            case 8:
+                                $ox = (int)round(($w2 - $w1) / 2);
+                                $oy = 0;
+                                break;
+                            case 9:
+                                $ox = $w2 - $w1;
+                                $oy = 0;
+                                break;
+                            default:
+                                $ox = (int)round(($w2 - $w1) / 2);
+                                $oy = $h2 - $h1;
+                                break;
+                        }
+
+                        $ox = max(0, $ox);
+                        $oy = max(0, $oy);
+                        imagecopy($this->img, $img, $ox, $oy, 0, 0, $w1, $h1);
+                        imagedestroy($img);
+                    }
+                }
+            }
+        }
+
     }
+
+
+
 }
 
-new Image();
+new Image($config);
 
 
 
