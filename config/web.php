@@ -80,7 +80,7 @@ $config = [
         ]
 
     ],
-    'params' => $params,
+    'params' => $params
 ];
 
 if (YII_ENV_DEV) {

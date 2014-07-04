@@ -1,5 +1,6 @@
 <?php
 namespace app\controllers;
+
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -17,11 +18,12 @@ class VController extends Controller
         $galpho->setGroups(array(1, 2, 3));
 
         if (isset($_POST['file']) and is_array($_POST['file'])) {
-            foreach($_POST['file'] as $file) {
-                /** @var \athos99\plupload\PluploadManager $uploadManager*/
-                $uploadManager = Yii::$app->get('uploadManager') ;
-                if ( $file != '') {
-                    $filename = $uploadManager->getFilename($file);
+            /** @var \athos99\plupload\PluploadManager $uploadManager */
+            $uploadManager = Yii::$app->get('uploadManager');
+            foreach ($_POST['file'] as $file) {
+                $file = $uploadManager->cleanFileName($file);
+                if ($file != '') {
+                    $filename = $uploadManager->targetDir.'/'.$file;
                     $galpho->addElement($filename, $file);
 
 
@@ -29,7 +31,6 @@ class VController extends Controller
             }
 
         }
-
 
 
 //        $galpho->repair();

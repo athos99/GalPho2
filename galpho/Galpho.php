@@ -187,7 +187,7 @@ class Galpho extends component
     public function addElement($filename, $name)
     {
         $exif = null;
-        $dst = Yii::getAlias('@app/images/0') . $this->getPath();
+        $dst = Yii::getAlias('@app/'.Yii::$app->params['image']['src']) . $this->getPath();
         try {
             $mime = FileHelper::getMimeType($filename);
             if ($mime == "image/jpeg") {

@@ -34,7 +34,7 @@
  */
 
 
-$config = require(__DIR__ . '/../config/image.php');
+$config = require(__DIR__ . '/../config/params.php');
 
 
 class Image
@@ -44,7 +44,9 @@ class Image
 
 
     public $img;
-    public $fileFullName;
+    public $srcFullName;
+    public $dstFullName;
+
     public $width;
     public $height;
     public $crop=false;
@@ -75,9 +77,37 @@ class Image
 //        $this->width = 100;
 //        $this->height = 150;
         $this->getDefaultImage();
-        $this->getImage($this->fileFullName);
+        $this->getImage($this->srcFullName);
         $this->output();
 
+    }
+    public function getParam()
+    {
+        $path = $this->resolvePathInfo();
+        $params = explode('/', $path);
+
+        array_shift($params); // img
+        $idFormat = reset($params);
+        if (isset($this->config['format'][$idFormat])) {
+            $this->format = $this->config['format'][$idFormat];
+            array_shift($params);
+        } else {
+            $this->format= $this->config['format'][0];
+        }
+        $this->height = $this->format['height'];
+        $this->width = $this->format['width'];
+
+        if ( !empty($this->format['crop'])) {
+            $this->crop=true;
+        }
+
+        if ( !empty($this->format['sharpen']) && is_numeric($this->format['sharpen'])) {
+            $this->sharpen=$this->format['sharpen'];
+        } else {
+            $this->sharpen=0;
+        }
+        $this->srcFullName = __DIR__ .'/../'.$this->config['src'].'/'.implode('/', $params);
+        $this->dstFullName = __DIR__ .'/../'.$this->config['cache'].'/'.$idFormat.'/'.implode('/', $params);
     }
 
 
@@ -95,11 +125,11 @@ class Image
 
         header("Content-type: " . $this->type[$type]);
         if (isset($_GET['download'])) { // option download
-            header("Content-disposition: attachment; filename=" . basename($this->fileFullName));
+            header("Content-disposition: attachment; filename=" . basename($this->srcFullName));
         }
         $expires_offset = 86400; //1 day
-        header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $expires_offset) . ' GMT');
-        header("Cache-Control: public, max-age=$expires_offset");
+       header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $expires_offset) . ' GMT');
+       header("Cache-Control: public, max-age=$expires_offset");
     }
 
 
@@ -123,9 +153,16 @@ class Image
 
     public function output()
     {
+        $dir = dirname($this->dstFullName);
+        if (!is_dir($dir)) {
+            mkdir($dir, 777, true);
+        }
+        imagejpeg($this->img, $this->dstFullName);
+        @chmod($this->dstFullName,0777);
         $this->header('jpg');
-        imagejpeg($this->img);
         imagedestroy($this->img);
+        flush();
+        readfile($this->dstFullName);
     }
 
 
@@ -232,27 +269,6 @@ class Image
     }
 
 
-    public function getParam()
-    {
-        $path = $this->resolvePathInfo();
-        $params = explode('/', $path);
-
-        array_shift($params); // img
-        $idFormat = reset($params);
-        if (isset($this->config['format'][$idFormat])) {
-            $this->format = $this->config['format'][$idFormat];
-            array_shift($params);
-        } else {
-            $this->format= $this->config['format'][0];
-        }
-        $this->height = $this->format['height'];
-        $this->width = $this->format['width'];
-
-        if ( !empty($this->format['crop'])) {
-            $this->crop=true;
-        }
-        $this->fileFullName = __DIR__ .'/../images/0/'.implode('/', $params);
-    }
 
 
     function getImage( $filename)
@@ -318,7 +334,7 @@ class Image
         $this->img = imagecreatetruecolor($w2, $h2);
         imagecopyresampled($this->img, $img, 0, 0, $ox, $oy, $w2, $h2, $w1, $h1);
         imagedestroy($img);
-        if (($this->sharpen > 0) && ($maxRatio < .8)) {
+        if (($this->sharpen != 0) && ($maxRatio < .8)) {
             $amount = round(abs(-28 + ($this->sharpen * 0.16)), 2);
             // Gaussian blur matrix
             $matrix = array(
@@ -416,7 +432,7 @@ class Image
 
 }
 
-new Image($config);
+new Image($config['image']);
 
 
 
