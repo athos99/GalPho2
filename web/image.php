@@ -32,7 +32,9 @@
   E editor     E  D4
  *
  */
-
+defined('YII_DEBUG') or define('YII_DEBUG', false);
+defined('YII_ENV') or define('YII_ENV', 'prod');
+defined('YII_ENV_DEV') or define('YII_ENV_DEV', false);
 
 $config = require(__DIR__ . '/../config/web.php');
 
@@ -41,6 +43,7 @@ class Image
 {
     public $config;
     public $format;
+    public $db;
 
 
     public $img;
@@ -124,11 +127,53 @@ class Image
         if (file_exists($rightcachefile) && ($Data = file_get_contents($rightcachefile))) { // fetch from the cache file
             $grouprights = unserialize($Data);
         } else { // we need to get the access right from the DB
-            $dbconfig = require 'application/config/database.php';
-            $conn = $dbconfig['default']['connection'];
-            $table_prefix = $dbconfig['default']['table_prefix'];
+            $table_prefix = $this->db['tablePrefix'];
+            $connection = new PDO($this->db['dsn'],$this->db['username'],$this->db['password']);
+            $connection->open();
+            $sql = "SELECT IdElem FROM {$table_prefix}elements";
+
         }
     }
+
+///*
+//$connection->open();
+//* $command = $connection->createCommand('SELECT * FROM post');
+//* $posts = $command->queryAll();
+//* $command = $connection->createCommand('UPDATE post SET status=1');
+//* $command->execute();
+//* ~~~
+//*
+//* One can also do prepared SQL execution and bind parameters to the prepared SQL.
+//* When the parameters are coming from user input, you should use this approach
+//* to prevent SQL injection attacks. The following is an example:
+//*
+//* ~~~
+//* $command = $connection->createCommand('SELECT * FROM post WHERE id=:id');
+//* $command->bindValue(':id', $_GET['id']);
+//* $post = $command->query();
+//* ~~~
+//*
+//* For more information about how to perform various DB queries, please refer to [[Command]].
+//*
+//* If the underlying DBMS supports transactions, you can perform transactional SQL queries
+//* like the following:
+//*
+//* ~~~
+//* $transaction = $connection->beginTransaction();
+//* try {
+//*     $connection->createCommand($sql1)->execute();
+//*     $connection->createCommand($sql2)->execute();
+//*     // ... executing other SQL statements ...
+//*     $transaction->commit();
+//* } catch (Exception $e) {
+//    *     $transaction->rollBack();
+//    * }
+// * ~~~
+// *
+// * Connection is often used as an application component and configured in the application
+//* configuration like the following:
+// */
+
 
 //    if (file_exists($rightcachefile) && ($Data = file_get_contents($rightcachefile))) {  // fetch from the cache file
 //        $grouprights = unserialize($Data);
