@@ -34,7 +34,7 @@
  */
 
 
-$config = require(__DIR__ . '/../config/params.php');
+$config = require(__DIR__ . '/../config/web.php');
 
 
 class Image
@@ -46,12 +46,14 @@ class Image
     public $img;
     public $srcFullName;
     public $dstFullName;
+    public $srcDir;
+    public $dstDir;
 
     public $width;
     public $height;
-    public $crop=false;
-    public $sharpen=0;
-    public $watermark=null;
+    public $crop = false;
+    public $sharpen = 0;
+    public $watermark = null;
 
 
 
@@ -69,7 +71,7 @@ class Image
     );
 
 
-    public function __construct($config)
+    public function __construct($config, $db)
     {
         $this->config = $config;
         $this->getParam();
@@ -81,6 +83,7 @@ class Image
         $this->output();
 
     }
+
     public function getParam()
     {
         $path = $this->resolvePathInfo();
@@ -92,23 +95,109 @@ class Image
             $this->format = $this->config['format'][$idFormat];
             array_shift($params);
         } else {
-            $this->format= $this->config['format'][0];
+            $this->format = $this->config['format'][0];
         }
         $this->height = $this->format['height'];
         $this->width = $this->format['width'];
 
-        if ( !empty($this->format['crop'])) {
-            $this->crop=true;
+        if (!empty($this->format['crop'])) {
+            $this->crop = true;
         }
 
-        if ( !empty($this->format['sharpen']) && is_numeric($this->format['sharpen'])) {
-            $this->sharpen=$this->format['sharpen'];
+        if (!empty($this->format['sharpen']) && is_numeric($this->format['sharpen'])) {
+            $this->sharpen = $this->format['sharpen'];
         } else {
-            $this->sharpen=0;
+            $this->sharpen = 0;
         }
-        $this->srcFullName = __DIR__ .'/../'.$this->config['src'].'/'.implode('/', $params);
-        $this->dstFullName = __DIR__ .'/../'.$this->config['cache'].'/'.$idFormat.'/'.implode('/', $params);
+        $this->srcFullName = __DIR__ . '/../' . $this->config['src'] . '/' . implode('/', $params);
+        $this->dstFullName = __DIR__ . '/../' . $this->config['cache'] . '/' . $idFormat . '/' . implode('/', $params);
+        $this->srcDir = dirname($this->srcFullName);
+        $this->dstDir = dirname($this->dstFullName);
     }
+
+
+    public function getRight()
+    {
+//    // get right access info
+        $rightcachefile = $this->srcDir . '/droit.php';
+        $grouprights = [];
+        if (file_exists($rightcachefile) && ($Data = file_get_contents($rightcachefile))) { // fetch from the cache file
+            $grouprights = unserialize($Data);
+        } else { // we need to get the access right from the DB
+            $dbconfig = require 'application/config/database.php';
+            $conn = $dbconfig['default']['connection'];
+            $table_prefix = $dbconfig['default']['table_prefix'];
+        }
+    }
+
+//    if (file_exists($rightcachefile) && ($Data = file_get_contents($rightcachefile))) {  // fetch from the cache file
+//        $grouprights = unserialize($Data);
+//    } else {  // we need to get the access right from the DB
+//        $dbconfig = require 'application/config/database.php';
+//        $conn = $dbconfig['default']['connection'];
+//        $table_prefix = $dbconfig['default']['table_prefix'];
+//
+//        if ($mysqli = new mysqli($conn['hostname'], $conn['username'], $conn['password'], $conn['database'])) {
+//            // get IdElem of the album
+//            $sql = "SELECT IdElem FROM {$table_prefix}elements
+//              WHERE Path = '{$mysqli->real_escape_string($subpath)}'";
+//            if ($mysqli->real_query($sql)) {
+//                if ($result = $mysqli->use_result()) {
+//                    if ($row = $result->fetch_object()) {
+//                        $idelem = $row->IdElem;
+//                    }
+//                    $result->close();
+//                }
+//            }
+//            if (isset($idelem)) {
+//                // get rights group  of the image
+//                $sql = "SELECT IdGroup,D0,D1,D2,D3,D4,D5 FROM {$table_prefix}rights WHERE IdElem = {$idelem}";
+//                if ($mysqli->real_query($sql)) {
+//                    if ($result = $mysqli->use_result()) {
+//                        while ($o = $result->fetch_object()) {
+//                            $grouprights[$o->IdGroup] = array('D0' => $o->D0, 'D1' => $o->D1, 'D2' => $o->D2, 'D3' => $o->D3,
+//                                'D4' => $o->D4, 'D5' => $o->D5);
+//                        }
+//                    }
+//                    $result->close();
+//                    if (!is_dir($src)) {
+//                        mkdir($src, 0777, TRUE);
+//                    }
+//                    file_put_contents($rightcachefile, serialize($grouprights));
+//                }
+//            }
+//        }
+//    }
+//
+//    // check the access rights
+//    $bOk = FALSE;
+//    if (isset($grouprights[1]) && $grouprights[1][$config[$type]['right']]) {  // special group all user (anonymous & authentifed users)
+//        $bOk = TRUE;
+//    } else {
+//        // read the user groups appartenances from the sessions var
+//        session_name('galsession');
+//        session_start();
+//        if (isset($_SESSION['GalGroups'])) {
+//            $Groups = $_SESSION['GalGroups'];
+//        } else {
+//            $Groups = array(1);
+//        }
+//        session_write_close();        // close the session, the other process are not blocked
+//        // check the access
+//        foreach ($Groups as $group) {
+//            if (isset($grouprights[$group]) && $grouprights[$group][$config[$type]['right']]) {
+//                $bOk = TRUE;
+//                break;
+//            }
+//        }
+//    }
+//
+//
+//    if (!$bOk) {   // user is not allowed to dipslayed this image, display a black image
+//        ErrImage($type);
+//        return FALSE;
+//    }
+//
 
 
     /**
@@ -128,8 +217,8 @@ class Image
             header("Content-disposition: attachment; filename=" . basename($this->srcFullName));
         }
         $expires_offset = 86400; //1 day
-       header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $expires_offset) . ' GMT');
-       header("Cache-Control: public, max-age=$expires_offset");
+        header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $expires_offset) . ' GMT');
+        header("Cache-Control: public, max-age=$expires_offset");
     }
 
 
@@ -153,14 +242,13 @@ class Image
 
     public function output()
     {
-        $dir = dirname($this->dstFullName);
-        if (!is_dir($dir)) {
-            mkdir($dir, 777, true);
+        if (!is_dir($this->dstDir)) {
+            mkdir($this->dstDir, 777, true);
         }
         imagejpeg($this->img, $this->dstFullName);
-        @chmod($this->dstFullName,0777);
-        $this->header('jpg');
+        @chmod($this->dstFullName, 0777);
         imagedestroy($this->img);
+        $this->header('jpg');
         flush();
         readfile($this->dstFullName);
     }
@@ -269,11 +357,9 @@ class Image
     }
 
 
-
-
-    function getImage( $filename)
+    function getImage($filename)
     {
-        $this->img=null;
+        $this->img = null;
 
         $infoFile = pathinfo($filename);
         $imgType = strtolower($infoFile['extension']);
@@ -429,10 +515,9 @@ class Image
     }
 
 
-
 }
 
-new Image($config['image']);
+new Image($config['params']['image'], $config['components']['db']);
 
 
 
