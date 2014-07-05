@@ -35,7 +35,7 @@ foreach ($list as $element) :
     else :
         ?>
         <div>
-            <img src="<?php echo $img . $element['cover']; ?>">
+            <img src="<?php echo $img . $element['path']; ?>">
             <a href="<?php echo $url . $element['path']; ?>">
                 <div><?php echo $element['title'] ?></a></div>
         <div><?php echo $element['description'] ?></div>

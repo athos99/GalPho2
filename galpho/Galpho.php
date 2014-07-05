@@ -4,7 +4,6 @@ namespace app\galpho;
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
-use yii\helpers\ArrayHelper;
 use yii\helpers\BaseInflector;
 use app\models;
 use yii\helpers\FileHelper;
@@ -25,7 +24,7 @@ class Galpho extends component
     public $url;
     public $_path;
     public $_idPath;
-    public $_idGroups=[];
+    public $_idGroups = [];
 
     public $_fullStructure;
     public $_pathStructure;
@@ -44,7 +43,7 @@ class Galpho extends component
 
     public function setPath($path)
     {
-        $this->_path = '/' . trim($path, '/');
+        $this->_path = trim($path, '/');
         $this->_pathStructure = null;
         $this->_idPath = null;
     }
@@ -136,7 +135,7 @@ class Galpho extends component
     public function getPathList()
     {
         $this->getPathStructure();
-        $list = array();
+        $list = [];
         if (is_array($this->_pathStructure)) {
             foreach ($this->_pathStructure as $key => $dir) {
                 if ($key === '#') {
@@ -148,17 +147,7 @@ class Galpho extends component
             }
         }
         if ($this->_idPath !== null) {
-            $galElements = models\Galpho::getCacheElementsForDir($this->_idPath);
-            foreach ($galElements as $galElement) {
-                $list[] = array(
-                    'id' => $galElement->id,
-                    'title' => $galElement->title,
-                    'path' => $this->_path . '/' . $galElement->name,
-                    'cover' => $this->_path . '/' . $galElement->name,
-                    'description' => $galElement->description,
-                    'createTime' => $galElement->create_time,
-                    'type' => 'img');
-            }
+            $list = models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path);
         }
         return $list;
     }
@@ -187,7 +176,7 @@ class Galpho extends component
     public function addElement($filename, $name)
     {
         $exif = null;
-        $dst = Yii::getAlias('@app/'.Yii::$app->params['image']['src']) . $this->getPath();
+        $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . $this->getPath();
         try {
             $mime = FileHelper::getMimeType($filename);
             if ($mime == "image/jpeg") {
@@ -200,7 +189,7 @@ class Galpho extends component
         if (!is_dir($dst)) {
             mkdir($dst, 777, true);
         }
-        $out = @fopen($dst . $name, "wb");
+        $out = @fopen($dst . '/' . $name, "wb");
         if ($out) {
             // Read binary input stream and append it to temp file
             $in = @fopen($filename, "rb");
@@ -229,20 +218,20 @@ class Galpho extends component
             $tick = null;
             if (isset($exif)) {
                 if (ctype_digit($exif->caption)) {
-                    $tick =strtotime($exif->caption);
-                    if ( $tick) {
+                    $tick = strtotime($exif->caption);
+                    if ($tick) {
 
-                    $element->create_time = $exif->caption;
+                        $element->create_time = $exif->caption;
                     }
 
                 }
                 $element->description = json_encode([
-                    'caption'=>$tick ? date('d.m.Y H:i',$tick) : '',
-                    'aperture'=>$exif->aperture,
-                    'speed'=>$exif->speed,
-                    'iso'=>$exif->iso,
-                    'focal'=>$exif->focal,
-                    'model'=>$exif->model
+                    'caption' => $tick ? date('d.m.Y H:i', $tick) : '',
+                    'aperture' => $exif->aperture,
+                    'speed' => $exif->speed,
+                    'iso' => $exif->iso,
+                    'focal' => $exif->focal,
+                    'model' => $exif->model
 
                 ]);
             }

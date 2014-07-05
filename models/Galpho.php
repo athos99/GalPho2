@@ -87,9 +87,32 @@ class Galpho extends base\Object
         }
         return $structure;
     }
-    public static function getCacheElementsForDir($idDir)
+
+    public static function getCacheListElementsForDir($idDir, $dirPath)
     {
-        return GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
+        $id = 'element' . $idDir;
+        $cache = Yii::$app->cacheFast;
+        if (($value = $cache->get($id)) === false) {
+            $value = [];
+            $galElements = GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
+            foreach ($galElements as $galElement) {
+                $value[] = array(
+                    'id' => $galElement->id,
+                    'title' => $galElement->title,
+                    'path' => $dirPath . '/' . $galElement->name,
+                    'cover' => $dirPath . '/' . $galElement->name,
+                    'description' => $galElement->description,
+                    'createTime' => $galElement->create_time,
+                    'type' => 'img');
+            }
+            $cache->set($id, $value, 0, new caching\ChainedDependency(
+                array('dependencies' =>
+                    array(
+                        new DbTableDependency(GalElement::tableName()),
+                    ))));
+        }
+        return $value;
+//        return GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
     }
 
     public static function getElementsForDir($idDir)
