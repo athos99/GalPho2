@@ -47,10 +47,12 @@ class Image
 
 
     public $img;
+    public $path;
     public $srcFullName;
     public $dstFullName;
     public $srcDir;
     public $dstDir;
+    public $idFormat = 0;
 
     public $width;
     public $height;
@@ -77,12 +79,14 @@ class Image
     public function __construct($config, $db)
     {
         $this->config = $config;
+        $this->db = $db;
         $this->getParam();
+        if ($this->getRight()) {
+            $this->getImage($this->srcFullName);
 
-//        $this->width = 100;
-//        $this->height = 150;
-        $this->getDefaultImage();
-        $this->getImage($this->srcFullName);
+        } else {
+            $this->getDefaultImage();
+        }
         $this->output();
 
     }
@@ -93,12 +97,13 @@ class Image
         $params = explode('/', $path);
 
         array_shift($params); // img
-        $idFormat = reset($params);
-        if (isset($this->config['format'][$idFormat])) {
-            $this->format = $this->config['format'][$idFormat];
+        $this->idFormat = reset($params);
+        if (isset($this->config['format'][$this->idFormat])) {
+            $this->format = $this->config['format'][$this->idFormat];
             array_shift($params);
         } else {
             $this->format = $this->config['format'][0];
+            $this->idFormat = 0;
         }
         $this->height = $this->format['height'];
         $this->width = $this->format['width'];
@@ -112,27 +117,73 @@ class Image
         } else {
             $this->sharpen = 0;
         }
-        $this->srcFullName = __DIR__ . '/../' . $this->config['src'] . '/' . implode('/', $params);
-        $this->dstFullName = __DIR__ . '/../' . $this->config['cache'] . '/' . $idFormat . '/' . implode('/', $params);
+        $pathName = implode('/', $params);
+        $this->srcFullName = __DIR__ . '/../' . $this->config['src'] . '/' . $pathName;
+        $this->dstFullName = __DIR__ . '/../' . $this->config['cache'] . '/' . $this->idFormat . '/' . $pathName;
         $this->srcDir = dirname($this->srcFullName);
         $this->dstDir = dirname($this->dstFullName);
+        $this->path = dirname($pathName);
+        if ($this->path == '.') {
+            $this->path = '';
+        }
     }
 
 
     public function getRight()
     {
 //    // get right access info
-        $rightcachefile = $this->srcDir . '/droit.php';
-        $grouprights = [];
-        if (file_exists($rightcachefile) && ($Data = file_get_contents($rightcachefile))) { // fetch from the cache file
-            $grouprights = unserialize($Data);
+        $rightCacheFile = $this->srcDir . '/droit.php';
+        $groupRights = [];
+        if (file_exists($rightCacheFile) && ($Data = file_get_contents($rightCacheFile))) { // fetch from the cache file
+            $groupRights = unserialize($Data);
         } else { // we need to get the access right from the DB
             $table_prefix = $this->db['tablePrefix'];
-            $connection = new PDO($this->db['dsn'],$this->db['username'],$this->db['password']);
-            $connection->open();
-            $sql = "SELECT IdElem FROM {$table_prefix}elements";
+            $connection = new PDO($this->db['dsn'], $this->db['username'], $this->db['password']);
 
+            $sql = "SELECT r.group_id,  r.value FROM {$table_prefix}gal_dir d
+            LEFT JOIN {$table_prefix}gal_right r ON d.id = r.dir_id
+            WHERE d.path=:path";
+            $command = $connection->prepare($sql);
+            $command->bindValue(':path', $this->path, PDO::PARAM_STR);
+            $command->execute();
+
+            $result = $command->fetchAll(PDO::FETCH_ASSOC);
+            $groupRights = [];
+            foreach ($result as $rec) {
+                $groupRights[$rec['group_id']] = $rec['value'];
+            }
+            if (!is_dir(dirname($rightCacheFile))) {
+                mkdir(dirname($rightCacheFile), 0777, TRUE);
+            }
+            file_put_contents($rightCacheFile, serialize($groupRights));
         }
+
+
+        // check the access rights
+        $bOk = FALSE;
+        if (isset($groupRights[1]) && ($groupRights[1] & (1 << $this->idFormat))) {
+            // special group anonymous
+            $bOk = TRUE;
+        } else {
+            // read the user groups appartenances from the sessions var
+            session_name('galsession');
+            session_start();
+            if (isset($_SESSION['GalGroups'])) {
+                $groups = $_SESSION['GalGroups'];
+            } else {
+                $groups = [1];
+            }
+            session_write_close(); // close the session, the other process are not blocked
+            // check the access
+            foreach ($groups as $group) {
+                if (isset($groupRights[$group]) && ($groupRights[$group] & (1 << $this->idFormat))) {
+                    $bOk = TRUE;
+                    break;
+                }
+            }
+        }
+
+        return $bOk;
     }
 
 ///*
@@ -293,7 +344,7 @@ class Image
         imagejpeg($this->img, $this->dstFullName);
         @chmod($this->dstFullName, 0777);
         imagedestroy($this->img);
-        $this->header('jpg');
+        //    $this->header('jpg');
         flush();
         readfile($this->dstFullName);
     }

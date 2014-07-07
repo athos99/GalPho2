@@ -163,6 +163,17 @@ class m000101_010101_galpho extends yii\db\Migration
             ),
             $tableOptions);
 
+
+        $this->insert('{{%gal_group}}', array(
+            'id' => 1,
+            'permanent' => 1,
+            'name' => 'anonymous',
+            'description' => 'unauthenticated users',
+        ));
+
+
+
+
         $this->createTable('{{%gal_group_user}}', array(
                 'group_id' => 'integer',
                 'user_id' => 'integer',
@@ -183,6 +194,14 @@ class m000101_010101_galpho extends yii\db\Migration
             'group_id', '{{%gal_group}}', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_gal_right_dir_id', '{{%gal_right}}',
             'dir_id', '{{%gal_dir}}', 'id', 'CASCADE', 'CASCADE');
+
+
+        $this->insert('{{%gal_right}}', array(
+            'group_id' => 1,
+            'dir_id' => 1,
+            'value' => 0xFF,
+        ));
+
 
         return true;
     }
