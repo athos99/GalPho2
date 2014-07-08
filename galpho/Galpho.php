@@ -60,6 +60,15 @@ class Galpho extends component
         return $this->_idPath;
     }
 
+
+    public function setIdPath($id)
+    {
+        $dir = models\GalDir::findOne($id);
+        if ($dir !== null) {
+            $this->setPath($dir->path);
+        }
+    }
+
     public function getFullStructure()
     {
         if ($this->_fullStructure === null) {

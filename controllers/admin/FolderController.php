@@ -2,6 +2,7 @@
 
 namespace app\controllers\admin;
 
+use app\galpho\Galpho;
 use Yii;
 use yii\web\Controller;
 use app\models\GalDir;
@@ -17,6 +18,13 @@ class FolderController extends Controller
     {
         $model = new GalDir(['scenario'=>'form']);
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            /** @var \app\galpho\Galpho $galpho */
+            $galpho = Yii::$app->get('galpho');
+            $galpho->setIdPath($id);
+            $galpho->getPathStructure();
+
+
+
             return $this->goBack();
 //            $model->attributes = \Yii::$app->request->post('GalDir');
 
