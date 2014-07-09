@@ -42,16 +42,17 @@ $galpho = Yii::$app->get('galpho');
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
 
-            [
-             'label' => 'Dropdown',
-             'items' => [
-                   ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id'=>$galpho->getIdPath()]],
-                 ['label' => 'Add images', 'url' => ['/admin/folder/add', 'id'=>$galpho->getIdPath()]],
-                   '<li class="divider"></li>',
-                   '<li class="dropdown-header">Dropdown Header</li>',
-                   ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
-              ],
-          ],
+        [
+            'label' => 'Dropdown',
+            'items' => [
+                ['label' => 'Clear cache', 'url' => ['/admin/cache/clear']],
+                ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id' => $galpho->getIdPath()]],
+                ['label' => 'Add images', 'url' => ['/admin/folder/add', 'id' => $galpho->getIdPath()]],
+                '<li class="divider"></li>',
+                '<li class="dropdown-header">Dropdown Header</li>',
+                ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
+            ],
+        ],
 
     ];
     if (Yii::$app->user->isGuest) {
@@ -72,7 +73,8 @@ $galpho = Yii::$app->get('galpho');
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
+        <?=
+        Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
@@ -83,6 +85,7 @@ $galpho = Yii::$app->get('galpho');
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>

@@ -66,6 +66,7 @@ class Galpho extends component
         $dir = models\GalDir::findOne($id);
         if ($dir !== null) {
             $this->setPath($dir->path);
+            $this->getPathStructure();
         }
     }
 
@@ -110,7 +111,6 @@ class Galpho extends component
     {
         $this->_idGroups = $idGroups;
         $this->_pathStructure = null;
-        $this->_fullStructure;
     }
 
     public function getPathInfo()
@@ -185,7 +185,7 @@ class Galpho extends component
     public function addElement($filename, $name)
     {
         $exif = null;
-        $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . $this->getPath();
+        $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/'.$this->getPath();
         try {
             $mime = FileHelper::getMimeType($filename);
             if ($mime == "image/jpeg") {

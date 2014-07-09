@@ -21,13 +21,13 @@ $pagination = new \yii\data\Pagination(array('totalCount' => count($fullList),
 $list = array_slice($fullList, $pagination->offset, $pagination->limit);
 
 
-$x = Yii::$app->controller->getRoute();
+
 foreach ($list as $element) :
     if ($element['type'] == 'dir') :
         ?>
         <div>
-            <img src="<?php echo $img . $element['cover']; ?>">
-            <a href="<?php echo $url . $element['path']; ?>">
+            <img src="<?php echo $img . '/'.$element['cover']; ?>">
+            <a href="<?php echo $url .'/'. $element['path']; ?>">
                 <div><?php echo $element['title'] ?></a></div>
         <div><?php echo $element['description'] ?></div>
         </div>
@@ -35,8 +35,8 @@ foreach ($list as $element) :
     else :
         ?>
         <div>
-            <img src="<?php echo $img . $element['path']; ?>">
-            <a href="<?php echo $url . $element['path']; ?>">
+            <img src="<?php echo $img . '/'. $element['path']; ?>">
+            <a href="<?php echo $url . '/'. $element['path']; ?>">
                 <div><?php echo $element['title'] ?></a></div>
         <div><?php echo $element['description'] ?></div>
         </div>

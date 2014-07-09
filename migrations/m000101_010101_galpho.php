@@ -3,7 +3,6 @@
 use yii\db\Schema;
 
 
-
 class m000101_010101_galpho extends yii\db\Migration
 {
     public function up()
@@ -37,8 +36,8 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->insert('{{%user}}', array(
             'id' => 1,
             'username' => 'admin',
-            'password_hash'=>Yii::$app->getSecurity()->generatePasswordHash('admin'),
-            'auth_key'=>Yii::$app->getSecurity()->generateRandomKey(),
+            'password_hash' => Yii::$app->getSecurity()->generatePasswordHash('admin'),
+            'auth_key' => Yii::$app->getSecurity()->generateRandomKey(),
             'active' => 1,
             'validated' => 1,
             'superuser' => 1,
@@ -112,8 +111,6 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->addForeignKey('fk_item_name', '{{%auth_assignment}}', 'item_name', '{{%auth_item}}', 'name', 'CASCADE', 'CASCADE');
 
 
-
-
         $this->createTable('{{%gal_dir}}', array(
                 'id' => 'pk',
                 'element_id_cover' => 'integer',
@@ -172,8 +169,6 @@ class m000101_010101_galpho extends yii\db\Migration
         ));
 
 
-
-
         $this->createTable('{{%gal_group_user}}', array(
                 'group_id' => 'integer',
                 'user_id' => 'integer',
@@ -187,9 +182,10 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->createTable('{{%gal_right}}', array(
                 'group_id' => 'integer',
                 'dir_id' => 'integer',
-                'value'=>'integer NOT NULL DEFAULT 0'
+                'value' => 'integer NOT NULL DEFAULT 0'
             ),
             $tableOptions);
+        $this->addPrimaryKey('pk_primary', '{{%gal_right}}', 'group_id, dir_id');
         $this->addForeignKey('fk_gal_right_group_id', '{{%gal_right}}',
             'group_id', '{{%gal_group}}', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_gal_right_dir_id', '{{%gal_right}}',

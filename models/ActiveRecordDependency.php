@@ -1,10 +1,8 @@
 <?php
 namespace app\models;
 
-
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
-
 
 class ActiveRecordDependency extends Behavior
 {

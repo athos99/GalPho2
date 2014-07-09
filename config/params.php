@@ -11,6 +11,6 @@ return [
             4 => ['width' => 100, 'height' => 100]
         ],
         'src' => 'images/src',
-        'cache' => 'images'
+        'cache' => 'images/cache'
     ]
 ];

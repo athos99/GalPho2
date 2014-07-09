@@ -4,18 +4,23 @@ namespace app\controllers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\helpers\Html;
 
 
 class VController extends Controller
 {
     public function actionIndex()
     {
-        $path = ArrayHelper::getValue($_GET, 'path', '/');
+        $path = ArrayHelper::getValue($_GET, 'path', '');
 
         /** @var \app\galpho\Galpho $galpho */
         $galpho = Yii::$app->get('galpho');
         $galpho->setPath($path);
         $galpho->setGroups(array(1, 2, 3));
+        if ( $pathStructure = $galpho->getPathStructure() === false) {
+            Yii::$app->getSession()->setFlash('error', 'The path '. $path.' doesn\'t exist');
+            return Yii::$app->getResponse()->redirect($galpho->url);
+        }
 
         if (isset($_POST['file']) and is_array($_POST['file'])) {
             /** @var \athos99\plupload\PluploadManager $uploadManager */

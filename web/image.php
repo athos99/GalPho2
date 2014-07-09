@@ -85,6 +85,7 @@ class Image
             $this->getImage($this->srcFullName);
 
         } else {
+
             $this->getDefaultImage();
         }
         $this->output();
@@ -132,7 +133,7 @@ class Image
     public function getRight()
     {
 //    // get right access info
-        $rightCacheFile = $this->srcDir . '/droit.php';
+        $rightCacheFile = $this->srcDir . '/right.php';
         $groupRights = [];
         if (file_exists($rightCacheFile) && ($Data = file_get_contents($rightCacheFile))) { // fetch from the cache file
             $groupRights = unserialize($Data);
@@ -320,6 +321,8 @@ class Image
 
     public function getDefaultImage()
     {
+        $this->dstFullName = __DIR__ . '/../' . $this->config['cache'] . '/' . $this->idFormat . '/' . 'default.jpg';
+        $this->dstDir = __DIR__ . '/../' . $this->config['cache'] . '/' . $this->idFormat ;
         $this->img = imagecreatetruecolor($this->width, $this->height);
         $backgroundColor = imagecolorallocate($this->img, 255, 255, 255);
         imagefill($this->img, 0, 0, $backgroundColor);

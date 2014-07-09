@@ -109,6 +109,7 @@ class Galpho extends base\Object
                 array('dependencies' =>
                     array(
                         new DbTableDependency(GalElement::tableName()),
+                        new DbTableDependency(GalDir::tableName())
                     ))));
         }
         return $value;
