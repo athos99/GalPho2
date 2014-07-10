@@ -1,6 +1,6 @@
 <?php
 /**
- * @var app\Galpho $galpho
+ * @var app\galpho\Galpho $galpho
  * @var yii\Web\View $this
  */
 
@@ -12,7 +12,7 @@ use \yii\helpers\ArrayHelper;
 /** @var \yii\web\request $request */
 $request = Yii::$app->getRequest();
 
-/** @var \app\Galpho $galpho */
+/** @var \app\galpho\Galpho $galpho */
 $info = $galpho->getPathInfo();
 $image = $galpho->getImageInfo();
 $img = $request->getBaseUrl() . '/img';

@@ -126,15 +126,15 @@ class Galpho extends component
     public function getImageInfo()
     {
         $this->getPathStructure();
-        $elements = models\Galpho::getCacheElementsForDir($this->_idPath);
+        $elements = models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path);
         if (isset($elements[$this->_elementName])) {
             $element = $elements[$this->_elementName];
             return array(
-                'id' => $element->id,
-                'title' => $element->title,
-                'path' => $this->_elementBase . '/' . $element->name,
-                'description' => $element->description,
-                'createTime' => $element->create_time,
+                'id' => $element['id'],
+                'title' => $element['title'],
+                'path' => $this->_elementBase . '/' . $this->_elementName,
+                'description' => $element['description'],
+                'createTime' => $element['createTime'],
             );
         }
         return false;
@@ -156,7 +156,7 @@ class Galpho extends component
             }
         }
         if ($this->_idPath !== null) {
-            $list = models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path);
+            $list =array_merge( $list , models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path));
         }
         return $list;
     }
@@ -167,7 +167,7 @@ class Galpho extends component
         $this->getPathStructure();
         $list = array();
         if ($this->_idPath !== null) {
-            $galElements = models\Galpho::getCacheElementsForDir($this->_idPath);
+            $galElements = models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path);
             foreach ($galElements as $galElement) {
                 $list[] = array(
                     'id' => $galElement->id,

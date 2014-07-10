@@ -81,15 +81,18 @@ class Image
         $this->config = $config;
         $this->db = $db;
         $this->getParam();
+
+
         if ($this->getRight()) {
-            $this->getImage($this->srcFullName);
+            if (is_file($this->srcFullName)) {
+                $this->getImage($this->srcFullName);
+                $this->output();
+                return;
+            }
 
-        } else {
-
-            $this->getDefaultImage();
         }
+        $this->getDefaultImage();
         $this->output();
-
     }
 
     public function getParam()
@@ -322,7 +325,7 @@ class Image
     public function getDefaultImage()
     {
         $this->dstFullName = __DIR__ . '/../' . $this->config['cache'] . '/' . $this->idFormat . '/' . 'default.jpg';
-        $this->dstDir = __DIR__ . '/../' . $this->config['cache'] . '/' . $this->idFormat ;
+        $this->dstDir = __DIR__ . '/../' . $this->config['cache'] . '/' . $this->idFormat;
         $this->img = imagecreatetruecolor($this->width, $this->height);
         $backgroundColor = imagecolorallocate($this->img, 255, 255, 255);
         imagefill($this->img, 0, 0, $backgroundColor);
@@ -347,7 +350,7 @@ class Image
         imagejpeg($this->img, $this->dstFullName);
         @chmod($this->dstFullName, 0777);
         imagedestroy($this->img);
-        //    $this->header('jpg');
+        $this->header('jpg');
         flush();
         readfile($this->dstFullName);
     }

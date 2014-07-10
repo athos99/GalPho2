@@ -90,17 +90,20 @@ class Galpho extends base\Object
 
     public static function getCacheListElementsForDir($idDir, $dirPath)
     {
+        if ( $dirPath !='') {
+            $dirPath  .=  '/';
+        }
         $id = 'element' . $idDir;
         $cache = Yii::$app->cacheFast;
         if (($value = $cache->get($id)) === false) {
             $value = [];
             $galElements = GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
             foreach ($galElements as $galElement) {
-                $value[] = array(
+                $value[$galElement->name] = array(
                     'id' => $galElement->id,
                     'title' => $galElement->title,
-                    'path' => $dirPath . '/' . $galElement->name,
-                    'cover' => $dirPath . '/' . $galElement->name,
+                    'path' => $dirPath .  $galElement->name,
+                    'cover' => $dirPath . $galElement->name,
                     'description' => $galElement->description,
                     'createTime' => $galElement->create_time,
                     'type' => 'img');

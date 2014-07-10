@@ -1,6 +1,6 @@
 <?php
 /**
- * @var app\Galpho $galpho
+ * @var app\galpho\Galpho $galpho
  * @var yii\Web\View $this
  */
 
