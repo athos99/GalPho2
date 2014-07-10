@@ -16,9 +16,9 @@ class Galpho extends component
     const VIEW_DETAIL = 2;
 
 
-    const IMG_STANDARD = '/img';
+    const IMG_STANDARD = '/img/2';
     const IMG_THUMBNAIL = '/img/1';
-    const IMG_SMALL_THUMB = '/img/2';
+    const IMG_SMALL_THUMB = '/img/3';
 
 
     public $url;

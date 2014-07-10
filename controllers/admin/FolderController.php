@@ -33,7 +33,7 @@ class FolderController extends Controller
                 $right = new GalRight();
                 $right->group_id = 1;
                 $right->dir_id = $dir->id;
-                $right->value = 1<<1;
+                $right->value = 0x07;
                 $right->save();
             }
             return Yii::$app->getResponse()->redirect($galpho->url . '/' . $dir->path);

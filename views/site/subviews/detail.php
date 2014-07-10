@@ -15,14 +15,14 @@ $request = Yii::$app->getRequest();
 /** @var \app\galpho\Galpho $galpho */
 $info = $galpho->getPathInfo();
 $image = $galpho->getImageInfo();
-$img = $request->getBaseUrl() . '/img';
+$img = $request->getBaseUrl() . app\galpho\Galpho::IMG_STANDARD;
 
 
 $title = ArrayHelper::getValue($image, 'title');
 $description = ArrayHelper::getValue($image, 'description');
 ?>
 <div>
-    <img src="<?php echo $img . $image['path']; ?>">
+    <img src="<?php echo $img .'/'. $image['path']; ?>">
 </div>
 
 

@@ -77,7 +77,7 @@ class Galpho extends base\Object
 
     public static function findPath(&$structure, $path)
     {
-        if (($path = trim($path, '/')) != '') {
+        if (($path = trim($path, '/')) != '' && ($path!='.')) {
             foreach (explode('/', $path) as $key) {
                 if (!array_key_exists($key, $structure)) {
                     return false;
