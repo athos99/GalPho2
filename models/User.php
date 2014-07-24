@@ -1,9 +1,7 @@
 <?php
 namespace app\models;
-
-use yii\base\NotSupportedException;
+use yii;
 use yii\db\ActiveRecord;
-use yii\helpers\Security;
 use yii\web\IdentityInterface;
 
 class User extends UserBase implements IdentityInterface
@@ -126,7 +124,9 @@ class User extends UserBase implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Security::validatePassword($password, $this->password_hash);
+        /** @var \yii\base\Security $security */
+        $security = Yii::$app->getSecurity();
+        return $security->validatePassword($password, $this->password_hash);
     }
 
     /**
@@ -136,7 +136,9 @@ class User extends UserBase implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Security::generatePasswordHash($password);
+        /** @var \yii\base\Security $security */
+        $security = Yii::$app->getSecurity();
+        $this->password_hash = $security->generatePasswordHash($password);
     }
 
     /**
@@ -144,7 +146,9 @@ class User extends UserBase implements IdentityInterface
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Security::generateRandomKey();
+        /** @var \yii\base\Security $security */
+        $security = Yii::$app->getSecurity();
+        $this->auth_key = $security->generateRandomKey();
     }
 
     /**
@@ -152,7 +156,9 @@ class User extends UserBase implements IdentityInterface
      */
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Security::generateRandomKey() . '_' . time();
+        /** @var \yii\base\Security $security */
+        $security = Yii::$app->getSecurity();
+        $this->password_reset_token = $security->generateRandomKey() . '_' . time();
     }
 
     /**
