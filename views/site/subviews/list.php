@@ -13,11 +13,11 @@ $img = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMBNAIL;
 
 
 $fullList = $galpho->getPathList();
-$pagination = new \yii\data\Pagination(array('totalCount' => count($fullList),
+$pagination = new \yii\data\Pagination(['totalCount' => count($fullList),
     'pageSize' => 3,
     'route' => 'v' . $galpho->getPath(),
     'params' => $_REQUEST,
-));
+]);
 $list = array_slice($fullList, $pagination->offset, $pagination->limit);
 
 

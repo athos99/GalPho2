@@ -16,23 +16,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?php echo Html::encode($this->title); ?></h1>
 
-    <?php // echo $this->render('_search', array('model' => $searchModel)); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?php echo Html::a('Create GalGroup', array('create'), array('class' => 'btn btn-danger')); ?>
     </p>
 
-    <?php echo GridView::widget(array(
+    <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $model,
-        'columns' => array(
-            array('class' => 'yii\grid\SerialColumn'),
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
             'id',
             'permanent:boolean',
             'name',
             'description:ntext',
-            array('class' => 'yii\grid\ActionColumn'),
-        ),
-    )); ?>
+            ['class' => 'yii\grid\ActionColumn'],
+        ]
+    ]); ?>
 
 </div>

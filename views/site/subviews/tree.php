@@ -27,9 +27,9 @@ class TreeGalphoStructureWidget extends app\widgets\galphostructure\GalphoStruct
 
 }
 
-echo TreeGalphoStructureWidget::widget( array(
+echo TreeGalphoStructureWidget::widget( [
     'structure'=>$galpho->getFullStructure(),
     'childLineTag' => 'ul',
     'lineTag'=>'li',
     'path'=>$galpho->getPath()
-));
+]);

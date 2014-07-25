@@ -69,11 +69,11 @@ class Image
     public $watermarkPos = 2;
 
 
-    public $type = array(
+    public $type = [
         'jpg' => 'image/jpeg',
         'gif' => 'image/gif',
         'png' => 'image/pgn',
-    );
+    ];
 
 
     public function __construct($config, $db)
@@ -330,13 +330,13 @@ class Image
         $backgroundColor = imagecolorallocate($this->img, 255, 255, 255);
         imagefill($this->img, 0, 0, $backgroundColor);
         $foregroundColor = imagecolorallocate($this->img, 255, 0, 0);
-        imagepolygon($this->img, array(
-            0, 0,
-            $this->width - 1, 0,
-            $this->width - 1, $this->height - 1,
-            0, $this->height - 1,
-
-        ), 4, $foregroundColor);
+        imagepolygon($this->img, [
+                0, 0,
+                $this->width - 1, 0,
+                $this->width - 1, $this->height - 1,
+                0, $this->height - 1,
+            ],
+            4, $foregroundColor);
         imageline($this->img, 0, 0, $this->width - 1, $this->height - 1, $foregroundColor);
         imageline($this->img, $this->width - 1, 0, 0, $this->height - 1, $foregroundColor);
     }
@@ -525,10 +525,10 @@ class Image
         if (($this->sharpen != 0) && ($maxRatio < .8)) {
             $amount = round(abs(-28 + ($this->sharpen * 0.16)), 2);
             // Gaussian blur matrix
-            $matrix = array(
-                array(-1, -1, -1),
-                array(-1, $amount, -1),
-                array(-1, -1, -1));
+            $matrix = [
+                [-1, -1, -1],
+                [-1, $amount, -1],
+                [-1, -1, -1]];
             // Perform the sharpen
             imageconvolution($this->img, $matrix, $amount - 8, 0);
         }
