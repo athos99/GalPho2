@@ -12,7 +12,7 @@ class Exif
     public $model = '';
     public $iso = '';
     public $focal = '';
-    public $tags = array();
+    public $tags = [];
 
 
 
@@ -58,7 +58,7 @@ class Exif
             }
             if (isset($exif['EXIF']['DateTimeOriginal'])) {
 
-                $this->caption = str_replace(array(' ', ':'), '', $exif['EXIF']['DateTimeOriginal']);
+                $this->caption = str_replace([' ', ':'], '', $exif['EXIF']['DateTimeOriginal']);
             }
         }
 

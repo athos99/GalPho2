@@ -12,11 +12,11 @@ class ActiveRecordDependency extends Behavior
      */
     public function events()
     {
-        return array(
+        return [
             ActiveRecord::EVENT_BEFORE_INSERT => 'myBeforeInsert',
             ActiveRecord::EVENT_BEFORE_UPDATE => 'myBeforeUpdate',
             ActiveRecord::EVENT_BEFORE_DELETE => 'myABeforeDelete',
-        );
+        ];
     }
 
     public function myBeforeInsert($event)

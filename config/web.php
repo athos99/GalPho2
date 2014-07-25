@@ -14,11 +14,11 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'cacheFast' => array(
+        'cacheFast' => [
             'class' => 'yii\caching\FileCache',
             //'serializer' => false
-            //    'serializer'=>array('json_encode','json_decode')
-        ),
+            //    'serializer'=>['json_encode','json_decode']
+        ],
 
         'user' => [
             'identityClass' => 'app\models\User',
@@ -58,13 +58,13 @@ $config = [
             'class' => 'athos99\plupload\PluploadManager',
         ],
 
-        'assetManager' => array(
+        'assetManager' => [
 //            'bundles' => require(__DIR__ . '/assets.php'),
-            'converter' => array(
+            'converter' => [
                 'class' => 'athos99\assetparser\Converter',
                 'force' => false
-            )
-        ),
+            ]
+        ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [

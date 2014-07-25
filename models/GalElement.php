@@ -8,11 +8,11 @@ class GalElement extends GalElementBase
 {
     public function behaviors()
     {
-        return array(
-            'ActiveRecordDependency' => array(
+        return [
+            'ActiveRecordDependency' => [
                 'class' => 'app\models\ActiveRecordDependency',
-            ),
-        );
+            ],
+        ];
     }
 
 }

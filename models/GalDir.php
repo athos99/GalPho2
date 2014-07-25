@@ -9,18 +9,18 @@ class GalDir extends GalDirBase
 {
     public function behaviors()
     {
-        return array(
-            'ActiveRecordDependency' => array(
-                'class' => 'app\models\ActiveRecordDependency',
-            ),
-        );
+        return [
+            'ActiveRecordDependency' => [
+                'class' => 'app\models\ActiveRecordDependency'
+            ],
+        ];
     }
 
 
 
     public function getCoverElement()
     {
-        return $this->hasOne('GalElement', array('id' => 'element_id_cover'));
+        return $this->hasOne('GalElement', ['id' => 'element_id_cover']);
     }
 
 
@@ -30,7 +30,7 @@ class GalDir extends GalDirBase
      */
     public function getIndexedRights()
     {
-        return $this->hasMany('GalRight', array('dir_id' => 'id'))->indexBy('group_id');
+        return $this->hasMany('GalRight', ['dir_id' => 'id'])->indexBy('group_id');
     }
 
 
@@ -40,9 +40,9 @@ class GalDir extends GalDirBase
      */
     public function getGroups()
     {
-        return $this->hasMany('GalGroup', array('id' => 'group_id'))
+        return $this->hasMany('GalGroup', ['id' => 'group_id'])
             ->indexBy('id')
-            ->viaTable('gal_right', array('dir_id' => 'id'));
+            ->viaTable('gal_right', ['dir_id' => 'id']);
     }
 
 
@@ -62,7 +62,7 @@ class GalDir extends GalDirBase
         if ($idGroups !== null) {
             $query->select('t.id, t.*, r.value, e.dir_id, e.name')
                 ->from('{{%gal_dir}} t')
-                ->leftJoin('{{%gal_right}} r', array('and', 't.id=r.dir_id', array('group_id' => $idGroups)))
+                ->leftJoin('{{%gal_right}} r', ['and', 't.id=r.dir_id', ['group_id' => $idGroups]])
                 ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');
         } else {
             $query->select('t.id, t.*, e.dir_id, e.name')
@@ -76,8 +76,8 @@ class GalDir extends GalDirBase
 
     public static function withRightsForGroups($query, $idGroups)
     {
-        return $query->with(array('rights' => function ($query) use ($idGroups) {
-                $query->andWhere(array('group_id' => $idGroups));
-            }));
+        return $query->with(['rights' => function ($query) use ($idGroups) {
+                $query->andWhere(['group_id' => $idGroups]);
+            }]);
     }
 }

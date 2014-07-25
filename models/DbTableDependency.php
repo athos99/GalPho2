@@ -62,14 +62,14 @@ class DbTableDependency extends Dependency
             self::getTableState();
         }
         if (empty(self::$_tableState)) {
-            self::$_tableState = array($key => 1);
+            self::$_tableState = [$key => 1];
         } elseif (isset(self::$_tableState[$key])) {
             self::$_tableState[$key]++;
         } else {
             self::$_tableState[$key] = 1;
         }
         if (!self::$_update) {
-            register_shutdown_function(array(__NAMESPACE__ . '\\DbTableDependency', 'close'));
+            register_shutdown_function([__NAMESPACE__ . '\\DbTableDependency', 'close']);
             self::$_update = true;
         }
     }
@@ -84,7 +84,7 @@ class DbTableDependency extends Dependency
      * @param string $tabelName the name of the table name
      * @param array $config name-value pairs that will be used to initialize the object properties
      */
-    public function __construct($tableName = null, $config = array())
+    public function __construct($tableName = null, $config = [])
     {
         $this->_tableName = $tableName;
         parent::__construct($config);

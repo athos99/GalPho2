@@ -4,17 +4,25 @@ namespace app\controllers\admin;
 
 
 use Yii;
-use yii\helpers\BaseInflector;
 use yii\web\Controller;
-use app\models\GalDir;
-use app\models\GalRight;
+use app\models\GalGroup;
 
-class FolderController extends Controller
+class GroupController extends Controller
 {
+
+    public function actionIndex() {
+        $model = new GalGroup;
+        $dataProvider = $model->search($_GET);
+
+        return $this->render('//admin/group/list', [
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+        ]);
+    }
 
     public function actionAdd($id)
     {
-        return $this->render('//admin/test');
+        return $this->render('//admin/group');
     }
 
     public function actionCreate($id)
@@ -42,5 +50,3 @@ class FolderController extends Controller
     }
 
 }
-
-

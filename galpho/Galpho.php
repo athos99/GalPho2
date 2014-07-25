@@ -119,7 +119,7 @@ class Galpho extends component
         if (isset($this->_pathStructure['#'])) {
             return $this->_pathStructure['#'];
         }
-        return array();
+        return [];
     }
 
 
@@ -129,13 +129,13 @@ class Galpho extends component
         $elements = models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path);
         if (isset($elements[$this->_elementName])) {
             $element = $elements[$this->_elementName];
-            return array(
+            return [
                 'id' => $element['id'],
                 'title' => $element['title'],
                 'path' => $this->_elementBase . '/' . $this->_elementName,
                 'description' => $element['description'],
-                'createTime' => $element['createTime'],
-            );
+                'createTime' => $element['createTime']
+            ];
         }
         return false;
     }
@@ -151,7 +151,7 @@ class Galpho extends component
                     continue;
                 }
                 if (isset($dir['#'])) {
-                    $list[] = $dir['#'] + array('type' => 'dir');
+                    $list[] = $dir['#'] + ['type' => 'dir'];
                 }
             }
         }
@@ -165,18 +165,18 @@ class Galpho extends component
     public function getImgPathList()
     {
         $this->getPathStructure();
-        $list = array();
+        $list = [];
         if ($this->_idPath !== null) {
             $galElements = models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path);
             foreach ($galElements as $galElement) {
-                $list[] = array(
+                $list[] = [
                     'id' => $galElement->id,
                     'title' => $galElement->title,
                     'path' => $this->_path . '/' . $galElement->name,
                     'cover' => $this->_path . '/' . $galElement->name,
                     'description' => $galElement->description,
                     'createTime' => $galElement->create_time,
-                    'type' => 'img');
+                    'type' => 'img'];
             }
         }
         return $list;
@@ -251,7 +251,7 @@ class Galpho extends component
 
     public function getBreadcrumb()
     {
-        $list = array();
+        $list = [];
         $structure = $this->_fullStructure;
         foreach (explode('/', trim($this->_elementBase, '/')) as $key) {
             if (isset($structure['#'])) {

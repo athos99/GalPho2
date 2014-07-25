@@ -43,7 +43,7 @@ class GalphoStructureWidget extends Widget {
      * the element attributes for  line,
      * @var string
      */
-    public $lineHtmlOption = array();
+    public $lineHtmlOption = [];
 
 
     public $classOpenItem = 'galpho-open';
@@ -62,7 +62,7 @@ class GalphoStructureWidget extends Widget {
         $id = $this->getId();
         $js = "jQuery(\"#{$id}\").galphoStructure({$options});";
         $view->registerJs($js);
-        $this->getTree($this->structure, $this->path, array());
+        $this->getTree($this->structure, $this->path, []);
     }
 
     public function displayLine(&$element) {
@@ -94,7 +94,7 @@ class GalphoStructureWidget extends Widget {
             $structure['#']['key'] = '';
             $this->displayLine($structure['#']);
             echo PHP_EOL . $this->_openTab($this->childLineTag, $class . ' galpho-child even') . '<!-child-->';
-            $heap = array();
+            $heap = [];
             do {
                 $element = current($structure);
                 if ($element !== false) {

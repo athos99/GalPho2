@@ -16,7 +16,7 @@ class VController extends Controller
         /** @var \app\galpho\Galpho $galpho */
         $galpho = Yii::$app->get('galpho');
         $galpho->setPath($path);
-        $galpho->setGroups(array(1, 2, 3));
+        $galpho->setGroups([1, 2, 3]);
         if ( $pathStructure = $galpho->getPathStructure() === false) {
             Yii::$app->getSession()->setFlash('error', 'The path '. $path.' doesn\'t exist');
             return Yii::$app->getResponse()->redirect($galpho->url);
@@ -41,13 +41,13 @@ class VController extends Controller
 //        $galpho->repair();
         switch ($galpho->getViewMode()) {
             case \app\galpho\Galpho::VIEW_LIST :
-                return $this->render('//site/list', array('galpho' => $galpho));
+                return $this->render('//site/list', ['galpho' => $galpho]);
                 break;
             case \app\galpho\Galpho::VIEW_DETAIL :
-                return $this->render('//site/detail', array('galpho' => $galpho));
+                return $this->render('//site/detail', ['galpho' => $galpho]);
                 break;
             default :
-                Yii::$app->getResponse()->redirect(array('/'));
+                Yii::$app->getResponse()->redirect(['/']);
         }
 
     }

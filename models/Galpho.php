@@ -17,9 +17,9 @@ class Galpho extends base\Object
         $cache = Yii::$app->cacheFast;
         if (($value = $cache->get($id)) === false) {
             $value = self::getStructure($idGroups);
-            $cache->set($id, $value, 0, new caching\ChainedDependency(array('dependencies' => array(
+            $cache->set($id, $value, 0, new caching\ChainedDependency(['dependencies' => [
                 new DbTableDependency(GalDir::tableName()),
-                new DbTableDependency(GalRight::tableName())))));
+                new DbTableDependency(GalRight::tableName())]]));
         }
         return $value;
     }
@@ -34,7 +34,7 @@ class Galpho extends base\Object
      */
     public static function getStructure(array $idGroups)
     {
-        $structure = array();
+        $structure = [];
         $dirRights = GalDir::getDirsRightsForGroups($idGroups);
         foreach ($dirRights as $id => $dirRight) {
             $data = & $structure;
@@ -44,7 +44,7 @@ class Galpho extends base\Object
             if (($path = trim($record->path, '/')) != '') {
                 foreach (explode('/', $path) as $key) {
                     if (!array_key_exists($key, $data)) {
-                        $data[$key] = array();
+                        $data[$key] = [];
                     }
                     $data = & $data[$key];
                     $level++;
@@ -60,7 +60,7 @@ class Galpho extends base\Object
             } else {
                 $cover = null;
             }
-            $data['#'] = array(
+            $data['#'] = [
                 'cover' => $cover,
                 'level' => $level,
                 'id' => $id,
@@ -68,8 +68,8 @@ class Galpho extends base\Object
                 'description' => $record->description,
                 'right' => $value,
                 'path' => $record->path,
-                'name' => $key,
-            );
+                'name' => $key
+            ];
         }
         return $structure;
     }
@@ -97,30 +97,30 @@ class Galpho extends base\Object
         $cache = Yii::$app->cacheFast;
         if (($value = $cache->get($id)) === false) {
             $value = [];
-            $galElements = GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
+            $galElements = GalElement::find()->where(['dir_id' => $idDir])->indexBy('name')->all();
             foreach ($galElements as $galElement) {
-                $value[$galElement->name] = array(
+                $value[$galElement->name] = [
                     'id' => $galElement->id,
                     'title' => $galElement->title,
                     'path' => $dirPath .  $galElement->name,
                     'cover' => $dirPath . $galElement->name,
                     'description' => $galElement->description,
                     'createTime' => $galElement->create_time,
-                    'type' => 'img');
+                    'type' => 'img'];
             }
             $cache->set($id, $value, 0, new caching\ChainedDependency(
-                array('dependencies' =>
-                    array(
+                ['dependencies' =>
+                    [
                         new DbTableDependency(GalElement::tableName()),
                         new DbTableDependency(GalDir::tableName())
-                    ))));
+                    ]]));
         }
         return $value;
-//        return GalElement::find()->where(array('dir_id' => $idDir))->indexBy('name')->all();
+//        return GalElement::find()->where(['dir_id' => $idDir)]->indexBy('name')->all();
     }
 
     public static function getElementsForDir($idDir)
     {
-        return GalElement::find()->where(array('dir_id' => $idDir))->all();
+        return GalElement::find()->where(['dir_id' => $idDir])->all();
     }
 }
