@@ -6,6 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'fr-CH',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -80,6 +81,19 @@ $config = [
                     'consumerSecret' => 'orqKgDeQ2itrhd8v11nKdFZ3nYAxzjiL175qVo',
                 ],
 
+            ],
+        ],
+        'i18n'=>[
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/admin' => 'admin.php',
+                    ],
+                ],
             ],
         ]
 

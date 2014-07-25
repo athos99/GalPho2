@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'title') ?>
     <?= $form->field($model, 'description') ?>
     <div class="form-group">
-        <?= Html::submitButton('Create folder', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton(\yii::$app->t('app/admin','Create folder'), ['class' => 'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

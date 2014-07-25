@@ -41,7 +41,7 @@ class GalDirBase extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 256],
             [['sort_order'], 'string', 'max' => 30],
             [['title'], 'required','on'=>'form'],
-            [['title'], 'string', 'min'=>'2','max' => 30],
+            [['title'], 'string', 'min'=>2,'max' => 30],
 
         ];
     }

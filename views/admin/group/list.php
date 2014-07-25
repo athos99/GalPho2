@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?php echo Html::encode($this->title); ?></h1>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  echo $this->render('_searchForm', ['model' => $model]); ?>
 
     <p>
         <?php echo Html::a('Create GalGroup', array('create'), array('class' => 'btn btn-danger')); ?>
