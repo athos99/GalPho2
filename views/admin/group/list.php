@@ -31,7 +31,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'permanent:boolean',
             'name',
             'description:ntext',
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+
+             // delete button comportment, delete is possible if permanent is false
+                'buttons'=>['delete' => function ($url, $model) {
+                    return (empty($model->permanent)) ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                        'title' => Yii::t('yii', 'Delete'),
+                        'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                        'data-method' => 'post',
+                        'data-pjax' => '0']) : '';
+                }]
+            ],
         ]
     ]); ?>
 

@@ -7,4 +7,5 @@ return [
     'password' => '',
     'charset' => 'utf8',
     'tablePrefix' => 'g2_',
+    'enableSchemaCache'=>true
 ];
