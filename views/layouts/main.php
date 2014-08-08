@@ -42,11 +42,14 @@ $galpho = Yii::$app->get('galpho');
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Dropdown','items' =>
+        ['label' => 'Dropdown', 'items' =>
             [
                 ['label' => 'Clear cache', 'url' => ['/admin/cache/clear']],
                 ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id' => $galpho->getIdPath()]],
                 ['label' => 'Add images', 'url' => ['/admin/folder/add', 'id' => $galpho->getIdPath()]],
+                ['label' => 'User', 'url' => ['/admin/user']],
+                ['label' => 'Group', 'url' => ['/admin/group']],
+
                 '<li class="divider"></li>',
                 '<li class="dropdown-header">Dropdown Header</li>',
                 ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
@@ -55,12 +58,14 @@ $galpho = Yii::$app->get('galpho');
 
     ];
 
-    $menuItems[] = Html::beginForm('','get',['class'=>'navbar-form navbar-left']) .
-        Html::input('text','search','',['placeholder'=>Yii::t('app/admin','Search'),'class'=>'form-control']) .
-        Html::submitButton(Yii::t('app/admin','Submit'), ['class'=>'btn btn-default']).
-        Html::endForm();
+    $menuItems[] =
 
-
+        Html::beginTag('form', ['method' => 'get', 'class' => 'navbar-form navbar-left']) .
+//        Html::beginForm('','get',['class'=>'navbar-form navbar-left']) .
+        Html::input('text', 'search', \yii\helpers\ArrayHelper::getValue($_GET,'search',''), ['placeholder' => Yii::t('app/admin', 'Search'), 'class' => 'form-control']) .
+        Html::submitButton(Yii::t('app/admin', 'Submit'), ['class' => 'btn btn-default']) .
+//        Html::endForm();
+        Html::endTag('form');
 
 
     if (Yii::$app->user->isGuest) {

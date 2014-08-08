@@ -6,10 +6,9 @@ namespace app\controllers\admin;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
-use app\models\GalGroup;
 use app\models\User;
 
-class GroupController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a group list grid
@@ -18,12 +17,12 @@ class GroupController extends Controller
      */
     public function actionIndex()
     {
-        $model = new GalGroup(['scenario' => 'search']);
+        $model = new User(['scenario' => 'search']);
         $dataProvider = $model->query(ArrayHelper::getValue($_GET,'search',''));
 
-        return $this->render('//admin/group/list', [
+        return $this->render('//admin/user/list', [
             'dataProvider' => $dataProvider,
-            'model' => $model]);
+            ]);
     }
 
     /*
@@ -33,18 +32,17 @@ class GroupController extends Controller
      */
     public function actionCreate()
     {
-        $model = new GalGroup;
+        $model = new User;
 
         if ($model->load($_POST)  && array_key_exists('create',$_POST)) {
-            $model->permanent = 0;
             if ($model->save()) {
-                return $this->redirect(['admin/group']);
+                return $this->redirect(['admin/user']);
             }
         } elseif (array_key_exists('cancel',$_POST)) {
-            return $this->redirect(['admin/group']);
+            return $this->redirect(['admin/user']);
 
         }
-        return $this->render('//admin/group/create', [
+        return $this->render('//admin/user/create', [
             'model' => $model
         ]);
     }

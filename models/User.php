@@ -2,6 +2,7 @@
 namespace app\models;
 use yii;
 use yii\db\ActiveRecord;
+use yii\data\ActiveDataProvider;
 use yii\web\IdentityInterface;
 
 class User extends UserBase implements IdentityInterface
@@ -10,6 +11,29 @@ class User extends UserBase implements IdentityInterface
     const STATUS_ACTIVE = 10;
 
     const ROLE_USER = 10;
+
+
+
+
+    public function query($search) {
+        $query = User::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+        if (!$search){
+            return $dataProvider;
+        }
+        $query->orWhere(['like', 'username', $search]);
+        $query->orWhere(['like', 'email', $search]);
+        return $dataProvider;
+    }
+
+
+
+
 
     /**
      * @inheritdoc
@@ -27,19 +51,9 @@ class User extends UserBase implements IdentityInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
 
-            ['role', 'default', 'value' => self::ROLE_USER],
-            ['role', 'in', 'range' => [self::ROLE_USER]],
-        ];
-    }
+
+
 
     /**
      * @inheritdoc

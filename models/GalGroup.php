@@ -8,6 +8,35 @@ use yii\data\ActiveDataProvider;
 
 class GalGroup extends GalGroupBase
 {
+    public function query($search) {
+        $query = galGroup::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+        if (!$search){
+            return $dataProvider;
+        }
+        $query->orWhere(['like', 'name', $search]);
+        $query->orWhere(['like', 'description', $search]);
+        return $dataProvider;
+    }
+    public function rules()
+    {
+        return [
+            [['permanent'], 'integer'],
+            [['permanent'], 'default','value'=>0],
+            [['description'], 'string'],
+            [['name'], 'string', 'max' => 128, 'min'=>2],
+            [['name'], 'required', 'except'=>'search'],
+            [['name'], 'match', 'pattern' => '/^\*/i', 'not' => true, 'message' => Yii::t('app','ne doit pas commencer par un *')],
+            [['name','description'],'trim'],
+            [['description','permanent','name'], 'safe', 'on'=>'search'],
+        ];
+    }
+
     public function search($params)
     {
         $query = galGroup::find();

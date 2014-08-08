@@ -6,36 +6,28 @@ use yii\grid\GridView;
 /**
  * @var yii\base\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\models\GalGroupSearch $searchModel
  */
 
-$this->title = Yii::t('app/admin','Admin group');
+$this->title = Yii::t('app/admin','Admin user');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= $this->title?></h1>
-
 <div class="gal-group-index">
 
-    <h1><?php echo Html::encode($this->title); ?></h1>
-
-    <?php echo $this->render('_searchForm', ['model' => $model]); ?>
-
     <p>
-        <?php echo Html::a(Yii::t('app/admin','Create new group'), array('create'), array('class' => 'btn btn-danger')); ?>
+        <?php echo Html::a(Yii::t('app/admin','Create new user'), array('create'), array('class' => 'btn btn-danger')); ?>
     </p>
 
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $model,
+//        'filterModel' => $model,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'id',
-            'permanent:boolean',
-            'name',
-            'description:text',
+            'id:integer',
+            'username:text',
+            'email:email',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete} {user}',
+                'template' => '{view} {update} {delete} {group}',
 
                 // delete button comportment, delete is possible if permanent is false
                 'buttons' => ['delete' => function ($url, $model) {
@@ -47,9 +39,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
 
                     // user button comportment
-                    'user' => function ($url, $model) {
+                    'group' => function ($url, $model) {
                             return  Html::a('<span class="glyphicon glyphicon-user"></span>', $url, [
-                                'title' => Yii::t('app/admin', 'Manage user'),
+                                'title' => Yii::t('app/admin', 'Manage group'),
                                 'data-pjax' => '0']) ;
                         }],
 

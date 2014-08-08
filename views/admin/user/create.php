@@ -5,13 +5,13 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\GalGroup */
 /* @var $form ActiveForm */
-$this->title = Yii::t('app/admin','Admin create group');
+$this->title = Yii::t('app/admin','Admin create user');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= $this->title?></h1>
 <div class="folder-form">
     <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, \Yii::t('app/admin', 'name')) ?>
+    <?= $form->field($model, \Yii::t('app/admin', 'username')) ?>
     <?= $form->field($model, \Yii::t('app/admin', 'description')) ?>
     <div class="form-group">
         <?= Html::resetButton(\Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>

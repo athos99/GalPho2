@@ -31,12 +31,7 @@ class GalGroupBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['permanent'], 'integer'],
-            [['description'], 'string'],
-            [['name'], 'string', 'max' => 128, 'min'=>2],
-            [['name'], 'required', 'except'=>'search'],
-            [['name'], 'match', 'pattern' => '/^\*/i', 'not' => true, 'message' => 'ne doit pas commencer par un *'],
-            [['description','permanent','name'], 'safe', 'on'=>'search'],
+
         ];
     }
     /**
