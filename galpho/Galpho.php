@@ -271,6 +271,10 @@ class Galpho extends component
     }
 
 
+
+
+
+
     protected function _subRepairFolder(&$structure)
     {
         if (!isset($structure['#'])) {

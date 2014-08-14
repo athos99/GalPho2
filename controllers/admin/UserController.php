@@ -26,7 +26,7 @@ class UserController extends Controller
     }
 
     /*
-     * Create a new group
+     * Create a new user
      *
      * @return string|\yii\web\Response
      */
@@ -48,51 +48,24 @@ class UserController extends Controller
     }
 
     /**
-     *  Edit group
+     *  Edit user
      *
      * @param $id
      */
     public function actionUpdate($id)
     {
-        $model  = galGroup::findOne($id);
+        $model  = User::findOne($id);
 
         if ($model->load($_POST) && array_key_exists('save',$_POST)) {
             if ($model->save()) {
-                return $this->redirect(['admin/group']);
+                return $this->redirect(['admin/user']);
             }
         } elseif (array_key_exists('cancel',$_POST)) {
-            return $this->redirect(['admin/group']);
+            return $this->redirect(['admin/user']);
 
         }
-        return $this->render('//admin/group/edit', [
+        return $this->render('//admin/user/edit', [
             'model' => $model
-        ]);
-    }
-
-    /**
-     *  Edit users of group
-     *
-     * @param $id
-     */
-    public function actionUser($id)
-    {
-        $group  = galGroup::findOne($id);
-        $selUsers = $group->galGroupUsers;
-        $users = User::find()->orderBy('username')->all();
-
-
-        if ($group->load($_POST) && array_key_exists('save',$_POST)) {
-            if ($group->save()) {
-                return $this->redirect(['admin/group']);
-            }
-        } elseif (array_key_exists('cancel',$_POST)) {
-            return $this->redirect(['admin/group']);
-
-        }
-        return $this->render('//admin/group/user', [
-            'group' => $group,
-            'users' => $users,
-            'selUsers' => $selUsers
         ]);
     }
 

@@ -18,26 +18,28 @@ class m000101_010101_galpho extends yii\db\Migration
 
 
                 'email' => 'VARCHAR(100) NULL',
+                'permanent' => 'boolean default 0',
+
                 'validated' => 'boolean DEFAULT 0',
                 'active' => 'boolean DEFAULT 0',
                 'superuser' => 'boolean DEFAULT 0',
                 'create' => 'datetime',
                 'last_login' => 'datetime',
 
-                'auth_key' => Schema::TYPE_STRING . '(32) ',
-                'password_hash' => Schema::TYPE_STRING . ' ',
-                'password_reset_token' => Schema::TYPE_STRING,
-                'role' => Schema::TYPE_SMALLINT . ' DEFAULT 10',
-                'status' => Schema::TYPE_SMALLINT . ' DEFAULT 10',
-                'created_at' => Schema::TYPE_INTEGER . ' ',
-                'updated_at' => Schema::TYPE_INTEGER . ' ',
+                'auth_key' =>'VARCHAR(140)',
+                'password_hash' => 'NVARCHAR(140)',
+                'password_reset_token' => 'NVARCHAR(140)',
+                'role' => 'SMALLINT DEFAULT 10',
+                'status' =>  'SMALLINT  DEFAULT 10',
+                'created_at' => 'DATETIME ',
+                'updated_at' => 'DATETIME',
             ],
             $tableOptions);
         $this->insert('{{%user}}', [
             'id' => 1,
             'username' => 'admin',
             'password_hash' => Yii::$app->getSecurity()->generatePasswordHash('admin'),
-            'auth_key' => Yii::$app->getSecurity()->generateRandomKey(),
+            'auth_key' => Yii::$app->getSecurity()-> generateRandomString(),
             'active' => 1,
             'validated' => 1,
             'superuser' => 1,

@@ -123,4 +123,10 @@ class Galpho extends base\Object
     {
         return GalElement::find()->where(['dir_id' => $idDir])->all();
     }
+
+
+
+
+
+
 }

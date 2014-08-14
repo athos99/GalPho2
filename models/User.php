@@ -9,9 +9,10 @@ class User extends UserBase implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
-
     const ROLE_USER = 10;
 
+
+    public $display_name;
 
 
 
@@ -31,9 +32,21 @@ class User extends UserBase implements IdentityInterface
         return $dataProvider;
     }
 
+    public function rules()
+    {
+        $rules = parent::rules();
+        $rules[] = [['display_name'], 'string', 'max' => 64];
+        return $rules;
+
+    }
 
 
-
+    public function attributeLabels()
+    {
+        $attributs = parent::attributeLabels();
+        $attributs['display_name'] = 'Display name';
+        return $attributs;
+    }
 
     /**
      * @inheritdoc

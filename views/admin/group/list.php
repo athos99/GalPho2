@@ -9,10 +9,10 @@ use yii\grid\GridView;
  * @var app\models\GalGroupSearch $searchModel
  */
 
-$this->title = Yii::t('app/admin','Admin group');
+$this->title = Yii::t('app/admin', 'Admin group');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1><?= $this->title?></h1>
+<h1><?= $this->title ?></h1>
 
 <div class="gal-group-index">
 
@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo $this->render('_searchForm', ['model' => $model]); ?>
 
     <p>
-        <?php echo Html::a(Yii::t('app/admin','Create new group'), array('create'), array('class' => 'btn btn-danger')); ?>
+        <?php echo Html::a(Yii::t('app/admin', 'Create new group'), array('create'), array('class' => 'btn btn-danger')); ?>
     </p>
 
     <?php echo GridView::widget([
@@ -48,9 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     // user button comportment
                     'user' => function ($url, $model) {
-                            return  Html::a('<span class="glyphicon glyphicon-user"></span>', $url, [
+                            return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, [
                                 'title' => Yii::t('app/admin', 'Manage user'),
-                                'data-pjax' => '0']) ;
+                                'data-pjax' => '0']);
                         }],
 
             ],

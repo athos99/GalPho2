@@ -8,14 +8,14 @@ use yii\grid\GridView;
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
-$this->title = Yii::t('app/admin','Admin user');
+$this->title = Yii::t('app/admin', 'Admin user');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1><?= $this->title?></h1>
+<h1><?= $this->title ?></h1>
 <div class="gal-group-index">
 
     <p>
-        <?php echo Html::a(Yii::t('app/admin','Create new user'), array('create'), array('class' => 'btn btn-danger')); ?>
+        <?php echo Html::a(Yii::t('app/admin', 'Create new user'), array('create'), array('class' => 'btn btn-danger')); ?>
     </p>
 
     <?php echo GridView::widget([
@@ -40,9 +40,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     // user button comportment
                     'group' => function ($url, $model) {
-                            return  Html::a('<span class="glyphicon glyphicon-user"></span>', $url, [
+                            return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, [
                                 'title' => Yii::t('app/admin', 'Manage group'),
-                                'data-pjax' => '0']) ;
+                                'data-pjax' => '0']);
                         }],
 
             ],
