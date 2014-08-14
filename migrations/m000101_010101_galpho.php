@@ -18,26 +18,27 @@ class m000101_010101_galpho extends yii\db\Migration
 
 
                 'email' => 'VARCHAR(100) NULL',
-                'permanent' => 'boolean default 0',
+                'permanent' => 'boolean NOT NULL default 0',
 
-                'validated' => 'boolean DEFAULT 0',
-                'active' => 'boolean DEFAULT 0',
-                'superuser' => 'boolean DEFAULT 0',
+                'validated' => 'boolean NOT NULL DEFAULT 0',
+                'active' => 'boolean NOT NULL DEFAULT 0',
+                'superuser' => 'boolean NOT NULL DEFAULT 0',
                 'create' => 'datetime',
                 'last_login' => 'datetime',
 
                 'auth_key' =>'VARCHAR(140)',
                 'password_hash' => 'NVARCHAR(140)',
                 'password_reset_token' => 'NVARCHAR(140)',
-                'role' => 'SMALLINT DEFAULT 10',
-                'status' =>  'SMALLINT  DEFAULT 10',
-                'created_at' => 'DATETIME ',
-                'updated_at' => 'DATETIME',
+                'role' => 'SMALLINT NOT NULL DEFAULT 10',
+                'status' =>  'SMALLINT  NOT NULL DEFAULT 10',
+                'created_at' => 'datetime NULL',
+                'updated_at' => 'datetime NULL',
             ],
             $tableOptions);
         $this->insert('{{%user}}', [
             'id' => 1,
             'username' => 'admin',
+            'permanent' => 1,
             'password_hash' => Yii::$app->getSecurity()->generatePasswordHash('admin'),
             'auth_key' => Yii::$app->getSecurity()-> generateRandomString(),
             'active' => 1,
@@ -55,7 +56,7 @@ class m000101_010101_galpho extends yii\db\Migration
                 'authenticate' => 'VARCHAR(512) NULL',
                 'user_data' => 'text',
                 'expire' => 'datetime NULL',
-                'active' => 'boolean DEFAULT 0',
+                'active' => 'boolean NOT NULL DEFAULT 0',
             ],
             $tableOptions);
         $this->createIndex('i_user_id', '{{%user_authenticate}}', 'user_id', false);
@@ -144,7 +145,7 @@ class m000101_010101_galpho extends yii\db\Migration
                 'create_time' => 'datetime NULL',
                 'update_time' => 'datetime NULL',
                 'format' => 'VARCHAR(10) NOT NULL',
-                'rank' => 'integer DEFAULT 0'
+                'rank' => 'integer NOT NULL DEFAULT 0'
             ],
             $tableOptions);
 
@@ -156,7 +157,7 @@ class m000101_010101_galpho extends yii\db\Migration
 
         $this->createTable('{{%gal_group}}', [
                 'id' => 'pk',
-                'permanent' => 'boolean default 0',
+                'permanent' => 'boolean NOT NULL default 0',
                 'name' => 'VARCHAR(128) NULL',
                 'description' => 'text NULL'
             ],
