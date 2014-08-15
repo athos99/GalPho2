@@ -36,6 +36,11 @@ class User extends UserBase implements IdentityInterface
     {
         $rules = parent::rules();
         $rules[] = [['display_name'], 'string', 'max' => 64];
+        $rules[] =[['permanent'], 'default','value'=>0];
+        $rules[] = [['username','email','display_name'],'trim'];
+        $rules[] = [['username'], 'string', 'min' => 3];
+        $rules[] = [['email'],'required'];
+        $rules[] = [['email'], 'email'];
         return $rules;
 
     }

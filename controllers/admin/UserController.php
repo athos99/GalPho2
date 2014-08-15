@@ -35,6 +35,7 @@ class UserController extends Controller
         $model = new User;
 
         if ($model->load($_POST)  && array_key_exists('create',$_POST)) {
+            $model->permanent = 0;
             if ($model->save()) {
                 return $this->redirect(['admin/user']);
             }

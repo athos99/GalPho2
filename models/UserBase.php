@@ -5,11 +5,12 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "user".
+ * This is the model class for table "g2_user".
  *
  * @property integer $id
  * @property string $username
  * @property string $email
+ * @property integer $permanent
  * @property integer $validated
  * @property integer $active
  * @property integer $superuser
@@ -20,8 +21,8 @@ use Yii;
  * @property string $password_reset_token
  * @property integer $role
  * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property GalGroupUser[] $galGroupUsers
  * @property UserAuthenticate[] $userAuthenticates
@@ -43,12 +44,11 @@ class UserBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['validated', 'active', 'superuser', 'role', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['create', 'last_login'], 'safe'],
+            [['permanent', 'validated', 'active', 'superuser', 'role', 'status'], 'integer'],
+            [['create', 'last_login', 'created_at', 'updated_at'], 'safe'],
             [['username'], 'string', 'max' => 64],
             [['email'], 'string', 'max' => 100],
-            [['auth_key'], 'string', 'max' => 32],
-            [['password_hash', 'password_reset_token'], 'string', 'max' => 255]
+            [['auth_key', 'password_hash', 'password_reset_token'], 'string', 'max' => 140]
         ];
     }
 
@@ -58,21 +58,22 @@ class UserBase extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => 'Username',
-            'email' => 'Email',
-            'validated' => 'Validated',
-            'active' => 'Active',
-            'superuser' => 'Superuser',
-            'create' => 'Create',
-            'last_login' => 'Last Login',
-            'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
-            'password_reset_token' => 'Password Reset Token',
-            'role' => 'Role',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Username'),
+            'email' => Yii::t('app', 'Email'),
+            'permanent' => Yii::t('app', 'Permanent'),
+            'validated' => Yii::t('app', 'Validated'),
+            'active' => Yii::t('app', 'Active'),
+            'superuser' => Yii::t('app', 'Superuser'),
+            'create' => Yii::t('app', 'Create'),
+            'last_login' => Yii::t('app', 'Last Login'),
+            'auth_key' => Yii::t('app', 'Auth Key'),
+            'password_hash' => Yii::t('app', 'Password Hash'),
+            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
+            'role' => Yii::t('app', 'Role'),
+            'status' => Yii::t('app', 'Status'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 
