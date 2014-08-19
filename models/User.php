@@ -1,5 +1,6 @@
 <?php
 namespace app\models;
+
 use yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
@@ -11,12 +12,53 @@ class User extends UserBase implements IdentityInterface
     const STATUS_ACTIVE = 10;
     const ROLE_USER = 10;
 
+    public function init()
+    {
+        parent::init();
+        $this->on(ActiveRecord::EVENT_AFTER_UPDATE, [$this, 'eventSave']);
+        $this->on(ActiveRecord::EVENT_AFTER_INSERT, [$this, 'eventSave']);
+    }
 
-    public $display_name;
+    public function eventSave()
+    {
+        foreach ($this->userFieldsByField as $userField) {
+            $userField->save();
+        }
+    }
 
 
+    public function attributes()
+    {
+        $attributes = parent::attributes();
+//        $attributes[] = 'display_name';
+        return $attributes;
+    }
 
-    public function query($search) {
+
+    public function getdisplay_name()
+    {
+        return isset($this->userFieldsByField['display_name']) ? $this->userFieldsByField['display_name']->value : null;
+    }
+
+    public function setdisplay_name($value)
+    {
+        if (isset($this->userFieldsByField['display_name'])) {
+            $rec = $this->userFieldsByField['display_name'];
+            $rec->value = $value;
+        } else {
+            if ($value !== '') {
+                $rec = new UserField();
+                $rec->field = 'display_name';
+                $rec->user_id = $this->id;
+                $rec->value = $value;
+                $rec->save();
+            }
+        }
+    }
+
+
+    public function query($search)
+    {
         $query = User::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -24,7 +66,7 @@ class User extends UserBase implements IdentityInterface
                 'pageSize' => 20,
             ],
         ]);
-        if (!$search){
+        if (!$search) {
             return $dataProvider;
         }
         $query->orWhere(['like', 'username', $search]);
@@ -35,11 +77,11 @@ class User extends UserBase implements IdentityInterface
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = [['display_name'], 'string', 'max' => 64];
-        $rules[] =[['permanent'], 'default','value'=>0];
-        $rules[] = [['username','email','display_name'],'trim'];
+        $rules[] = [['display_name'], 'string', 'max' => 64, 'min' => 2];
+        $rules[] = [['permanent'], 'default', 'value' => 0];
+        $rules[] = [['username', 'email', 'display_name'], 'trim'];
         $rules[] = [['username'], 'string', 'min' => 3];
-        $rules[] = [['email'],'required'];
+        $rules[] = [['email'], 'required'];
         $rules[] = [['email'], 'email'];
         return $rules;
 
@@ -51,6 +93,15 @@ class User extends UserBase implements IdentityInterface
         $attributs = parent::attributeLabels();
         $attributs['display_name'] = 'Display name';
         return $attributs;
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserFieldsByField()
+    {
+        return $this->getUserFields()->indexBy('field');
     }
 
     /**
@@ -72,9 +123,6 @@ class User extends UserBase implements IdentityInterface
     }
 
 
-
-
-
     /**
      * @inheritdoc
      */
@@ -88,8 +136,8 @@ class User extends UserBase implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-          /* @var UserAuthenticateBase $UserAuthenticate */
-        $UserAuthenticate =  UserAuthenticateBase::findOne(['identifier' => $token, 'provider' => $type]);
+        /* @var UserAuthenticateBase $UserAuthenticate */
+        $UserAuthenticate = UserAuthenticateBase::findOne(['identifier' => $token, 'provider' => $type]);
         return $UserAuthenticate->user;
     }
 

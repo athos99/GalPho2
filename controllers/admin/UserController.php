@@ -18,11 +18,10 @@ class UserController extends Controller
     public function actionIndex()
     {
         $model = new User(['scenario' => 'search']);
-        $dataProvider = $model->query(ArrayHelper::getValue($_GET,'search',''));
+        $dataProvider = $model->query(ArrayHelper::getValue($_GET, 'search', ''));
 
         return $this->render('//admin/user/list', [
-            'dataProvider' => $dataProvider,
-            ]);
+            'dataProvider' => $dataProvider]);
     }
 
     /*
@@ -34,12 +33,12 @@ class UserController extends Controller
     {
         $model = new User;
 
-        if ($model->load($_POST)  && array_key_exists('create',$_POST)) {
+        if ( array_key_exists('create', $_POST) && $model->load($_POST)) {
             $model->permanent = 0;
             if ($model->save()) {
                 return $this->redirect(['admin/user']);
             }
-        } elseif (array_key_exists('cancel',$_POST)) {
+        } elseif (array_key_exists('cancel', $_POST)) {
             return $this->redirect(['admin/user']);
 
         }
@@ -55,20 +54,31 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model  = User::findOne($id);
+        $model = User::findOne($id);
 
-        if ($model->load($_POST) && array_key_exists('save',$_POST)) {
+        if (  array_key_exists('save', $_POST) && $model->load($_POST)) {
             if ($model->save()) {
                 return $this->redirect(['admin/user']);
             }
-        } elseif (array_key_exists('cancel',$_POST)) {
+        } elseif (array_key_exists('cancel', $_POST)) {
             return $this->redirect(['admin/user']);
-
         }
         return $this->render('//admin/user/edit', [
             'model' => $model
         ]);
     }
 
-
+    /**
+     *  delete user
+     *
+     * @param $id
+     */
+    public function actionDelete($id)
+    {
+        $model = User::findOne($id);
+        if ($model !== null && !$model->permanent) {
+            $model->delete();
+        }
+        return $this->redirect(['admin/user']);
+    }
 }

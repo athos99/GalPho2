@@ -19,11 +19,9 @@ class GroupController extends Controller
     public function actionIndex()
     {
         $model = new GalGroup(['scenario' => 'search']);
-        $dataProvider = $model->query(ArrayHelper::getValue($_GET,'search',''));
-
+        $dataProvider = $model->query(ArrayHelper::getValue($_GET, 'search', ''));
         return $this->render('//admin/group/list', [
-            'dataProvider' => $dataProvider,
-            'model' => $model]);
+            'dataProvider' => $dataProvider]);
     }
 
     /*
@@ -35,12 +33,12 @@ class GroupController extends Controller
     {
         $model = new GalGroup;
 
-        if ($model->load($_POST)  && array_key_exists('create',$_POST)) {
+        if (array_key_exists('create', $_POST) && $model->load($_POST)) {
             $model->permanent = 0;
             if ($model->save()) {
                 return $this->redirect(['admin/group']);
             }
-        } elseif (array_key_exists('cancel',$_POST)) {
+        } elseif (array_key_exists('cancel', $_POST)) {
             return $this->redirect(['admin/group']);
 
         }
@@ -56,15 +54,14 @@ class GroupController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model  = galGroup::findOne($id);
+        $model = galGroup::findOne($id);
 
-        if ($model->load($_POST) && array_key_exists('save',$_POST)) {
+        if (array_key_exists('save', $_POST) && $model->load($_POST)) {
             if ($model->save()) {
                 return $this->redirect(['admin/group']);
             }
-        } elseif (array_key_exists('cancel',$_POST)) {
+        } elseif (array_key_exists('cancel', $_POST)) {
             return $this->redirect(['admin/group']);
-
         }
         return $this->render('//admin/group/edit', [
             'model' => $model
@@ -78,16 +75,16 @@ class GroupController extends Controller
      */
     public function actionUser($id)
     {
-        $group  = galGroup::findOne($id);
+        $group = galGroup::findOne($id);
         $selUsers = $group->galGroupUsers;
         $users = User::find()->orderBy('username')->all();
 
 
-        if ($group->load($_POST) && array_key_exists('save',$_POST)) {
+        if ($group->load($_POST) && array_key_exists('save', $_POST)) {
             if ($group->save()) {
                 return $this->redirect(['admin/group']);
             }
-        } elseif (array_key_exists('cancel',$_POST)) {
+        } elseif (array_key_exists('cancel', $_POST)) {
             return $this->redirect(['admin/group']);
 
         }
@@ -99,4 +96,17 @@ class GroupController extends Controller
     }
 
 
+    /**
+     *  delete group
+     *
+     * @param $id
+     */
+    public function actionDelete($id)
+    {
+        $model = galGroup::findOne($id);
+        if ($model !== null && !$model->permanent) {
+            $model->delete();
+        }
+        return $this->redirect(['admin/group']);
+    }
 }

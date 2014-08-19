@@ -16,9 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="gal-group-index">
 
-    <h1><?php echo Html::encode($this->title); ?></h1>
 
-    <?php echo $this->render('_searchForm', ['model' => $model]); ?>
+
 
     <p>
         <?php echo Html::a(Yii::t('app/admin', 'Create new group'), array('create'), array('class' => 'btn btn-danger')); ?>
@@ -26,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $model,
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',

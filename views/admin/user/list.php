@@ -20,7 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
-//        'filterModel' => $model,
         'columns' => [
             'id:integer',
             'username:text',
@@ -40,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     // user button comportment
                     'group' => function ($url, $model) {
-                            return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, [
+                            return Html::a('<span class="glyphicon glyphicon-th-list"></span>', $url, [
                                 'title' => Yii::t('app/admin', 'Manage group'),
                                 'data-pjax' => '0']);
                         }],
