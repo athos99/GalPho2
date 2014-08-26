@@ -69,5 +69,13 @@ class GalGroup extends GalGroupBase
             $query->andWhere([$attribute => $value]);
         }
     }
-
+    function saveUser( $users) {
+        GalGroupUser::deleteAll(['group_id'=>$this->id]);
+        foreach( $users as $userId) {
+            $galGroupUser = new GalGroupUser();
+            $galGroupUser->group_id = $this->id;
+            $galGroupUser->user_id = $userId;
+            $galGroupUser->save();
+        }
+    }
 }

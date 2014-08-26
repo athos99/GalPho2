@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "gal_group_user".
+ * This is the model class for table "g2_gal_group_user".
  *
  * @property integer $group_id
  * @property integer $user_id
  *
- * @property TblUser $user
+ * @property User $user
  * @property GalGroup $group
  */
 class GalGroupUserBase extends \yii\db\ActiveRecord
@@ -39,8 +39,8 @@ class GalGroupUserBase extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'group_id' => 'Group ID',
-            'user_id' => 'User ID',
+            'group_id' => Yii::t('app', 'Group ID'),
+            'user_id' => Yii::t('app', 'User ID'),
         ];
     }
 
@@ -49,7 +49,7 @@ class GalGroupUserBase extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(TblUser::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**

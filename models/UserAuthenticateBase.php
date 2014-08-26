@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "user_authenticate".
+ * This is the model class for table "g2_user_authenticate".
  *
  * @property integer $id
  * @property integer $user_id
@@ -50,14 +50,14 @@ class UserAuthenticateBase extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'provider' => 'Provider',
-            'identifier' => 'Identifier',
-            'authenticate' => 'Authenticate',
-            'user_data' => 'User Data',
-            'expire' => 'Expire',
-            'active' => 'Active',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'provider' => Yii::t('app', 'Provider'),
+            'identifier' => Yii::t('app', 'Identifier'),
+            'authenticate' => Yii::t('app', 'Authenticate'),
+            'user_data' => Yii::t('app', 'User Data'),
+            'expire' => Yii::t('app', 'Expire'),
+            'active' => Yii::t('app', 'Active'),
         ];
     }
 

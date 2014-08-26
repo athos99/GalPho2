@@ -21,7 +21,7 @@ class UserFieldBase extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'g2_user_field';
+        return '{{%user_field}}';
     }
 
     /**

@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "gal_group".
+ * This is the model class for table "g2_gal_group".
  *
  * @property integer $id
  * @property integer $permanent
@@ -14,6 +14,7 @@ use Yii;
  *
  * @property GalGroupUser[] $galGroupUsers
  * @property GalRight[] $galRights
+ * @property GalDir[] $dirs
  */
 class GalGroupBase extends \yii\db\ActiveRecord
 {
@@ -31,19 +32,22 @@ class GalGroupBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-
+            [['permanent'], 'integer'],
+            [['description'], 'string'],
+            [['name'], 'string', 'max' => 128]
         ];
     }
+
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'permanent' => 'Permanent',
-            'name' => 'Name',
-            'description' => 'Description',
+            'id' => Yii::t('app', 'ID'),
+            'permanent' => Yii::t('app', 'Permanent'),
+            'name' => Yii::t('app', 'Name'),
+            'description' => Yii::t('app', 'Description'),
         ];
     }
 
@@ -61,5 +65,13 @@ class GalGroupBase extends \yii\db\ActiveRecord
     public function getGalRights()
     {
         return $this->hasMany(GalRight::className(), ['group_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDirs()
+    {
+        return $this->hasMany(GalDir::className(), ['id' => 'dir_id'])->viaTable('g2_gal_right', ['group_id' => 'id']);
     }
 }

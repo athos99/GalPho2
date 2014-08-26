@@ -80,7 +80,8 @@ class GroupController extends Controller
         $users = User::find()->orderBy('username')->all();
 
 
-        if ($group->load($_POST) && array_key_exists('save', $_POST)) {
+        if ( array_key_exists('save', $_POST)) {
+            $group->saveUser( ArrayHelper::getValue($_POST,'galGroupUsers',[]));
             if ($group->save()) {
                 return $this->redirect(['admin/group']);
             }

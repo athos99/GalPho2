@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "gal_right".
+ * This is the model class for table "g2_gal_right".
  *
  * @property integer $group_id
  * @property integer $dir_id
@@ -30,6 +30,7 @@ class GalRightBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['group_id', 'dir_id'], 'required'],
             [['group_id', 'dir_id', 'value'], 'integer']
         ];
     }
@@ -40,9 +41,9 @@ class GalRightBase extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'group_id' => 'Group ID',
-            'dir_id' => 'Dir ID',
-            'value' => 'Value',
+            'group_id' => Yii::t('app', 'Group ID'),
+            'dir_id' => Yii::t('app', 'Dir ID'),
+            'value' => Yii::t('app', 'Value'),
         ];
     }
 

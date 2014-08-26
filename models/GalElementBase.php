@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "gal_element".
+ * This is the model class for table "g2_gal_element".
  *
  * @property integer $id
  * @property integer $dir_id
@@ -51,15 +51,15 @@ class GalElementBase extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'dir_id' => 'Dir ID',
-            'name' => 'Name',
-            'title' => 'Title',
-            'description' => 'Description',
-            'create_time' => 'Create Time',
-            'update_time' => 'Update Time',
-            'format' => 'Format',
-            'rank' => 'Rank',
+            'id' => Yii::t('app', 'ID'),
+            'dir_id' => Yii::t('app', 'Dir ID'),
+            'name' => Yii::t('app', 'Name'),
+            'title' => Yii::t('app', 'Title'),
+            'description' => Yii::t('app', 'Description'),
+            'create_time' => Yii::t('app', 'Create Time'),
+            'update_time' => Yii::t('app', 'Update Time'),
+            'format' => Yii::t('app', 'Format'),
+            'rank' => Yii::t('app', 'Rank'),
         ];
     }
 
