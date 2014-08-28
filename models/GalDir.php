@@ -19,7 +19,7 @@ class GalDir extends GalDirBase
 
     public function rules()
     {
-        $rules = parent::rules;
+        $rules = parent::rules();
         $rules[] = [['title'], 'required', 'on' => 'form'];
         $rules[] = [['title'], 'string', 'min' => 2];
         return $rules;

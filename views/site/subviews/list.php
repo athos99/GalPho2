@@ -8,7 +8,7 @@
 /** @var \yii\web\request $request */
 $request = Yii::$app->getRequest();
 
-$url = yii::$app->getUrlManager()->createUrl('v');
+$url = Yii::$app->getUrlManager()->createUrl('v');
 $img = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMBNAIL;
 
 

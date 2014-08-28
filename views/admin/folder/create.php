@@ -14,7 +14,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'title') ?>
     <?= $form->field($model, 'description') ?>
     <div class="form-group">
-        <?= Html::submitButton(\yii::$app->t('app/admin','Create folder'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(\Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
+        <?= Html::submitButton(\Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default no-validation', 'name' => 'cancel']) ?>
+        <?= Html::submitButton(Yii::t('app/admin','Create folder'), ['class' => 'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

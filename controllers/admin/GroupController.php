@@ -76,6 +76,9 @@ class GroupController extends Controller
     public function actionUser($id)
     {
         $group = galGroup::findOne($id);
+        if ( $group->permanent) {
+            return $this->redirect(['admin/group']);
+        }
         $selUsers = $group->galGroupUsers;
         $users = User::find()->orderBy('username')->all();
 

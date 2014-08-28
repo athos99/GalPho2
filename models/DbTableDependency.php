@@ -16,7 +16,7 @@ use yii\caching\Dependency;
  */
 class DbTableDependency extends Dependency
 {
-    const KEY = 'yii::DbTableDependency';
+    const KEY = 'Yii::DbTableDependency';
 
     static protected $_tableState;
     /** @var  \yii\caching\Cache */

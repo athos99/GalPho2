@@ -1,15 +1,16 @@
 <?php
 namespace app\assets;
+
 use yii\web\AssetBundle;
 
 class AppAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/assets';
     public $css = [
-        'css/site.css',
+        'site.css',
     ];
     public $js = [
+        'galpho.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

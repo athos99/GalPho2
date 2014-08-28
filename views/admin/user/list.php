@@ -29,7 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{view} {update} {delete} {group}',
 
                 // delete button comportment, delete is possible if permanent is false
-                'buttons' => ['delete' => function ($url, $model) {
+                'buttons' => [
+                    'delete' => function ($url, $model) {
                         return (empty($model->permanent)) ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                             'title' => Yii::t('yii', 'Delete'),
                             'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
@@ -39,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     // user button comportment
                     'group' => function ($url, $model) {
-                            return Html::a('<span class="glyphicon glyphicon-th-list"></span>', $url, [
+                            return Html::a('<span class="glyphicon glyphicon-list"></span>', $url, [
                                 'title' => Yii::t('app/admin', 'Manage group'),
                                 'data-pjax' => '0']);
                         }],
