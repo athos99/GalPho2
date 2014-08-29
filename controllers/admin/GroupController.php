@@ -3,6 +3,7 @@
 namespace app\controllers\admin;
 
 
+use app\models\Galpho;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -113,4 +114,12 @@ class GroupController extends Controller
         }
         return $this->redirect(['admin/group']);
     }
+
+
+   public function actionRight($id) {
+       $pathStructure  = Galpho::getCacheStructure([$id]);
+       return $this->render('//admin/group/right', [
+           'pathStructure' => $pathStructure,
+       ]);
+   }
 }

@@ -109,7 +109,7 @@ class Galpho extends component
 
     public function setGroups($idGroups)
     {
-        $this->_idGroups = $idGroups;
+        $this->_idGroups = is_array($idGroups) ? $idGroups : [$idGroups];
         $this->_pathStructure = null;
     }
 
