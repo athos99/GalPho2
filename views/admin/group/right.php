@@ -27,6 +27,10 @@ class TreeGalphoStructureWidget extends app\widgets\galphostructure\GalphoStruct
 
 }
 
+$images = Yii::$app->params['image']['format'];
+$size = count($image)+2;
+
+
 echo TreeGalphoStructureWidget::widget( [
     'structure'=>$pathStructure,
     'childLineTag' => 'ul',
