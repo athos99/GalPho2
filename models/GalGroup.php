@@ -78,4 +78,15 @@ class GalGroup extends GalGroupBase
             $galGroupUser->save();
         }
     }
+    function saveRight( $dirRights) {
+        GalRight::deleteAll(['group_id'=>$this->id]);
+        foreach( $dirRights as $dirId=>$value) {
+            $galRight = new GalRight();
+            $galRight->group_id = $this->id;
+            $galRight->dir_id= $dirId;
+            $galRight->value= $value;
+            $galRight->save();
+        }
+
+    }
 }
