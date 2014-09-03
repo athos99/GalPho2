@@ -1,3 +1,7 @@
+@lum0=#CCC;
+@lum1=#AAA;
+@lum4=#0FF;
+
 .galphostructure {
   ul {
     list-style-type: none;
@@ -9,6 +13,29 @@
     border: 0;
   }
 
+  div {
+    color: #FF0;
+  }
+
+  .even {
+    background-color: @lum1;
+  }
+  .odd {
+    background-color: @lum0;
+  }
+
+  xdiv.galpho-name {
+    display: inline-block;
+    width: 500px;
+  }
+  xdiv.galpho-right {
+    display: inline-block;
+    width: 200px;
+  }
+  xdiv.galpho-right span {
+    display: inline-block;
+    width: 15px;
+  }
 
   .galpho-child.galpho-close {
     display: none;

@@ -117,8 +117,10 @@ class GroupController extends Controller
 
 
    public function actionRight($id) {
+       $group = galGroup::findOne($id);
        $pathStructure  = Galpho::getCacheStructure([$id]);
        return $this->render('//admin/group/right', [
+           'group' => $group,
            'pathStructure' => $pathStructure,
        ]);
    }

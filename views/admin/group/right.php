@@ -1,39 +1,95 @@
 <?php
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 /**
-
- * @var yii\Web\View $this
+ * @var $this yii\web\View
+ * @var $group app\models\GalGroup
+ * @var pathStructure []
+ *
  */
-
 class TreeGalphoStructureWidget extends app\widgets\galphostructure\GalphoStructureWidget
 {
 
-    public $charset;
-    public $baseUrl ;
+    public $rights;
 
     public function init()
     {
         parent::init();
-        $this->baseUrl = Yii::$app->getUrlManager()->createUrl('v').'/';
+    }
+
+
+    function header()
+    {
+        foreach ($this->rights as $i => $name) {
+            ?>
+            <span><?= $name ?></span>
+        <?php
+        }
+    }
+
+    function displayRight($right, $id)
+    {
+        ?>
+        <span>admin</span>
+        <span>editor</span>
+        <?php
+        foreach ($this->rights as $i => $name) {
+            $mask = 1 << $i;
+            $check = ($right & $mask) ? 'checked="checked"' : '';
+            $name = 'r[' . $id . '][]';
+            $class = 'r' . $i;
+            ?>
+            <span class="<?= $class ?>"><input type="checkbox" name="<?= $name ?>" value="<?= $mask?>" <?= $check ?>> </span>
+        <?php
+        }
     }
 
     function displayLine(&$element)
     {
         ?>
-        <div class="galpho-name"><span style="margin-left: <?php echo $element['level'] * 8; ?>px"></span>
-            <a href="<?php echo $this->baseUrl.$element['path']?>">
-                <?php echo \yii\helpers\Html::encode($element['title']); ?></a></div>
+        <div class="">
+            <div class="galpho-name galpho-left"><span
+                    style="margin-left: <?php echo $element['level'] * 8; ?>px"></span>
+                <?php echo \yii\helpers\Html::encode($element['title']); ?></div>
+            <div class="galpho-right">
+                <?= $this->displayRight($element['right'], $element['id']) ?>
+            </div>
+        </div>
+
     <?php
     }
 
 }
 
-$images = Yii::$app->params['image']['format'];
-$size = count($image)+2;
 
+$this->title = Yii::t('app/admin', 'Right for group {group}', ['group' => $group->name]);
+$this->params['breadcrumbs'][] = $this->title;
+$rights = Yii::$app->params['right'];
+?>
 
-echo TreeGalphoStructureWidget::widget( [
-    'structure'=>$pathStructure,
-    'childLineTag' => 'ul',
-    'lineTag'=>'li',
-    'path'=>''
-]);
+    <h1><?= Html::encode($this->title); ?></h1>
+<?php
+/*  @var yii\widgets\ActiveForm $form */
+$form = ActiveForm::begin(); ?>
+
+    <div class="row">
+        <?=
+        TreeGalphoStructureWidget::widget([
+            'structure' => $pathStructure,
+            'childLineTag' => 'ul',
+            'lineTag' => 'li',
+            'path' => '',
+            'rights' => $rights
+        ]);
+
+        ?>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <?= Html::resetButton(\Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
+            <?= Html::submitButton(\Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default  no-validation', 'name' => 'cancel']) ?>
+            <?= Html::submitButton(\Yii::t('app/admin', 'Save'), ['class' => 'btn btn-primary', 'name' => 'save']) ?>
+        </div>
+    </div>
+<?php ActiveForm::end(); ?>

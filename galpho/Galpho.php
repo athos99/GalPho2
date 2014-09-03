@@ -4,6 +4,7 @@ namespace app\galpho;
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 use yii\helpers\BaseInflector;
 use app\models;
 use yii\helpers\FileHelper;
@@ -156,7 +157,7 @@ class Galpho extends component
             }
         }
         if ($this->_idPath !== null) {
-            $list =array_merge( $list , models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path));
+            $list = array_merge($list, models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path));
         }
         return $list;
     }
@@ -185,7 +186,7 @@ class Galpho extends component
     public function addElement($filename, $name)
     {
         $exif = null;
-        $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/'.$this->getPath();
+        $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getPath();
         try {
             $mime = FileHelper::getMimeType($filename);
             if ($mime == "image/jpeg") {
@@ -269,8 +270,6 @@ class Galpho extends component
         }
         return $list;
     }
-
-
 
 
 

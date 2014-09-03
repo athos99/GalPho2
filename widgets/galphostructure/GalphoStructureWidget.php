@@ -46,6 +46,9 @@ class GalphoStructureWidget extends Widget {
     public $lineHtmlOption = [];
 
 
+
+
+
     public $classOpenItem = 'galpho-open';
     public $classCloseItem = 'galpho-close';
     public $classSelectItem = 'galpho-select';
@@ -62,7 +65,15 @@ class GalphoStructureWidget extends Widget {
         $id = $this->getId();
         $js = "jQuery(\"#{$id}\").galphoStructure({$options});";
         $view->registerJs($js);
+        $this->header();
         $this->getTree($this->structure, $this->path, []);
+        $this->footer();
+    }
+
+    public function header() {
+    }
+
+    public function footer() {
     }
 
     public function displayLine(&$element) {
