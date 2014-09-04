@@ -40,6 +40,7 @@ $galpho = Yii::$app->get('galpho');
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Galery', 'url' => ['/v']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Dropdown', 'items' =>

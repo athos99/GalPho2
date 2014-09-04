@@ -15,12 +15,13 @@ class User extends UserBase implements IdentityInterface
     public function init()
     {
         parent::init();
-        $this->on(ActiveRecord::EVENT_AFTER_UPDATE, [$this, 'eventSave']);
-        $this->on(ActiveRecord::EVENT_AFTER_INSERT, [$this, 'eventSave']);
+//        $this->on(ActiveRecord::EVENT_AFTER_UPDATE, [$this, 'eventSave']);
+//        $this->on(ActiveRecord::EVENT_AFTER_INSERT, [$this, 'eventSave']);
     }
 
-    public function eventSave()
+    public function afterSave($insert, $changedAttributes)
     {
+        parent::afterSave($insert,$changedAttributes);
         foreach ($this->userFieldsByField as $userField) {
             $userField->save();
         }
