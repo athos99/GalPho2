@@ -41,6 +41,7 @@ yii.galpho = (function ($) {
         isActive: true,
         init: function () {
             no_validation();
+            galphostructure_check();
 
         }
     };
@@ -61,5 +62,22 @@ yii.galpho = (function ($) {
         });
     }
 
+    function galphostructure_check() {
+        // checked or unchecked children
+        $('.galphostructure .galpho-right input').on('click.galpho', function () {
+            var $this = $(this);
+            var cl = $this.attr("class");
+            var checked = $this.attr("checked");
+            var $div = $this.closest('.galpho-line');
+            if (checked === undefined) {
+                $div.find('.' + cl).removeAttr("checked");
+            } else {
+                $div.find('.' + cl).attr("checked", checked);
+            }
+        });
+    }
+
+
     return pub;
 })(jQuery);
+
