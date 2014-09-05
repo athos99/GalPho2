@@ -101,7 +101,7 @@ class GalphoStructureWidget extends Widget {
             if (empty($paths)) {
                 $class .=' ' . $this->classSelectItem;
             }
-            echo PHP_EOL.'<div class="galphostructure" id="'.$this->getId().'">'.PHP_EOL . $this->_openTab($this->childLineTag, $class . ' galpho-child odd') . '<!-child-->' . PHP_EOL . $this->_openTab($this->lineTag,  $class.' galpho-notlast galpho-line') . '<!-line-->';
+            echo PHP_EOL.'<div class="galphostructure" id="'.$this->getId().'">'.PHP_EOL . $this->_openTab($this->childLineTag, $class . ' galpho-child odd') . '<!-child-->' . PHP_EOL . $this->_openTab($this->lineTag,  'galpho-line galpho-notlast '.$class) . '<!-line-->';
             $structure['#']['key'] = '';
             $this->displayLine($structure['#']);
             echo PHP_EOL . $this->_openTab($this->childLineTag, $class . ' galpho-child even') . '<!-child-->';
@@ -124,7 +124,7 @@ class GalphoStructureWidget extends Widget {
                         } else {
                             $classLine = $class.' galpho-notlast';
                         }
-                        echo PHP_EOL . $this->_openTab($this->lineTag, $classLine. ' galpho-line') . '<!-line-->';
+                        echo PHP_EOL . $this->_openTab($this->lineTag,  'galpho-line '.$classLine ) . '<!-line-->';
                         $element['#']['key'] = $key;
                         $this->displayLine($element['#']);
                         if (count($element) > 1) {

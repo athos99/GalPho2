@@ -63,17 +63,19 @@ yii.galpho = (function ($) {
     }
 
     function galphostructure_check() {
-        // checked or unchecked children
-        $('.galphostructure .galpho-right input').on('click.galpho', function () {
+        // when a check box element is clicked, set the state of this check box to his childs
+        $('.galphostructure .galpho-right input').on('click.galpho', function(event) {
             var $this = $(this);
-            var cl = $this.attr("class");
-            var checked = $this.attr("checked");
+            var val = $this.attr("value");
+            var checked = $this.prop("checked");
             var $div = $this.closest('.galpho-line');
-            if (checked === undefined) {
-                $div.find('.' + cl).removeAttr("checked");
+            if (checked) {
+                $div.find("[value='" + val + "']").prop("checked", true);
             } else {
-                $div.find('.' + cl).attr("checked", checked);
+                $div.find("[value='" + val + "']").prop("checked", false);
             }
+            $div.find('.galpho-close').removeClass('galpho-close').addClass('galpho-open');
+            event.stopPropagation();
         });
     }
 

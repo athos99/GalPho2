@@ -48,8 +48,8 @@ class TreeGalphoStructureWidget extends app\widgets\galphostructure\GalphoStruct
     function displayLine(&$element)
     {
         ?>
-        <div class="">
-            <div class="galpho-name galpho-left"><span
+        <div class="galpho-name">
+            <div class="galpho-left"><span class="galpho-puce"
                     style="margin-left: <?php echo $element['level'] * 8; ?>px"></span>
                 <?php echo \yii\helpers\Html::encode($element['title']); ?></div>
             <div class="galpho-right">

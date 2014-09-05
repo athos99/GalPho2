@@ -48,7 +48,7 @@
         bind:function () {
             return this.each(function () {
                 var $root = $(this);
-                $(this).find('.galpho-name span').on("click.galphoStructure", function (event) {
+                $(this).find('.galpho-name').on("click.galphoStructure", function (event) {
 //                    event.preventDefault();
 //                    event.stopPropagation();
                     var $this = $(this);
