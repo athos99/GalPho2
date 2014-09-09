@@ -15,9 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'email') ?>
     <?= $form->field($model, 'display_name') ?>
     <div class="form-group">
-        <?= Html::resetButton(\Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
-        <?= Html::submitButton(\Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default  no-validation', 'name' => 'cancel']) ?>
-        <?= Html::submitButton(\Yii::t('app/admin', 'Save'), ['class' => 'btn btn-primary', 'name' => 'save']) ?>
+        <?= Html::resetButton(Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
+        <?= Html::submitButton(Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default  no-validation', 'name' => 'cancel']) ?>
+        <?= Html::submitButton(Yii::t('app/admin', 'Save'), ['class' => 'btn btn-primary', 'name' => 'save']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

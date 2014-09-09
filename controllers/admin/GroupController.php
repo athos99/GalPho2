@@ -77,18 +77,16 @@ class GroupController extends Controller
     public function actionUser($id)
     {
         $group = galGroup::findOne($id);
-        if ( $group->permanent) {
+        if ($group->permanent) {
             return $this->redirect(['admin/group']);
         }
         $selUsers = $group->galGroupUsers;
         $users = User::find()->orderBy('username')->all();
 
 
-        if ( array_key_exists('save', $_POST)) {
-            $group->saveUser( ArrayHelper::getValue($_POST,'galGroupUsers',[]));
-//            if ($group->save()) {
-//                return $this->redirect(['admin/group']);
-//            }
+        if (array_key_exists('save', $_POST)) {
+            $group->saveUser(ArrayHelper::getValue($_POST, 'galGroupUsers', []));
+            return $this->redirect(['admin/group']);
         } elseif (array_key_exists('cancel', $_POST)) {
             return $this->redirect(['admin/group']);
 
@@ -116,31 +114,32 @@ class GroupController extends Controller
     }
 
 
-   public function actionRight($id) {
-       $group = galGroup::findOne($id);
+    public function actionRight($id)
+    {
+        $group = galGroup::findOne($id);
 
-       if ( array_key_exists('save', $_POST)) {
-           $rawRights =  ArrayHelper::getValue($_POST,'r',[]);
-           $rights = [];
-           foreach( $rawRights as $rightId=>$right) {
-               $value = 0;
-               foreach( $right as $v) {
-                   $value += $v;
-               }
-               $rights[$rightId] = $value;
-           }
-           $group->saveRight( $rights);
-           return $this->redirect(['admin/group']);
+        if (array_key_exists('save', $_POST)) {
+            $rawRights = ArrayHelper::getValue($_POST, 'r', []);
+            $rights = [];
+            foreach ($rawRights as $rightId => $right) {
+                $value = 0;
+                foreach ($right as $v) {
+                    $value += $v;
+                }
+                $rights[$rightId] = $value;
+            }
+            $group->saveRight($rights);
+            return $this->redirect(['admin/group']);
 
-       } elseif (array_key_exists('cancel', $_POST)) {
-           return $this->redirect(['admin/group']);
+        } elseif (array_key_exists('cancel', $_POST)) {
+            return $this->redirect(['admin/group']);
 
-       }
+        }
 
-       $pathStructure  = Galpho::getCacheStructure([$id]);
-       return $this->render('//admin/group/right', [
-           'group' => $group,
-           'pathStructure' => $pathStructure,
-       ]);
-   }
+        $pathStructure = Galpho::getCacheStructure([$id]);
+        return $this->render('//admin/group/right', [
+            'group' => $group,
+            'pathStructure' => $pathStructure,
+        ]);
+    }
 }

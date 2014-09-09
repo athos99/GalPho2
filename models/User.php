@@ -21,9 +21,21 @@ class User extends UserBase implements IdentityInterface
 
     public function afterSave($insert, $changedAttributes)
     {
-        parent::afterSave($insert,$changedAttributes);
+        parent::afterSave($insert, $changedAttributes);
         foreach ($this->userFieldsByField as $userField) {
             $userField->save();
+        }
+    }
+
+
+    function saveGroup($groups)
+    {
+        GalGroupUser::deleteAll(['user_id' => $this->id]);
+        foreach ($groups as $groupId) {
+            $galGroupUser = new GalGroupUser();
+            $galGroupUser->user_id = $this->id;
+            $galGroupUser->group_id = $groupId;
+            $galGroupUser->save();
         }
     }
 

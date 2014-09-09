@@ -9,10 +9,10 @@ use app\assets\ListorderAsset;
 
 
 ListorderAsset::register($this);
-$userList = \yii\helpers\ArrayHelper::map($users, 'id', 'username');
-$selUserList = \yii\helpers\ArrayHelper::map($selUsers, 'user_id', 'user.username');
+$groupList = \yii\helpers\ArrayHelper::map($groups, 'id', 'name');
+$selGroupList = \yii\helpers\ArrayHelper::map($selGroups, 'group_id', 'group.name');
 
-$this->title = Yii::t('app/admin', 'Admin user of {group}', ['group' =>$group->name]);
+$this->title = Yii::t('app/admin', 'Admin user of {user}', ['user' =>$user->username]);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
     <h1><?= $this->title ?></h1>
@@ -26,17 +26,16 @@ $form = ActiveForm::begin(); ?>
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="galGroupUsers">User of group</label>
+                        <label for="galUserGroups">Groups of user</label>
                         <?=
-                        //                $form->field($group, 'galGroupUsers')->dropDownList($selUserList, ['size' => 10, 'multiple' => 'multiple', 'class' => 'form-control']);
-                        Html::dropDownList('galGroupUsers', null, $selUserList, ['size' => 10, 'multiple' => 'multiple', 'id' => 'galgroup-galgroupusers', 'class' => 'form-control']);
+                        Html::dropDownList('galUserGroups', null, $selGroupList, ['size' => 10, 'multiple' => 'multiple', 'id' => 'galuser-galusergroups', 'class' => 'form-control']);
                         ?>
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="galusers">Users</label>
-                        <?= Html::dropDownList('galusers', null, $userList, ['size' => 10, 'multiple' => 'multiple', 'id' => 'galusers', 'class' => 'form-control']); ?>
+                        <label for="galgroups">Groups</label>
+                        <?= Html::dropDownList('galgroups', null, $groupList, ['size' => 10, 'multiple' => 'multiple', 'id' => 'galgroups', 'class' => 'form-control']); ?>
                     </div>
                 </div>
             </div>
@@ -63,12 +62,12 @@ $form = ActiveForm::begin(); ?>
     </div><!-- form -->
 <?php
 $this->registerJs(<<<EOT
-    $('#galgroup-galgroupusers').listorder({submitAll: true});
-    $('#galusers').listorder();
-    $('#galgroup-galgroupusers').listorder('duoExclude', $('#galusers'));
+    $('#galuser-galusergroups').listorder({submitAll: true});
+    $('#galgroups').listorder();
+    $('#galuser-galusergroups').listorder('duoExclude', $('#galgroups'));
     $('#filter1').on('keyup', function () {
-        $('#galgroup-galgroupusers').listorder('filter', $(this).val());
-        $('#galusers').listorder('filter', $(this).val());
+        $('#galuser-galusergroups').listorder('filter', $(this).val());
+        $('#galgroupss').listorder('filter', $(this).val());
     });
 EOT
 );

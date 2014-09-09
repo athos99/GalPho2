@@ -3,6 +3,7 @@
 namespace app\controllers\admin;
 
 
+use app\models\GalGroup;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -80,5 +81,34 @@ class UserController extends Controller
             $model->delete();
         }
         return $this->redirect(['admin/user']);
+    }
+
+
+    /**
+     * List and setup groups for a user
+     *
+     *
+     * @param $id user
+     * @return string|\yii\web\Response
+     */
+    public function actionGroup($id) {
+        $user= User::findOne($id);
+        $selGroups = $user->galGroupUsers;
+        $groups = GalGroup::find()->orderBy('name')->all();
+
+
+        if ( array_key_exists('save', $_POST)) {
+            $user->saveGroup( ArrayHelper::getValue($_POST,'galUserGroups',[]));
+            return $this->redirect(['admin/user']);
+
+        } elseif (array_key_exists('cancel', $_POST)) {
+            return $this->redirect(['admin/user']);
+
+        }
+        return $this->render('//admin/user/group', [
+            'user' => $user,
+            'groups' => $groups,
+            'selGroups' => $selGroups
+        ]);
     }
 }
