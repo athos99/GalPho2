@@ -12,10 +12,6 @@ use app\models\GalRight;
 class FolderController extends Controller
 {
 
-    public function actionAdd($id)
-    {
-        return $this->render('//admin/test');
-    }
 
     public function actionCreate($id)
     {
@@ -40,6 +36,24 @@ class FolderController extends Controller
         }
         return $this->render('//admin/folder/create', ['model' => $model]);
     }
+
+    public function actionEdit($id)
+    {
+        $model = GalDir::findOne($id);
+        $model->setScenario('form');
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            /** @var \app\galpho\Galpho $galpho */
+            $galpho = Yii::$app->get('galpho');
+            $galpho->setIdPath($id);
+            $model->title = trim($model->title);
+            $model->description = trim($model->description);
+            $model->save();
+            return Yii::$app->getResponse()->redirect($galpho->url . '/' . $model->path);
+        }
+        return $this->render('//admin/folder/edit', ['model' => $model]);
+    }
+
+
 
 }
 

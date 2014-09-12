@@ -43,10 +43,15 @@ $galpho = Yii::$app->get('galpho');
         ['label' => 'Galery', 'url' => ['/v']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Folder', 'items' =>
+            [
+                ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id' => $galpho->getIdPath()]],
+                ['label' => 'Edit', 'url' => ['/admin/folder/edit', 'id' => $galpho->getIdPath()]],
+            ],
+        ],
         ['label' => 'Dropdown', 'items' =>
             [
                 ['label' => 'Clear cache', 'url' => ['/admin/cache/clear']],
-                ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id' => $galpho->getIdPath()]],
                 ['label' => 'Add images', 'url' => ['/admin/folder/add', 'id' => $galpho->getIdPath()]],
                 ['label' => 'User', 'url' => ['/admin/user']],
                 ['label' => 'Group', 'url' => ['/admin/group']],
@@ -63,7 +68,7 @@ $galpho = Yii::$app->get('galpho');
 
         Html::beginTag('form', ['method' => 'get', 'class' => 'navbar-form navbar-left']) .
 //        Html::beginForm('','get',['class'=>'navbar-form navbar-left']) .
-        Html::input('text', 'search', \yii\helpers\ArrayHelper::getValue($_GET,'search',''), ['placeholder' => Yii::t('app/admin', 'Search'), 'class' => 'form-control']) .
+        Html::input('text', 'search', \yii\helpers\ArrayHelper::getValue($_GET, 'search', ''), ['placeholder' => Yii::t('app/admin', 'Search'), 'class' => 'form-control']) .
         Html::submitButton(Yii::t('app/admin', 'Submit'), ['class' => 'btn btn-default']) .
 //        Html::endForm();
         Html::endTag('form');

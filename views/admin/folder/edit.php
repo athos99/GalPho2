@@ -3,20 +3,21 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $galdir app\models\GalDir */
+/* @var $model app\models\GalDir */
 /* @var $form ActiveForm */
 
+$this->title = Yii::t('app/admin', 'Edit folder {folder}', ['folder' =>$model->title]);
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>admin folder create</h1>
+<h1><?= Html::encode($this->title) ?></h1>
 <div class="folder-form">
-
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'title') ?>
     <?= $form->field($model, 'description') ?>
     <div class="form-group">
         <?= Html::resetButton(Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
         <?= Html::submitButton(Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default no-validation', 'name' => 'cancel']) ?>
-        <?= Html::submitButton(Yii::t('app/admin','Create folder'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app/admin','Update'), ['class' => 'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 
