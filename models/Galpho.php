@@ -5,6 +5,7 @@ namespace app\models;
 use yii;
 use yii\base;
 use yii\caching;
+use yii\helpers\FileHelper;
 
 class Galpho extends base\Object
 {
@@ -77,7 +78,7 @@ class Galpho extends base\Object
 
     public static function findPath(&$structure, $path)
     {
-        if (($path = trim($path, '/')) != '' && ($path!='.')) {
+        if (($path = trim($path, '/')) != '' && ($path != '.')) {
             foreach (explode('/', $path) as $key) {
                 if (!array_key_exists($key, $structure)) {
                     return false;
@@ -90,8 +91,8 @@ class Galpho extends base\Object
 
     public static function getCacheListElementsForDir($idDir, $dirPath)
     {
-        if ( $dirPath !='') {
-            $dirPath  .=  '/';
+        if ($dirPath != '') {
+            $dirPath .= '/';
         }
         $id = 'element' . $idDir;
         $cache = Yii::$app->cacheFast;
@@ -102,7 +103,7 @@ class Galpho extends base\Object
                 $value[$galElement->name] = [
                     'id' => $galElement->id,
                     'title' => $galElement->title,
-                    'path' => $dirPath .  $galElement->name,
+                    'path' => $dirPath . $galElement->name,
                     'cover' => $dirPath . $galElement->name,
                     'description' => $galElement->description,
                     'createTime' => $galElement->create_time,
@@ -125,8 +126,11 @@ class Galpho extends base\Object
     }
 
 
-
-
+    public static function clearCache()
+    {
+        DbTableDependency::reset();
+        FileHelper::removeDirectory(Yii::getAlias('@runtime/cache') );
+    }
 
 
 }

@@ -14,17 +14,7 @@ class CacheController extends Controller
     {
         /** @var \app\galpho\Galpho $galpho */
         $galpho = Yii::$app->get('galpho');
-        DbTableDependency::reset();
-        FileHelper::removeDirectory(Yii::getAlias('@app/') . Yii::$app->params['image']['cache']);
-        $dir = Yii::getAlias('@app/') . Yii::$app->params['image']['src'];
-        if ( !is_dir($dir)) {
-            mkdir( $dir,777,true);
-        }
-
-        $list = FileHelper::findFiles(Yii::getAlias('@app/') . Yii::$app->params['image']['src'], ['only' => ['right.php']]);
-        foreach( $list as  $file) {
-            unlink($file);
-        }
+        $galpho->clearCache();
         Yii::$app->getSession()->setFlash('info', 'cache cleared');
         return Yii::$app->getResponse()->redirect($galpho->url);
     }

@@ -250,6 +250,9 @@ class Galpho extends component
     }
 
 
+
+
+
     public function getBreadcrumb()
     {
         $list = [];
@@ -272,6 +275,20 @@ class Galpho extends component
     }
 
 
+    public function clearCache() {
+        models\Galpho::clearCache();
+        FileHelper::removeDirectory(Yii::getAlias('@app/') . Yii::$app->params['image']['cache']);
+        $dir = Yii::getAlias('@app/') . Yii::$app->params['image']['src'];
+        if ( !is_dir($dir)) {
+            mkdir( $dir,777,true);
+        }
+
+        $list = FileHelper::findFiles(Yii::getAlias('@app/') . Yii::$app->params['image']['src'], ['only' => ['right.php']]);
+        foreach( $list as  $file) {
+            unlink($file);
+        }
+
+    }
 
 
     protected function _subRepairFolder(&$structure)
