@@ -274,22 +274,31 @@ class Galpho extends component
         return $list;
     }
 
-
+    /**
+     * Clear all cache used by galpho ( image cache, sql cache)
+     */
     public function clearCache() {
+        // clear sql et yii cache
         models\Galpho::clearCache();
+        // clear image cache
         FileHelper::removeDirectory(Yii::getAlias('@app/') . Yii::$app->params['image']['cache']);
+
+        // clear right cache
         $dir = Yii::getAlias('@app/') . Yii::$app->params['image']['src'];
         if ( !is_dir($dir)) {
             mkdir( $dir,777,true);
         }
-
         $list = FileHelper::findFiles(Yii::getAlias('@app/') . Yii::$app->params['image']['src'], ['only' => ['right.php']]);
         foreach( $list as  $file) {
             unlink($file);
         }
-
     }
 
+
+    public function renameFolder( $newName) {
+        $src = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getPath();
+//        $dst =  Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' .;
+    }
 
     protected function _subRepairFolder(&$structure)
     {
