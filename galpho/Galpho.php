@@ -55,6 +55,12 @@ class Galpho extends component
     }
 
 
+    public function getParentPath()
+    {
+        return dirname($this->_path);
+    }
+
+
     public function getIdPath()
     {
         $this->getPathStructure();
@@ -297,7 +303,7 @@ class Galpho extends component
 
     public function renameFolder( $newName) {
         $src = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getPath();
-//        $dst =  Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' .;
+        $dst =  Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getParentPath() . '/'.$newName;
     }
 
     protected function _subRepairFolder(&$structure)

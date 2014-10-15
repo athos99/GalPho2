@@ -48,6 +48,7 @@ class FolderController extends Controller
             $model->title = trim($model->title);
             $model->description = trim($model->description);
             $model->save();
+            $galpho->renameFolder('newname');
             return Yii::$app->getResponse()->redirect($galpho->url . '/' . $model->path);
         }
         return $this->render('//admin/folder/edit', ['model' => $model]);
