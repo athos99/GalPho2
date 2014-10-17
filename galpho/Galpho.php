@@ -23,7 +23,7 @@ class Galpho extends component
 
 
     public $url;
-    public $_path;
+    public $_path = '';          // current path
     public $_idPath;
     public $_idGroups = [];
 
@@ -57,7 +57,10 @@ class Galpho extends component
 
     public function getParentPath()
     {
-        return dirname($this->_path);
+        if (($path = dirname($this->_path)) === '.') {
+            $path = '';
+        }
+        return $path;
     }
 
 
@@ -256,9 +259,6 @@ class Galpho extends component
     }
 
 
-
-
-
     public function getBreadcrumb()
     {
         $list = [];
@@ -283,7 +283,8 @@ class Galpho extends component
     /**
      * Clear all cache used by galpho ( image cache, sql cache)
      */
-    public function clearCache() {
+    public function clearCache()
+    {
         // clear sql et yii cache
         models\Galpho::clearCache();
         // clear image cache
@@ -291,19 +292,37 @@ class Galpho extends component
 
         // clear right cache
         $dir = Yii::getAlias('@app/') . Yii::$app->params['image']['src'];
-        if ( !is_dir($dir)) {
-            mkdir( $dir,777,true);
+        if (!is_dir($dir)) {
+            mkdir($dir, 777, true);
         }
         $list = FileHelper::findFiles(Yii::getAlias('@app/') . Yii::$app->params['image']['src'], ['only' => ['right.php']]);
-        foreach( $list as  $file) {
+        foreach ($list as $file) {
             unlink($file);
         }
     }
 
 
-    public function renameFolder( $newName) {
-        $src = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getPath();
-        $dst =  Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getParentPath() . '/'.$newName;
+    public function deleteImageCache($path) {
+
+    }
+
+    public function renameFolder($newName)
+    {
+        if ( $this->_path === '') {
+          // root folder, we can't rename
+            return false;
+        }
+        $dst = trim( $this->getParentPath() . '/' . $newName,'/');
+        // check if new folder doesn't exist
+        if (models\Galpho::findPath($this->_fullStructure, $dst) !== false) {
+            return false;
+        }
+
+
+        $dirSrc = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->_path;
+        $dirDst= Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $dst;
+        rename( $dirSrc, $dirDst);
+
     }
 
     protected function _subRepairFolder(&$structure)

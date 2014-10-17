@@ -75,6 +75,11 @@ class Galpho extends base\Object
         return $structure;
     }
 
+    /**
+     * @param $structure[]
+     * @param $path string
+     * @return false or structure[] of the path
+     */
 
     public static function findPath(&$structure, $path)
     {
