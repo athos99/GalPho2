@@ -303,6 +303,10 @@ class Galpho extends component
 
 
     public function deleteImageCache($path) {
+        $dir = Yii::getAlias('@app/' . Yii::$app->params['image']['cache']) . '/' . $path;
+        foreach( Yii::$app->params['image']['format'] as $key=>$value) {
+            FileHelper::removeDirectory($dir.'/'.$key);
+        }
 
     }
 
@@ -321,7 +325,11 @@ class Galpho extends component
 
         $dirSrc = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->_path;
         $dirDst= Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $dst;
-        rename( $dirSrc, $dirDst);
+        @rename( $dirSrc, $dirDst);
+        models\GalDir::renameDir($this->_path, $dst);
+        $this->deleteImageCache($this->path);
+        $this->setPath($dst);
+
 
     }
 

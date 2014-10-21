@@ -54,6 +54,16 @@ class GalDir extends GalDirBase
     }
 
 
+
+    public static function renameDir( $path, $newPath) {
+        $dirs = GalDir::find()->where('path like :path',['path'=>$path.'%'])->all();
+        $pathSize = strlen($path);
+        foreach( $dirs as $dir) {
+            $dir->path = $newPath . substr($dir->path, $pathSize) ;
+            $dir->save();
+        }
+    }
+
     /**
      * Return the directory list
      * with the right value and cover element
