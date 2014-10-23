@@ -14,6 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'title') ?>
     <?= $form->field($model, 'description') ?>
+    <?= $form->field($model, 'url') ?>
+
     <div class="form-group">
         <?= Html::resetButton(Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
         <?= Html::submitButton(Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default no-validation', 'name' => 'cancel']) ?>

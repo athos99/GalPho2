@@ -7,6 +7,23 @@ use yii\db\Query;
 
 class GalDir extends GalDirBase
 {
+    public $_url = null;
+
+    public function getUrl()
+    {
+        if ($this->_url === null) {
+            $this->_url = basename($this->path);
+        }
+        return $this->_url;
+    }
+
+
+    public function setUrl($val)
+    {
+        $this->_url = $val;
+    }
+
+
     public function behaviors()
     {
         return [
@@ -22,6 +39,8 @@ class GalDir extends GalDirBase
         $rules = parent::rules();
         $rules[] = [['title'], 'required', 'on' => 'form'];
         $rules[] = [['title'], 'string', 'min' => 2];
+        $rules[] = [['url'], 'match', 'pattern' => '/[^a-z0-9=_—–-]/', 'not' => true, 'message' => Yii::t('app', 'Only lowercase alphanumeric chars')];
+
         return $rules;
     }
 
@@ -54,12 +73,12 @@ class GalDir extends GalDirBase
     }
 
 
-
-    public static function renameDir( $path, $newPath) {
-        $dirs = GalDir::find()->where('path like :path',['path'=>$path.'%'])->all();
+    public static function renameDir($path, $newPath)
+    {
+        $dirs = GalDir::find()->where('path like :path', ['path' => $path . '%'])->all();
         $pathSize = strlen($path);
-        foreach( $dirs as $dir) {
-            $dir->path = $newPath . substr($dir->path, $pathSize) ;
+        foreach ($dirs as $dir) {
+            $dir->path = $newPath . substr($dir->path, $pathSize);
             $dir->save();
         }
     }

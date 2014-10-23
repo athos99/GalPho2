@@ -48,7 +48,7 @@ yii.galpho = (function ($) {
 
     /**
      *  Define the handler for button with class no-validation
-     *  This handler suppress the yii client cript validation, for use with cancel the form button
+     *  This handler suppress the yii client script validation, for use with cancel the form button
      *
      */
     function no_validation() {

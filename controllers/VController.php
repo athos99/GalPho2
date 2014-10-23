@@ -34,6 +34,7 @@ class VController extends Controller
 
                 }
             }
+            return Yii::$app->getResponse()->redirect(Yii::$app->getRequest()->url);
 
         }
 

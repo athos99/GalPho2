@@ -23,6 +23,7 @@ class Galpho extends component
 
 
     public $url;
+    public $route;
     public $_path = '';          // current path
     public $_idPath;
     public $_idGroups = [];
@@ -39,6 +40,7 @@ class Galpho extends component
     public function init()
     {
         parent::init();
+        $this->route = 'v';
         $this->url = Yii::$app->getUrlManager()->createUrl('v');
     }
 
@@ -255,6 +257,15 @@ class Galpho extends component
                 ]);
             }
             $element->save();
+            $info = $this->getPathInfo();
+            if ( $info['cover'] === null) {
+                $galDir = models\GalDir::findOne($this->getIdPath());
+                if ( $galDir) {
+                    $galDir->element_id_cover = $element->id;
+                    $galDir->save();
+                }
+            }
+
         }
     }
 
@@ -312,7 +323,7 @@ class Galpho extends component
 
     public function renameFolder($newName)
     {
-        if ( $this->_path === '') {
+        if ( $this->_path === '' || $this->_path === $newName) {
           // root folder, we can't rename
             return false;
         }
