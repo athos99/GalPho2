@@ -120,8 +120,8 @@ class m000101_010101_galpho extends yii\db\Migration
                 'path' => 'text',
                 'title' => 'VARCHAR(256) NULL',
                 'description' => 'text NULL',
-                'create_time' => 'datetime NULL',
-                'update_time' => 'datetime NULL',
+                'created_at' => 'datetime NULL',
+                'updated_at' => 'datetime NULL',
                 'sort_order' => 'VARCHAR(30) NULL',
             ],
             $tableOptions);
@@ -132,8 +132,8 @@ class m000101_010101_galpho extends yii\db\Migration
             'element_id_cover' => null,
             'path' => '',
             'title' => 'root',
-            'create_time' => new \yii\db\Expression('NOW()'),
-            'update_time' => new \yii\db\Expression('NOW()')
+            'created_at' => new \yii\db\Expression('NOW()'),
+            'updated_at' => new \yii\db\Expression('NOW()')
         ]);
 
         $this->createTable('{{%gal_element}}', [
@@ -142,8 +142,8 @@ class m000101_010101_galpho extends yii\db\Migration
                 'name' => 'VARCHAR(128) NULL',
                 'title' => 'VARCHAR(256) NULL',
                 'description' => 'text NULL',
-                'create_time' => 'datetime NULL',
-                'update_time' => 'datetime NULL',
+                'created_at' => 'datetime NULL',
+                'updated_at' => 'datetime NULL',
                 'format' => 'VARCHAR(10) NOT NULL',
                 'rank' => 'integer NOT NULL DEFAULT 0'
             ],

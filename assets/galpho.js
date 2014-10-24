@@ -42,6 +42,7 @@ yii.galpho = (function ($) {
         init: function () {
             no_validation();
             galphostructure_check();
+            urlFolder();
 
         }
     };
@@ -79,6 +80,12 @@ yii.galpho = (function ($) {
         });
     }
 
+
+    function urlFolder() {
+        $('#galdir-title').on('change.galpho keyup.galpho', function( event){
+            $('#galdir-url').val($(this).val().toLowerCase().replace(/[\s]+/g,'-').replace(/[^a-z0-9-_]+/g,''));
+        });
+    }
 
     return pub;
 })(jQuery);

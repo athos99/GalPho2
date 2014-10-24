@@ -24,7 +24,7 @@ class Galpho extends component
 
     public $url;
     public $route;
-    public $_path = '';          // current path
+    public $_path = ''; // current path
     public $_idPath;
     public $_idGroups = [];
 
@@ -187,7 +187,7 @@ class Galpho extends component
                     'path' => $this->_path . '/' . $galElement->name,
                     'cover' => $this->_path . '/' . $galElement->name,
                     'description' => $galElement->description,
-                    'createTime' => $galElement->create_time,
+                    'createTime' => $galElement->created_at,
                     'type' => 'img'];
             }
         }
@@ -234,8 +234,8 @@ class Galpho extends component
             $element->title = $name;
             $element->format = 'image';
             $element->dir_id = $this->getIdPath();
-            $element->create_time = new \yii\db\Expression('NOW()');
-            $element->update_time = new \yii\db\Expression('NOW()');
+//            $element->created_at = new \yii\db\Expression('NOW()');
+//            $element->updated_at = new \yii\db\Expression('NOW()');
             $tick = null;
             if (isset($exif)) {
                 if (ctype_digit($exif->caption)) {
@@ -257,16 +257,34 @@ class Galpho extends component
                 ]);
             }
             $element->save();
-            $info = $this->getPathInfo();
-            if ( $info['cover'] === null) {
-                $galDir = models\GalDir::findOne($this->getIdPath());
-                if ( $galDir) {
-                    $galDir->element_id_cover = $element->id;
-                    $galDir->save();
+            // add image to parents folders if are not set
+            foreach( $this->getParents() as $parent) {
+                if ($parent['cover'] === null) {
+                    $galDir = models\GalDir::findOne($parent['id']);
+                    if ($galDir) {
+                        $galDir->element_id_cover = $element->id;
+                        $galDir->save();
+                    }
+                } else {
+                    break;
                 }
-            }
 
+            }
         }
+    }
+
+    public function getParents()
+    {
+        $list = [];
+        $structure = $this->_fullStructure;
+        foreach (explode('/', trim($this->_elementBase, '/')) as $key) {
+            if (isset($structure['#'])) {
+                $list[] = $structure['#'];
+                $structure = & $structure[$key];
+            }
+        }
+        $list[] = $this->getPathInfo();
+        return array_reverse($list);
     }
 
 
@@ -313,21 +331,22 @@ class Galpho extends component
     }
 
 
-    public function deleteImageCache($path) {
+    public function deleteImageCache($path)
+    {
         $dir = Yii::getAlias('@app/' . Yii::$app->params['image']['cache']) . '/' . $path;
-        foreach( Yii::$app->params['image']['format'] as $key=>$value) {
-            FileHelper::removeDirectory($dir.'/'.$key);
+        foreach (Yii::$app->params['image']['format'] as $key => $value) {
+            FileHelper::removeDirectory($dir . '/' . $key);
         }
 
     }
 
     public function renameFolder($newName)
     {
-        if ( $this->_path === '' || $this->_path === $newName) {
-          // root folder, we can't rename
+        if ($this->_path === '' || $this->_path === $newName) {
+            // root folder, we can't rename
             return false;
         }
-        $dst = trim( $this->getParentPath() . '/' . $newName,'/');
+        $dst = trim($this->getParentPath() . '/' . $newName, '/');
         // check if new folder doesn't exist
         if (models\Galpho::findPath($this->_fullStructure, $dst) !== false) {
             return false;
@@ -335,8 +354,8 @@ class Galpho extends component
 
 
         $dirSrc = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->_path;
-        $dirDst= Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $dst;
-        @rename( $dirSrc, $dirDst);
+        $dirDst = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $dst;
+        @rename($dirSrc, $dirDst);
         models\GalDir::renameDir($this->_path, $dst);
         $this->deleteImageCache($this->path);
         $this->setPath($dst);
@@ -356,8 +375,8 @@ class Galpho extends component
             }
             $galDir->path = dirname(reset($structure)['#']['path']);
             $galDir->title = BaseInflector::titleize(basename($galDir->path));
-            $galDir->create_time = new \yii\db\Expression('NOW()');
-            $galDir->update_time = new \yii\db\Expression('NOW()');
+//            $galDir->created_at = new \yii\db\Expression('NOW()');
+//            $galDir->updated_at = new \yii\db\Expression('NOW()');
 
             $galDir->save();
         }

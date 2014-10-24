@@ -12,8 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1><?= Html::encode($this->title) ?></h1>
 <div class="folder-form">
     <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, 'title') ?>
-    <?= $form->field($model, 'description') ?>
+    <?= $form->field($model, 'title');?>
+    <?= $form->field($model, 'description')->textarea(); ?>
     <?= $form->field($model, 'url') ?>
 
     <div class="form-group">

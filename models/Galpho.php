@@ -111,7 +111,7 @@ class Galpho extends base\Object
                     'path' => $dirPath . $galElement->name,
                     'cover' => $dirPath . $galElement->name,
                     'description' => $galElement->description,
-                    'createTime' => $galElement->create_time,
+                    'createTime' => $galElement->created_at,
                     'type' => 'img'];
             }
             $cache->set($id, $value, 0, new caching\ChainedDependency(

@@ -12,8 +12,8 @@ use Yii;
  * @property string $path
  * @property string $title
  * @property string $description
- * @property string $create_time
- * @property string $update_time
+ * @property string $created_at
+ * @property string $updated_at
  * @property string $sort_order
  *
  * @property GalElement[] $galElements
@@ -38,7 +38,7 @@ class GalDirBase extends \yii\db\ActiveRecord
         return [
             [['element_id_cover'], 'integer'],
             [['path', 'description'], 'string'],
-            [['create_time', 'update_time'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 256],
             [['sort_order'], 'string', 'max' => 30]
         ];
@@ -55,8 +55,8 @@ class GalDirBase extends \yii\db\ActiveRecord
             'path' => Yii::t('app', 'Path'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
-            'create_time' => Yii::t('app', 'Create Time'),
-            'update_time' => Yii::t('app', 'Update Time'),
+            'created_at' => Yii::t('app', 'Created at'),
+            'updated_at' => Yii::t('app', 'Updated at'),
             'sort_order' => Yii::t('app', 'Sort Order'),
         ];
     }

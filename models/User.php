@@ -1,7 +1,7 @@
 <?php
 namespace app\models;
 
-use yii;
+use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use yii\web\IdentityInterface;
@@ -130,7 +130,7 @@ class User extends UserBase implements IdentityInterface
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
 
                 ],
-                'value' => new \yii\db\Expression('NOW()'),
+                'value' => new Yii\db\Expression('NOW()'),
             ],
         ];
     }

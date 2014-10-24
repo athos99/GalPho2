@@ -8,6 +8,8 @@ use yii\helpers\BaseInflector;
 use yii\web\Controller;
 use app\models\GalDir;
 use app\models\GalRight;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class FolderController extends Controller
 {
@@ -16,6 +18,11 @@ class FolderController extends Controller
     public function actionCreate($id)
     {
         $model = new GalDir(['scenario' => 'form']);
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()))
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             /** @var \app\galpho\Galpho $galpho */
             $galpho = Yii::$app->get('galpho');

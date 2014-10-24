@@ -12,8 +12,8 @@ use Yii;
  * @property string $name
  * @property string $title
  * @property string $description
- * @property string $create_time
- * @property string $update_time
+ * @property string $created_at
+ * @property string $updated_at
  * @property string $format
  * @property integer $rank
  *
@@ -38,7 +38,7 @@ class GalElementBase extends \yii\db\ActiveRecord
             [['dir_id', 'format'], 'required'],
             [['dir_id', 'rank'], 'integer'],
             [['description'], 'string'],
-            [['create_time', 'update_time'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 128],
             [['title'], 'string', 'max' => 256],
             [['format'], 'string', 'max' => 10]
@@ -56,8 +56,8 @@ class GalElementBase extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
-            'create_time' => Yii::t('app', 'Create Time'),
-            'update_time' => Yii::t('app', 'Update Time'),
+            'created_at' => Yii::t('app', 'Created at'),
+            'updated_at' => Yii::t('app', 'Updated at'),
             'format' => Yii::t('app', 'Format'),
             'rank' => Yii::t('app', 'Rank'),
         ];

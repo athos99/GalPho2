@@ -1,7 +1,6 @@
 <?php
 namespace app\models;
-
-use Yii;
+use yii;
 use yii\db\Query;
 
 
@@ -27,11 +26,22 @@ class GalDir extends GalDirBase
     public function behaviors()
     {
         return [
-            'ActiveRecordDependency' => [
+            'activeRecordDependency' => [
                 'class' => 'app\models\ActiveRecordDependency'
+            ],
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    yii\db\ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+
+                ],
+                'value' => new yii\db\Expression('NOW()'),
             ],
         ];
     }
+
+
 
 
     public function rules()

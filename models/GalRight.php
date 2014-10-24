@@ -1,8 +1,6 @@
 <?php
-
 namespace app\models;
-
-use Yii;
+use yii;
 
 class GalRight extends GalRightBase
 {
@@ -11,7 +9,7 @@ class GalRight extends GalRightBase
     public function behaviors()
     {
         return [
-            'ActiveRecordDependency' => [
+            'activeRecordDependency' => [
                 'class' => 'app\models\ActiveRecordDependency'
             ],
         ];

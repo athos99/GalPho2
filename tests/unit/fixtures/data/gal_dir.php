@@ -6,8 +6,8 @@ return [
         'path' => '',
         'title' => 'home',
         'description' => 'description for dir1',
-        'create_time' => '2010-01-01 01:00:00',
-        'update_time' => '2010-01-01 02:00:00',
+        'created_at' => '2010-01-01 01:00:00',
+        'updated_at' => '2010-01-01 02:00:00',
         'sort_order'=>null
     ],
     'dir2' => [
@@ -16,8 +16,8 @@ return [
         'path' => 'dir2',
         'title' => 'Dir2',
         'description' => 'description for dir2',
-        'create_time' => '2010-01-01 01:00:00',
-        'update_time' => '2010-01-01 02:00:00',
+        'created_at' => '2010-01-01 01:00:00',
+        'updated_at' => '2010-01-01 02:00:00',
         'sort_order'=>null
     ],
     'dir3' => [
@@ -26,8 +26,8 @@ return [
         'path' => 'dir2/dir3',
         'title' => 'Dir3',
         'description' => 'description for dir3',
-        'create_time' => '2010-01-01 01:00:00',
-        'update_time' => '2010-01-01 02:00:00',
+        'created_at' => '2010-01-01 01:00:00',
+        'updated_at' => '2010-01-01 02:00:00',
         'sort_order'=>null
     ],
     'dir4' => [
@@ -36,8 +36,8 @@ return [
         'path' => 'dir4',
         'title' => 'Dir4',
         'description' => 'description for dir2',
-        'create_time' => '2010-01-01 01:00:00',
-        'update_time' => '2010-01-01 02:00:00',
+        'created_at' => '2010-01-01 01:00:00',
+        'updated_at' => '2010-01-01 02:00:00',
         'sort_order'=>null
     ],
 
