@@ -65,7 +65,7 @@ yii.galpho = (function ($) {
 
     function galphostructure_check() {
         // when a check box element is clicked, set the state of this check box to his childs
-        $('.galphostructure .galpho-right input').on('click.galpho', function(event) {
+        $('.galphostructure .galpho-right input').on('click.galpho', function (event) {
             var $this = $(this);
             var val = $this.attr("value");
             var checked = $this.prop("checked");
@@ -82,8 +82,10 @@ yii.galpho = (function ($) {
 
 
     function urlFolder() {
-        $('#galdir-title').on('change.galpho keyup.galpho', function( event){
-            $('#galdir-url').val($(this).val().toLowerCase().replace(/[\s]+/g,'-').replace(/[^a-z0-9-_]+/g,''));
+        $('#galdir-title').on('change.galpho keyup.galpho', function (event) {
+            if ($('#galdir-auto_path').prop("checked")) {
+                $('#galdir-url').val(replaceDiacritics($(this).val().toLowerCase().replace(/[\s]+/g, '-')).replace(/[^a-z0-9-_]+/g, ''));
+            }
         });
     }
 

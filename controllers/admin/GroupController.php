@@ -33,7 +33,6 @@ class GroupController extends Controller
     public function actionCreate()
     {
         $model = new GalGroup;
-
         if (array_key_exists('create', $_POST) && $model->load($_POST)) {
             $model->permanent = 0;
             if ($model->save()) {

@@ -41,6 +41,7 @@ class FolderController extends Controller
             }
             return Yii::$app->getResponse()->redirect($galpho->url . '/' . $dir->path);
         }
+        $model->auto_path=1;
         return $this->render('//admin/folder/create', ['model' => $model]);
     }
 

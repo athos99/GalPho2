@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'title');?>
     <?= $form->field($model, 'description')->textarea(); ?>
     <?= $form->field($model, 'url') ?>
+    <?= $form->field($model, 'auto_path')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::resetButton(Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>

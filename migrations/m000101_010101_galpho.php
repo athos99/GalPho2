@@ -119,6 +119,7 @@ class m000101_010101_galpho extends yii\db\Migration
                 'element_id_cover' => 'integer',
                 'path' => 'text',
                 'title' => 'VARCHAR(256) NULL',
+                'auto_path' => 'boolean NOT NULL default 1',
                 'description' => 'text NULL',
                 'created_at' => 'datetime NULL',
                 'updated_at' => 'datetime NULL',

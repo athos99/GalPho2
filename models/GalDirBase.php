@@ -5,12 +5,13 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "g2_gal_dir".
+ * This is the model class for table "{{%gal_dir}}".
  *
  * @property integer $id
  * @property integer $element_id_cover
  * @property string $path
  * @property string $title
+ * @property integer $auto_path
  * @property string $description
  * @property string $created_at
  * @property string $updated_at
@@ -36,7 +37,7 @@ class GalDirBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['element_id_cover'], 'integer'],
+            [['element_id_cover', 'auto_path'], 'integer'],
             [['path', 'description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 256],
@@ -50,14 +51,15 @@ class GalDirBase extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'element_id_cover' => Yii::t('app', 'Element Id Cover'),
-            'path' => Yii::t('app', 'Path'),
-            'title' => Yii::t('app', 'Title'),
-            'description' => Yii::t('app', 'Description'),
-            'created_at' => Yii::t('app', 'Created at'),
-            'updated_at' => Yii::t('app', 'Updated at'),
-            'sort_order' => Yii::t('app', 'Sort Order'),
+            'id' => 'ID',
+            'element_id_cover' => 'Element Id Cover',
+            'path' => 'Path',
+            'title' => 'Title',
+            'auto_path' => 'Auto Path',
+            'description' => 'Description',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'sort_order' => 'Sort Order',
         ];
     }
 
@@ -82,6 +84,6 @@ class GalDirBase extends \yii\db\ActiveRecord
      */
     public function getGroups()
     {
-        return $this->hasMany(GalGroup::className(), ['id' => 'group_id'])->viaTable('g2_gal_right', ['dir_id' => 'id']);
+        return $this->hasMany(GalGroup::className(), ['id' => 'group_id'])->viaTable('{{%gal_right}}', ['dir_id' => 'id']);
     }
 }

@@ -13,6 +13,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'title') ?>
     <?= $form->field($model, 'description')->textarea() ?>
     <?= $form->field($model, 'url', ['enableAjaxValidation' => true]) ?>
+    <?= $form->field($model, 'auto_path',['label'=>'Url auto'])->checkbox() ?>
+
     <div class="form-group">
         <?= Html::resetButton(Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
         <?= Html::submitButton(Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default no-validation', 'name' => 'cancel']) ?>

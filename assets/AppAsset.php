@@ -11,7 +11,8 @@ class AppAsset extends AssetBundle
         'galpho.less',
     ];
     public $js = [
-        'galpho.js'
+        'galpho.js',
+        'replace-diacritics.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
