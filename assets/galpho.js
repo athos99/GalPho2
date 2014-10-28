@@ -80,13 +80,17 @@ yii.galpho = (function ($) {
         });
     }
 
+    function _urlFolder() {
+        if ($('#galdir-auto_path').prop("checked")) {
+            console.log( $('#galdir-title').val());
+            $('#galdir-url').val(replaceDiacritics($('#galdir-title').val().toLowerCase().replace(/[\s]+/g, '-')).replace(/[^a-z0-9-_]+/g, ''));
+        }
+
+    }
 
     function urlFolder() {
-        $('#galdir-title').on('change.galpho keyup.galpho', function (event) {
-            if ($('#galdir-auto_path').prop("checked")) {
-                $('#galdir-url').val(replaceDiacritics($(this).val().toLowerCase().replace(/[\s]+/g, '-')).replace(/[^a-z0-9-_]+/g, ''));
-            }
-        });
+        $('#galdir-title').on('change.galpho keyup.galpho', _urlFolder);
+        $('#galdir-auto_path').on('change.galpho', _urlFolder);
     }
 
     return pub;

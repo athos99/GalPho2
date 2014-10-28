@@ -4,6 +4,7 @@ namespace app\controllers\admin;
 
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\helpers\BaseInflector;
 use yii\web\Controller;
 use app\models\GalDir;
@@ -18,8 +19,7 @@ class FolderController extends Controller
     public function actionCreate($id)
     {
         $model = new GalDir(['scenario' => 'form']);
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()))
-        {
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);
         }
@@ -41,7 +41,7 @@ class FolderController extends Controller
             }
             return Yii::$app->getResponse()->redirect($galpho->url . '/' . $dir->path);
         }
-        $model->auto_path=1;
+        $model->auto_path = 1;
         return $this->render('//admin/folder/create', ['model' => $model]);
     }
 
@@ -62,6 +62,24 @@ class FolderController extends Controller
         return $this->render('//admin/folder/edit', ['model' => $model]);
     }
 
+
+    public function actionRight($id)
+    {
+        $query = GalRight::find()
+            ->where(['dir_id'=>$id])
+            ->joinWith('group')
+        //    ->orderBy('name')
+        ;
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+        return $this->render('//admin/folder/right', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
 
 }
