@@ -4,11 +4,12 @@ namespace app\controllers\admin;
 
 
 use Yii;
-use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\BaseInflector;
 use yii\web\Controller;
-use app\models\GalDir;
 use app\models\GalRight;
+use app\models\GalDir;
+use app\models\GalGroup;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -65,23 +66,39 @@ class FolderController extends Controller
 
     public function actionRight($id)
     {
-        $query = GalRight::find()
-            ->where(['dir_id'=>$id])
-            ->joinWith('group')
-        //    ->orderBy('name')
-        ;
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+        if (array_key_exists('save', $_POST)) {
+            $galDir = GalDir::findOne($id);
+            $rawRights = ArrayHelper::getValue($_POST, 'r', []);
+            $rights = [];
+            foreach ($rawRights as $rightId => $right) {
+                $value = 0;
+                foreach ($right as $v) {
+                    $value += $v;
+                }
+                $rights[$rightId] = $value;
+            }
+            $galDir->saveRight($rights,!empty($_POST['children'])) ;
+            return $this->redirect(['admin/group']);
+
+        } elseif (array_key_exists('cancel', $_POST)) {
+            return $this->redirect(['admin/group']);
+
+        }
+
+
+        $galGroup = new GalGroup();
+        $records = GalGroup::find()
+            ->with(['galRights'=>function($query) use($id){
+                    $query->andWhere(['dir_id'=>$id]);
+                }])
+            ->orderBy('name')
+        ->all();
         return $this->render('//admin/folder/right', [
-            'dataProvider' => $dataProvider,
+            'records' => $records,
+            'galGroup' =>$galGroup
+
         ]);
     }
-
-
 }
 
 

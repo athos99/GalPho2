@@ -93,6 +93,34 @@ class GalDir extends GalDirBase
         }
     }
 
+
+    /**
+     * Save the rights of each group to the dir
+     * and optionaly to children dir
+     *
+     * @param $groupRights array of right for each group
+     * @param $children boolean (apply right to children dir)
+     */
+    function saveRight( $groupRights, $children = false) {
+
+        if ( $children) {
+            $dirs = GalDir::find()->where('path like :path', ['path' => $this->path . '%'])->all();
+        } else {
+            $dirs = [$this];
+        }
+        foreach( $dirs as $dir) {
+            GalRight::deleteAll(['dir_id'=>$dir->id]);
+            foreach( $groupRights as $groupId=>$value) {
+                $galRight = new GalRight();
+                $galRight->group_id = $groupId;
+                $galRight->dir_id= $dir->id;
+                $galRight->value= $value;
+                $galRight->save();
+            }
+        }
+    }
+
+
     /**
      * Return the directory list
      * with the right value and cover element
