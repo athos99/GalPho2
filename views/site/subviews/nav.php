@@ -4,7 +4,7 @@
  * @var yii\Web\View $this
  */
 
-$url = Yii::$app->getUrlManager()->createUrl('v').'/';
+$url = $galpho->url;
 $list = $galpho->getImgPathList();
 
 $size = 10;

@@ -13,7 +13,7 @@ class TreeGalphoStructureWidget extends app\widgets\galphostructure\GalphoStruct
     public function init()
     {
         parent::init();
-        $this->baseUrl = Yii::$app->getUrlManager()->createUrl('v').'/';
+        $this->baseUrl = $galpho->url;
     }
 
     function displayLine(&$element)

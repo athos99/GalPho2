@@ -43,7 +43,7 @@ yii.galpho = (function ($) {
             no_validation();
             galphostructure_check();
             urlFolder();
-
+            xEditable();
         }
     };
 
@@ -82,7 +82,6 @@ yii.galpho = (function ($) {
 
     function _urlFolder() {
         if ($('#galdir-auto_path').prop("checked")) {
-            console.log( $('#galdir-title').val());
             $('#galdir-url').val(replaceDiacritics($('#galdir-title').val().toLowerCase().replace(/[\s]+/g, '-')).replace(/[^a-z0-9-_]+/g, ''));
         }
 
@@ -91,6 +90,11 @@ yii.galpho = (function ($) {
     function urlFolder() {
         $('#galdir-title').on('change.galpho keyup.galpho', _urlFolder);
         $('#galdir-auto_path').on('change.galpho', _urlFolder);
+    }
+
+    function xEditable() {
+        $.fn.editable.defaults.mode = 'inline';
+        $(".galpho-editable").editable();
     }
 
     return pub;

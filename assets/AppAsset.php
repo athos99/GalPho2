@@ -8,14 +8,16 @@ class AppAsset extends AssetBundle
     public $sourcePath = '@app/assets';
     public $css = [
         'site.css',
-        'galpho.less',
+        'galpho.less'
     ];
     public $js = [
         'galpho.js',
         'replace-diacritics.js'
+
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'app\assets\XeditableAsset'
     ];
 }

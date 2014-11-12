@@ -41,7 +41,7 @@ class Galpho extends component
     {
         parent::init();
         $this->route = 'v';
-        $this->url = Yii::$app->getUrlManager()->createUrl('v');
+        $this->url = Yii::$app->getUrlManager()->createUrl($this->route).'/';
     }
 
     public function setPath($path)

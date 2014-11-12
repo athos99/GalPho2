@@ -93,6 +93,8 @@ $galpho = Yii::$app->get('galpho');
     ?>
 
     <div class="container">
+
+        <a href="#" data-type="text" data-pk="1" data-title="Enter username" class="galpho-editable" data-original-title="" title="">superuser</a>
         <?=
         Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
