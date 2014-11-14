@@ -13,7 +13,6 @@ class TreeGalphoStructureWidget extends app\widgets\galphostructure\GalphoStruct
     public function init()
     {
         parent::init();
-        $this->baseUrl = $galpho->url;
     }
 
     function displayLine(&$element)
@@ -31,5 +30,7 @@ echo TreeGalphoStructureWidget::widget( [
     'structure'=>$galpho->getFullStructure(),
     'childLineTag' => 'ul',
     'lineTag'=>'li',
-    'path'=>$galpho->getPath()
+    'path'=>$galpho->getPath(),
+    'baseUrl' => $galpho->url
+
 ]);

@@ -94,7 +94,16 @@ $galpho = Yii::$app->get('galpho');
 
     <div class="container">
 
+        <span data-name="title"
+              data-type="text"
+              data-params="{table:'folder',id:'1', field:'title'}"
+              data-url="<?=\yii\helpers\Url::to(['/admin/folder/edit'])?>"
+              data-pk="1"
+              data-title="Enter username" class="galpho-editable"
+              data-original-title=""
+              title="">span</span>
         <a href="#" data-type="text" data-pk="1" data-title="Enter username" class="galpho-editable" data-original-title="" title="">superuser</a>
+
         <?=
         Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
