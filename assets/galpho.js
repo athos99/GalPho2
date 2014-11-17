@@ -93,7 +93,7 @@ yii.galpho = (function ($) {
     }
 
     function xEditable() {
-        $.fn.editable.defaults.mode = 'inline';
+      // $.fn.editable.defaults.mode = 'inline';
         $(".galpho-editable").editable();
     }
 

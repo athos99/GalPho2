@@ -94,6 +94,8 @@ $galpho = Yii::$app->get('galpho');
 
     <div class="container">
 
+        <?= app\galpho\Helper::editable('blalvlvl',['pk'=>'61','model'=>'user'],'xxxxxx');?>
+
         <span data-name="title"
               data-type="text"
               data-params="{table:'folder',id:'1', field:'title'}"
