@@ -146,6 +146,7 @@ class Galpho extends component
                 'title' => $element['title'],
                 'path' => $this->_elementBase . '/' . $this->_elementName,
                 'description' => $element['description'],
+                'info' => $element['info'],
                 'createTime' => $element['createTime']
             ];
         }
@@ -187,6 +188,7 @@ class Galpho extends component
                     'path' => $this->_path . '/' . $galElement->name,
                     'cover' => $this->_path . '/' . $galElement->name,
                     'description' => $galElement->description,
+                    'info' => $galElement->info,
                     'createTime' => $galElement->created_at,
                     'type' => 'img'];
             }
@@ -246,7 +248,7 @@ class Galpho extends component
                     }
 
                 }
-                $element->description = json_encode([
+                $element->info = json_encode([
                     'caption' => $tick ? date('d.m.Y H:i', $tick) : '',
                     'aperture' => $exif->aperture,
                     'speed' => $exif->speed,

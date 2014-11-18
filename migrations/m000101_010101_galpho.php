@@ -143,6 +143,7 @@ class m000101_010101_galpho extends yii\db\Migration
                 'name' => 'VARCHAR(128) NULL',
                 'title' => 'VARCHAR(256) NULL',
                 'description' => 'text NULL',
+                'info' => 'text NULL',
                 'created_at' => 'datetime NULL',
                 'updated_at' => 'datetime NULL',
                 'format' => 'VARCHAR(10) NOT NULL',
@@ -201,7 +202,7 @@ class m000101_010101_galpho extends yii\db\Migration
             'dir_id' => 1,
             'value' => 0xFF,
         ]);
-
+        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache') );
 
         return true;
     }
@@ -221,6 +222,7 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->dropTable('{{%auth_assignment}}');
         $this->dropTable('{{%auth_item_child}}');
         $this->dropTable('{{%auth_item}}');
+        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache') );
         return true;
     }
 }

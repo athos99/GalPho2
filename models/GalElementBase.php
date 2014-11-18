@@ -12,6 +12,7 @@ use Yii;
  * @property string $name
  * @property string $title
  * @property string $description
+ * @property string $info
  * @property string $created_at
  * @property string $updated_at
  * @property string $format
@@ -56,6 +57,7 @@ class GalElementBase extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
+            'info' => Yii::t('app', 'Info'),
             'created_at' => Yii::t('app', 'Created at'),
             'updated_at' => Yii::t('app', 'Updated at'),
             'format' => Yii::t('app', 'Format'),

@@ -111,6 +111,7 @@ class Galpho extends base\Object
                     'path' => $dirPath . $galElement->name,
                     'cover' => $dirPath . $galElement->name,
                     'description' => $galElement->description,
+                    'info' => $galElement->info,
                     'createTime' => $galElement->created_at,
                     'type' => 'img'];
             }
