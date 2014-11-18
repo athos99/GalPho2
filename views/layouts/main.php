@@ -94,7 +94,7 @@ $galpho = Yii::$app->get('galpho');
 
     <div class="container">
 
-        <?= app\galpho\Helper::editable('blalvlvl',['pk'=>'61','model'=>'user'],'xxxxxx');?>
+        <?= app\galpho\Helper::editable('blalvlvl',['pk'=>'1','model'=>'GalDir','name'=>'description'],'xxxxxx');?>
 
         <span data-name="title"
               data-type="text"
