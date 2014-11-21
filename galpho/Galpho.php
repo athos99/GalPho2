@@ -244,7 +244,7 @@ class Galpho extends component
                     $tick = strtotime($exif->caption);
                     if ($tick) {
 
-                        $element->create_time = $exif->caption;
+                        $element->created_at = $exif->caption;
                     }
 
                 }

@@ -29,14 +29,11 @@ $galpho = Yii::$app->get('galpho');
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="wrap">
-    <?php
+<?php
     NavBar::begin([
         'brandLabel' => 'My Company',
         'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
+        'options' => ['class' => 'navbar-inverse navbar-fixed-top']
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
@@ -66,7 +63,6 @@ $galpho = Yii::$app->get('galpho');
     ];
 
     $menuItems[] =
-
         Html::beginTag('form', ['method' => 'get', 'class' => 'navbar-form navbar-left']) .
 //        Html::beginForm('','get',['class'=>'navbar-form navbar-left']) .
         Html::input('text', 'search', \yii\helpers\ArrayHelper::getValue($_GET, 'search', ''), ['placeholder' => Yii::t('app/admin', 'Search'), 'class' => 'form-control']) .
@@ -92,27 +88,28 @@ $galpho = Yii::$app->get('galpho');
     NavBar::end();
     ?>
 
-    <div class="container">
+<div class="container-fluid">
 
-        <?= app\galpho\Helper::editable('blalvlvl',['pk'=>'1','model'=>'GalDir','name'=>'description'],'xxxxxx');?>
+    <?= app\galpho\Helper::editable('blalvlvl', ['pk' => '1', 'model' => 'GalDir', 'name' => 'description'], 'xxxxxx'); ?>
 
-        <span data-name="title"
-              data-type="text"
-              data-params="{table:'folder',id:'1', field:'title'}"
-              data-url="<?=\yii\helpers\Url::to(['/admin/folder/edit'])?>"
-              data-pk="1"
-              data-title="Enter username" class="galpho-editable"
-              data-original-title=""
-              title="">span</span>
-        <a href="#" data-type="text" data-pk="1" data-title="Enter username" class="galpho-editable" data-original-title="" title="">superuser</a>
+    <span data-name="title"
+          data-type="text"
+          data-params="{table:'folder',id:'1', field:'title'}"
+          data-url="<?= \yii\helpers\Url::to(['/admin/folder/edit']) ?>"
+          data-pk="1"
+          data-title="Enter username" class="galpho-editable"
+          data-original-title=""
+          title="">span</span>
+    <a href="#" data-type="text" data-pk="1" data-title="Enter username" class="galpho-editable" data-original-title=""
+       title="">superuser</a>
 
-        <?=
-        Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
+    <?=
+    Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
+    <?= Alert::widget() ?>
+    <?= $content ?>
+</div>
 </div>
 
 <footer class="footer">
