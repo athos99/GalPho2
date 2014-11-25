@@ -30,96 +30,97 @@ $galpho = Yii::$app->get('galpho');
 <body>
 <?php $this->beginBody() ?>
 <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => ['class' => 'navbar-inverse navbar-fixed-top']
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Galery', 'url' => ['/v']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Folder', 'items' =>
-            [
-                ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id' => $galpho->getIdPath()]],
-                ['label' => 'Edit', 'url' => ['/admin/folder/edit', 'id' => $galpho->getIdPath()]],
-                ['label' => 'Right', 'url' => ['/admin/folder/right', 'id' => $galpho->getIdPath()]],
-            ],
+NavBar::begin([
+    'brandLabel' => 'My Company',
+    'brandUrl' => Yii::$app->homeUrl,
+    'options' => ['class' => 'navbar navbar-inverse navbar-fixed-top'],
+    'innerContainerOptions' => ['class' => 'container-fluid']
+]);
+$menuItems = [
+    ['label' => 'Home', 'url' => ['/site/index']],
+    ['label' => 'Galery', 'url' => ['/v']],
+    ['label' => 'About', 'url' => ['/site/about']],
+    ['label' => 'Contact', 'url' => ['/site/contact']],
+    ['label' => 'Folder', 'items' =>
+        [
+            ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id' => $galpho->getIdPath()]],
+            ['label' => 'Edit', 'url' => ['/admin/folder/edit', 'id' => $galpho->getIdPath()]],
+            ['label' => 'Right', 'url' => ['/admin/folder/right', 'id' => $galpho->getIdPath()]],
         ],
-        ['label' => 'Dropdown', 'items' =>
-            [
-                ['label' => 'Clear cache', 'url' => ['/admin/cache/clear']],
-                ['label' => 'Add images', 'url' => ['/admin/folder/add', 'id' => $galpho->getIdPath()]],
-                ['label' => 'User', 'url' => ['/admin/user']],
-                ['label' => 'Group', 'url' => ['/admin/group']],
+    ],
+    ['label' => 'Dropdown', 'items' =>
+        [
+            ['label' => 'Clear cache', 'url' => ['/admin/cache/clear']],
+            ['label' => 'Add images', 'url' => ['/admin/folder/add', 'id' => $galpho->getIdPath()]],
+            ['label' => 'User', 'url' => ['/admin/user']],
+            ['label' => 'Group', 'url' => ['/admin/group']],
 
-                '<li class="divider"></li>',
-                '<li class="dropdown-header">Dropdown Header</li>',
-                ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
-            ],
+            '<li class="divider"></li>',
+            '<li class="dropdown-header">Dropdown Header</li>',
+            ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
         ],
+    ],
 
-    ];
+];
 
-    $menuItems[] =
-        Html::beginTag('form', ['method' => 'get', 'class' => 'navbar-form navbar-left']) .
+$menuItems[] =
+    Html::beginTag('form', ['method' => 'get', 'class' => 'navbar-form navbar-left']) .
 //        Html::beginForm('','get',['class'=>'navbar-form navbar-left']) .
-        Html::input('text', 'search', \yii\helpers\ArrayHelper::getValue($_GET, 'search', ''), ['placeholder' => Yii::t('app/admin', 'Search'), 'class' => 'form-control']) .
-        Html::submitButton(Yii::t('app/admin', 'Submit'), ['class' => 'btn btn-default']) .
+    Html::input('text', 'search', \yii\helpers\ArrayHelper::getValue($_GET, 'search', ''), ['placeholder' => Yii::t('app/admin', 'Search'), 'class' => 'form-control']) .
+    Html::submitButton(Yii::t('app/admin', 'Submit'), ['class' => 'btn btn-default']) .
 //        Html::endForm();
-        Html::endTag('form');
+    Html::endTag('form');
 
 
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = [
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url' => ['/site/logout'],
-            'linkOptions' => ['data-method' => 'post']
-        ];
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
+if (Yii::$app->user->isGuest) {
+    $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+    $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+} else {
+    $menuItems[] = [
+        'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+        'url' => ['/site/logout'],
+        'linkOptions' => ['data-method' => 'post']
+    ];
+}
+echo Nav::widget([
+    'options' => ['class' => 'navbar-nav navbar-right'],
+    'items' => $menuItems,
+]);
+NavBar::end();
+?>
+
 
 <div class="container-fluid">
+    <div class="row">
+        <?= Alert::widget() ?>
+    </div>
+    <div class="row">
+        <?= app\galpho\Helper::editable('blalvlvl', ['pk' => '1', 'model' => 'GalDir', 'name' => 'description'], 'xxxxxx'); ?>
+        <span data-name="title"
+              data-type="text"
+              data-params="{table:'folder',id:'1', field:'title'}"
+              data-url="<?= \yii\helpers\Url::to(['/admin/folder/edit']) ?>"
+              data-pk="1"
+              data-title="Enter username" class="galpho-editable"
+              data-original-title=""
+              title="">span</span>
+        <a href="#" data-type="text" data-pk="1" data-title="Enter username" class="galpho-editable"
+           data-original-title=""
+           title="">superuser</a>
 
-    <?= app\galpho\Helper::editable('blalvlvl', ['pk' => '1', 'model' => 'GalDir', 'name' => 'description'], 'xxxxxx'); ?>
-
-    <span data-name="title"
-          data-type="text"
-          data-params="{table:'folder',id:'1', field:'title'}"
-          data-url="<?= \yii\helpers\Url::to(['/admin/folder/edit']) ?>"
-          data-pk="1"
-          data-title="Enter username" class="galpho-editable"
-          data-original-title=""
-          title="">span</span>
-    <a href="#" data-type="text" data-pk="1" data-title="Enter username" class="galpho-editable" data-original-title=""
-       title="">superuser</a>
-
-    <?=
-    Breadcrumbs::widget([
-        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-    ]) ?>
-    <?= Alert::widget() ?>
+        <?=
+        Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
+    </div>
     <?= $content ?>
 </div>
-</div>
-
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
-
 <?php $this->endBody() ?>
 </body>
 </html>
