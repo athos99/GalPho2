@@ -48,7 +48,7 @@
 
                 },
                 "require": {
-                    "leafo/lessphp": "0.4.*@dev",
+                    "oyejorge/less.php": "*",
                     "leafo/scssphp": "dev-master",
                     "richthegeek/phpsass": "dev-master"
                 },
@@ -101,8 +101,6 @@
 
                 },
                 "require": {
-                    "leafo/lessphp": "0.4.*@dev",
-                    "leafo/scssphp": "dev-master",
                     "richthegeek/phpsass": "dev-master"
                 },
                 "autoload": {
@@ -137,9 +135,6 @@
         "codeception/codeception": "*",
         "codeception/specify": "*",
         "codeception/verify": "*",
-        "leafo/lessphp": "0.4.*@dev",
-        "leafo/scssphp": "dev-master",
-        "richthegeek/phpsass": "dev-master",
         "athos99/assetparser": "*",
         "athos99/plupload": "*"
     },
