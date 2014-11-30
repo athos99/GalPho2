@@ -60,6 +60,13 @@ $config = [
         ],
 
         'assetManager' => [
+
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => [
+ //                   'sourcePath' => '@bower/bootstrap',
+                    'css' => [''],
+                ]
+            ],
 //            'bundles' => require(__DIR__ . '/assets.php'),
             'converter' => [
                 'class' => 'athos99\assetparser\Converter',
@@ -83,7 +90,7 @@ $config = [
 
             ],
         ],
-        'i18n'=>[
+        'i18n' => [
             'translations' => [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
