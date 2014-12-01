@@ -1,0 +1,94 @@
+/*! galpho.less v3 */
+@lum0:#CCC;
+@lum1:#AAA;
+@lum4:#0FF;
+
+
+body {
+    padding-top: 50px;
+}
+
+.galphostructure {
+  background-color: 0;
+  ul {
+    list-style-type: none;
+  }
+
+  ul,li {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  div {
+    color: #FF0;
+  }
+
+  .even {
+    background-color: @lum1;
+  }
+  .odd {
+    background-color: @lum0;
+  }
+
+  xdiv.galpho-name {
+    display: inline-block;
+    width: 500px;
+  }
+  xdiv.galpho-right {
+    display: inline-block;
+    width: 200px;
+  }
+  xdiv.galpho-right span {
+    display: inline-block;
+    width: 15px;
+  }
+
+  .galpho-child.galpho-close {
+    display: none;
+  }
+  .galpho-child.galpho-open {
+    display: block;
+  }
+
+  .galpho-select > .galpho-name {
+    background-color: red;
+  }
+
+  .galpho-notlast.galpho-close > .galpho-name span.galpho-puce:before {
+    display: inline-block;
+    vertical-align: middle;
+    border: 8px solid transparent;
+    border-left: 8px solid #F00;
+
+    //    border-top: 8px solid transparent;
+    //    border-bottom: 8px solid transparent;
+    margin-right: 8px;
+    content: '';
+    line-height: 8px;
+  }
+  .galpho-notlast > .galpho-name span.galpho-puce:before {
+    display: inline-block;
+    vertical-align: middle;
+    border: 8px solid transparent;
+    border-top: 8px solid #0F0;
+
+    //    border-top: 8px solid transparent;
+    //    border-bottom: 8px solid transparent;
+    margin-right: 8px;
+    content: '';
+    line-height: 8px;
+  }
+
+  .galpho-last > .galpho-name span.galpho-puce:before {
+    width: 19px;
+    display: inline-block;
+    margin-right: 5px;
+    content: '';
+
+  }
+
+
+
+}
+

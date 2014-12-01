@@ -3,23 +3,21 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-class AppAsset extends AssetBundle
+class AppAsset extends AssetFileBundle
 {
     public $sourcePath = '@app/assets';
     public $css = [
-        'site.css',
-        'galpho.less'
+        'mybootstrap/less/bootstrap.less',
+        'css/site.css',
+        'less/galpho.less'
     ];
     public $js = [
-        'galpho.js',
-        'replace-diacritics.js'
+        'js/galpho.js',
 
     ];
     public $depends = [
         'yii\web\YiiAsset',
+        'app\assets\AdminAsset',
         'app\assets\BootstrapAsset',
-
-//        'yii\bootstrap\BootstrapAsset',
-        'app\assets\XeditableAsset'
     ];
 }

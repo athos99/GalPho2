@@ -11,3 +11,5 @@ runtime/
 vendor/2amigos/yii2-gallery-widget/
 vendor/
 images/
+assets/less/zzz.css
+assets/mybootstrap/less/bootstrap.css
