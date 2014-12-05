@@ -14,7 +14,7 @@ class XeditableAsset extends AssetBundle
 
     ];
     public $depends = [
-//        'yii\bootstrap\BootstrapAsset',
+        'app\assets\BootstrapAsset'
     ];
 
 

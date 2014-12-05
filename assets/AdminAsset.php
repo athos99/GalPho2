@@ -9,14 +9,8 @@ class AdminAsset extends AssetFileBundle
     public $css = [
     ];
     public $js = [
-        'js/galpho.js',
-        'js/replace-diacritics.js',
-        'js/listorder.js',
-        'js/replace-diacritics.js'
 
     ];
     public $depends = [
-        'app\assets\XeditableAsset',
-        'yii\web\JqueryAsset',
     ];
 }

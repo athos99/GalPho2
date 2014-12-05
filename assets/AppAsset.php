@@ -1,23 +1,32 @@
 <?php
 namespace app\assets;
-
+use yii;
 use yii\web\AssetBundle;
 
-class AppAsset extends AssetFileBundle
+class AppAsset extends AssetBundle
 {
-    public $sourcePath = '@app/assets';
+    public $sourcePath = '@app/assets/galpho';
     public $css = [
-        'mybootstrap/less/bootstrap.less',
         'css/site.css',
-        'less/galpho.less'
+        'css/galpho.less'
     ];
     public $js = [
         'js/galpho.js',
+        'js/replace-diacritics.js',
+        'js/listorder.js',
 
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'app\assets\AdminAsset',
+//        'yii\web\YiiAsset',
         'app\assets\BootstrapAsset',
+//        'app\assets\AdminAsset',
+//        'app\assets\XeditableAsset',
+//        'yii\web\JqueryAsset',
     ];
+
+
+public function init() {
+    parent::init();
+}
+
 }
