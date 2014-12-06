@@ -22,9 +22,13 @@ class BootstrapAsset extends AssetBundle
     public function init()
     {
         parent::init();
-        $parser = new \athos99\assetparser\Less();
+        $dstDir = Yii::getAlias($this->sourcePath) . '/css';
+        if (!is_dir($dstDir)) {
+            yii\helpers\FileHelper::createDirectory($dstDir);
+        }
 
-        $parser->parse(Yii::getAlias('@app/assets/bootstrap/less/bootstrap.less'), Yii::getAlias($this->sourcePath) . '/css/bootstrap.css', []);
+        $parser = new \athos99\assetparser\Less();
+        $parser->parse(Yii::getAlias('@app/assets/bootstrap/less/bootstrap.less'),$dstDir.'/bootstrap.css', []);
 
     }
 
