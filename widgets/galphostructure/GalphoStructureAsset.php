@@ -23,6 +23,7 @@ class GalphoStructureAsset extends AssetBundle
         'galphoStructure.less',
     ];
 	public $depends = [
+   //     'app\assets\AppAsset',
         'yii\web\JqueryAsset',
 	];
 }

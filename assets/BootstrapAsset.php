@@ -28,8 +28,8 @@ class BootstrapAsset extends AssetBundle
         }
 
         $parser = new \athos99\assetparser\Less();
-        $parser->parse(Yii::getAlias('@app/assets/bootstrap/less/bootstrap.less'),$dstDir.'/bootstrap.css', []);
-
+        $update = $parser->parse(Yii::getAlias('@app/assets/bootstrap/less/bootstrap.less'), $dstDir . '/bootstrap.css', []);
+        $this->publishOptions['forceCopy'] = $update;
     }
 
 }
