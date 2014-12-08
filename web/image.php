@@ -109,8 +109,8 @@ class Image
             $this->format = $this->config['format'][0];
             $this->idFormat = 0;
         }
-        $this->height = $this->format['height'];
-        $this->width = $this->format['width'];
+        $this->height = isset($this->format['height']) ? $this->format['height'] : 0;
+        $this->width = isset($this->format['width']) ? $this->format['width'] : 0;
 
         if (!empty($this->format['crop'])) {
             $this->crop = true;
@@ -326,19 +326,22 @@ class Image
     {
         $this->dstFullName = __DIR__ . '/../' . $this->config['cache'] . '/' . $this->idFormat . '/' . 'default.jpg';
         $this->dstDir = __DIR__ . '/../' . $this->config['cache'] . '/' . $this->idFormat;
-        $this->img = imagecreatetruecolor($this->width, $this->height);
+        $width = (empty($this->width)) ? $this->height : $this->width;
+        $height = (empty($this->height)) ? $this->width : $this->height;
+
+        $this->img = imagecreatetruecolor($width, $height);
         $backgroundColor = imagecolorallocate($this->img, 255, 255, 255);
         imagefill($this->img, 0, 0, $backgroundColor);
         $foregroundColor = imagecolorallocate($this->img, 255, 0, 0);
         imagepolygon($this->img, [
                 0, 0,
-                $this->width - 1, 0,
-                $this->width - 1, $this->height - 1,
-                0, $this->height - 1,
+                $width - 1, 0,
+                $width - 1, $height - 1,
+                0, $height - 1,
             ],
             4, $foregroundColor);
-        imageline($this->img, 0, 0, $this->width - 1, $this->height - 1, $foregroundColor);
-        imageline($this->img, $this->width - 1, 0, 0, $this->height - 1, $foregroundColor);
+        imageline($this->img, 0, 0, $width - 1, $height - 1, $foregroundColor);
+        imageline($this->img, $width - 1, 0, 0, $height - 1, $foregroundColor);
     }
 
 
@@ -493,6 +496,7 @@ class Image
         $ratioW = $w2 / $w1;
         $ratioH = $h2 / $h1;
         $maxRatio = min($ratioW, $ratioH);
+
         if ($maxRatio > 1) {
             // can't resize image bigger than original
             $w2 = $w1;
@@ -502,7 +506,7 @@ class Image
         }
         if ($this->crop == FALSE) {
             // resize without crop
-            if ($ratioW < $ratioH) {
+            if (($ratioW < $ratioH) && ($ratioW !==0)) {
                 $h2 = (int)round($ratioW * $h1);
             } else {
                 $w2 = (int)round($ratioH * $w1);

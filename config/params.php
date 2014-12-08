@@ -6,10 +6,10 @@ return [
         'format' => [
             0 => ['right' => 5],
             1 => ['width' => 150, 'height' => 150, 'crop' => true, 'sharpen' => 19, 'right' => 2,],
-            2 => ['width' => 400, 'height' => 400, 'right' => 3],
+            2 => ['height' => 200,  'right' => 4],
             3 => ['width' => 50, 'height' => 50, 'right' => 2],
             4 => ['width' => 100, 'height' => 100],
-            5 => ['width' => 100, 'height' => 100]
+            5 => ['width' => 500, 'height' => 500, 'right'=>2]
         ],
         'src' => 'images/src',
         'cache' => 'images/cache'
