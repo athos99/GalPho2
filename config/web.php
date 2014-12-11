@@ -63,8 +63,12 @@ $config = [
 
             'bundles' => [
                 'yii\bootstrap\BootstrapAsset' => [
-                    //                   'sourcePath' => '@bower/bootstrap',
+                    // 'sourcePath' => '@bower/bootstrap',
                     'css' => [],
+                    'depends' => ['app\assets\BootstrapAsset']
+                ],
+                'yii\bootstrap\BootstrapPluginAsset' => [
+                    'js' => [],
                     'depends' => ['app\assets\BootstrapAsset']
                 ]
             ],
