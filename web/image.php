@@ -56,6 +56,8 @@ class Image
 
     public $width;
     public $height;
+    public $max_width;
+    public $max_height;
     public $crop = false;
     public $sharpen = 0;
     public $watermark = null;
@@ -84,6 +86,9 @@ class Image
 
 
         if ($this->getRight()) {
+            if ($this->outputCache()) {
+                return;
+            }
             if (is_file($this->srcFullName)) {
                 $this->getImage($this->srcFullName);
                 $this->output();
@@ -111,6 +116,8 @@ class Image
         }
         $this->height = isset($this->format['height']) ? $this->format['height'] : 0;
         $this->width = isset($this->format['width']) ? $this->format['width'] : 0;
+        $this->max_height = isset($this->format['max_height']) ? $this->format['max_height'] : 0;
+        $this->max_width = isset($this->format['max_width']) ? $this->format['max_width'] : 0;
 
         if (!empty($this->format['crop'])) {
             $this->crop = true;
@@ -344,6 +351,16 @@ class Image
         imageline($this->img, $width - 1, 0, 0, $height - 1, $foregroundColor);
     }
 
+    public function OutputCache()
+    {
+        if (is_file($this->dstFullName)) {
+            $this->header('jpg');
+            flush();
+            readfile($this->dstFullName);
+            return true;
+        }
+        return false;
+    }
 
     public function output()
     {
@@ -506,11 +523,24 @@ class Image
         }
         if ($this->crop == FALSE) {
             // resize without crop
-            if (($ratioW < $ratioH) && ($ratioW !==0)) {
+            if (($ratioW < $ratioH) && ($ratioW !== 0)) {
                 $h2 = (int)round($ratioW * $h1);
+                if ($this->max_height && ($h2 > $this->max_height)) {
+                    $h1a = (int)round($this->max_height / $ratioW);
+                    $oy = (int)round(($h1 - $h1a) / 2);
+                    $h1 = $h1a;
+                    $h2 = $this->max_height;
+                }
             } else {
                 $w2 = (int)round($ratioH * $w1);
+                if ($this->max_width && ($w2 > $this->max_width)) {
+                    $w1a = (int)round($this->max_width / $ratioH);
+                    $ox = (int)round(($w1 - $w1a) / 2);
+                    $w1 = $w1a;
+                    $w2 = $this->max_width;
+                }
             }
+
         } else {
             // crop
             if ($ratioW < $ratioH) {

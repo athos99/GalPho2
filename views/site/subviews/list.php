@@ -25,7 +25,7 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
     foreach ($list as $element) :
     if ($element['type'] == 'dir') :
     ?>
-    <div class="galpho-thumb glapho-dir">
+    <div class="galpho-thumb galpho-dir">
         <a class="thumbnail" href="<?php echo $url . '/' . $element['path']; ?>">
             <img src="<?php echo $img . '/' . $element['cover']; ?>">
         </a>
@@ -36,7 +36,7 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
 <?php
 else :
 ?>
-<div class="galpho-thumb glapho-img">
+<div class="galpho-thumb galpho-img">
     <a class="thumbnail" href="<?php echo $url . '/' . $element['path']; ?>">
         <img src="<?php echo $img . '/' . $element['path']; ?>">
     </a>

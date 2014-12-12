@@ -1,28 +1,23 @@
 /*! galpho.less v3 */
-@lum0:#CCC;
-@lum1:#AAA;
-@lum4:#0FF;
-
+@lum0: #CCC;
+@lum1: #AAA;
+@lum4: #0FF;
 
 body {
-    padding-top: 50px;  // top offset for header menu bar
+  padding-top: 50px; // top offset for header menu bar
 }
 
-
-
 .galpho-thumb {
-  width:250px;
   float: left;
-
-  .galpho-img {
-
+  &.galpho-img {
+    img {
+      height: 200px;
+    }
   }
   .galpho-dir {
 
   }
 }
-
-
 
 .galphostructure {
   background-color: 0;
@@ -30,7 +25,7 @@ body {
     list-style-type: none;
   }
 
-  ul,li {
+  ul, li {
     margin: 0;
     padding: 0;
     border: 0;
@@ -103,8 +98,6 @@ body {
     content: '';
 
   }
-
-
 
 }
 
