@@ -130,7 +130,7 @@ class User extends UserBase implements IdentityInterface
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
 
                 ],
-                'value' => new Yii\db\Expression('NOW()'),
+                'value' => new \yii\db\Expression('NOW()'),
             ],
         ];
     }

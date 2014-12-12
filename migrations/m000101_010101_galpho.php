@@ -44,7 +44,7 @@ class m000101_010101_galpho extends yii\db\Migration
             'active' => 1,
             'validated' => 1,
             'superuser' => 1,
-            'create' => new \yii\db\Expression('NOW()'),
+            'create' => new yii\db\Expression('NOW()'),
         ]);
 
 
@@ -69,7 +69,7 @@ class m000101_010101_galpho extends yii\db\Migration
             'user_id' => 1,
             'provider' => 'google',
             'identifier' => 'https://www.google.com/accounts/o8/id?id=AItOawmjBilRbLs6W_kFHUl_9DGEmfXRKAe369s',
-            'expire' => new \yii\db\Expression('TIMESTAMPADD(WEEK, 4,NOW())'),
+            'expire' => new yii\db\Expression('TIMESTAMPADD(WEEK, 4,NOW())'),
             'active' => '1',
         ]);
 
@@ -133,8 +133,8 @@ class m000101_010101_galpho extends yii\db\Migration
             'element_id_cover' => null,
             'path' => '',
             'title' => 'root',
-            'created_at' => new \yii\db\Expression('NOW()'),
-            'updated_at' => new \yii\db\Expression('NOW()')
+            'created_at' => new yii\db\Expression('NOW()'),
+            'updated_at' => new yii\db\Expression('NOW()')
         ]);
 
         $this->createTable('{{%gal_element}}', [
