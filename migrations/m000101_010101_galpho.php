@@ -26,11 +26,11 @@ class m000101_010101_galpho extends yii\db\Migration
                 'create' => 'datetime',
                 'last_login' => 'datetime',
 
-                'auth_key' =>'VARCHAR(140)',
+                'auth_key' => 'VARCHAR(140)',
                 'password_hash' => 'NVARCHAR(140)',
                 'password_reset_token' => 'NVARCHAR(140)',
                 'role' => 'SMALLINT NOT NULL DEFAULT 10',
-                'status' =>  'SMALLINT  NOT NULL DEFAULT 10',
+                'status' => 'SMALLINT  NOT NULL DEFAULT 10',
                 'created_at' => 'datetime NULL',
                 'updated_at' => 'datetime NULL',
             ],
@@ -40,7 +40,7 @@ class m000101_010101_galpho extends yii\db\Migration
             'username' => 'admin',
             'permanent' => 1,
             'password_hash' => Yii::$app->getSecurity()->generatePasswordHash('admin'),
-            'auth_key' => Yii::$app->getSecurity()-> generateRandomString(),
+            'auth_key' => Yii::$app->getSecurity()->generateRandomString(),
             'active' => 1,
             'validated' => 1,
             'superuser' => 1,
@@ -128,6 +128,19 @@ class m000101_010101_galpho extends yii\db\Migration
             $tableOptions);
         $this->createIndex('i_path', '{{%gal_dir}}', 'path(255)', true);
 
+        $this->createTable('{{%gal_dir_lang}}', [
+                'id' => 'pk',
+                'dir_id' => 'integer NOT NULL',
+                'language' => 'VARCHAR(6) NOT NULL',
+                'title' => 'VARCHAR(256) NULL',
+                'description' => 'text NULL',
+            ],
+            $tableOptions);
+        $this->execute('ALTER TABLE {{%gal_dir_lang}} DROP PRIMARY KEY , ADD PRIMARY KEY ( `id`,`dir_id`,`language` )');
+        $this->addForeignKey('fk_gal_dir_dir_id', '{{%gal_dir_lang}}',
+            'dir_id', '{{%gal_dir}}', 'id', 'CASCADE', 'CASCADE');
+
+
         $this->insert('{{%gal_dir}}', [
             'id' => 1,
             'element_id_cover' => null,
@@ -202,7 +215,7 @@ class m000101_010101_galpho extends yii\db\Migration
             'dir_id' => 1,
             'value' => 0xFF,
         ]);
-        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache') );
+        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache'));
 
         return true;
     }
@@ -214,6 +227,7 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->dropTable('{{%gal_right}}');
         $this->dropTable('{{%gal_group_user}}');
         $this->dropTable('{{%gal_group}}');
+        $this->dropTable('{{%gal_dir_lang}}');
         $this->dropTable('{{%gal_dir}}');
         $this->dropTable('{{%gal_element}}');
         $this->dropTable('{{%user_field}}');
@@ -222,7 +236,7 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->dropTable('{{%auth_assignment}}');
         $this->dropTable('{{%auth_item_child}}');
         $this->dropTable('{{%auth_item}}');
-        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache') );
+        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache'));
         return true;
     }
 }

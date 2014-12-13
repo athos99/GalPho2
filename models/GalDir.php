@@ -2,10 +2,13 @@
 namespace app\models;
 use yii;
 use yii\db\Query;
-
+use omgdef\multilingual\MultilingualBehavior;
+use omgdef\multilingual\MultilingualTrait;
+use omgdef\multilingual\MultilingualQuery;
 
 class GalDir extends GalDirBase
 {
+    use MultilingualTrait;
     public $_url = null;
 
     public function getUrl()
@@ -38,6 +41,24 @@ class GalDir extends GalDirBase
                 ],
                 'value' => new yii\db\Expression('NOW()'),
             ],
+            'ml' => [
+                'class' => MultilingualBehavior::className(),
+                'languages' => [
+                    'fr' => 'French',
+                    'en-US' => 'English',
+                ],
+                //'languageField' => 'language',
+                //'localizedPrefix' => '',
+                //'forceOverwrite' => false',
+                //'dynamicLangClass' => true',
+                //'langClassName' => PostLang::className(), // or namespace/for/a/class/PostLang
+                'defaultLanguage' => 'fr',
+                'langForeignKey' => 'dir_id',
+                'tableName' => "{{%gal_dir_lang}}",
+                'attributes' => [
+                    'title', 'description',
+                ]
+            ],
         ];
     }
 
@@ -52,6 +73,14 @@ class GalDir extends GalDirBase
         $rules[] = [['url'], 'match', 'pattern' => '/[^a-z0-9=_—–-]/', 'not' => true, 'message' => Yii::t('app', 'Only lowercase alphanumeric chars')];
 
         return $rules;
+    }
+
+
+    public static function find()
+    {
+        $q = new MultilingualQuery(get_called_class());
+        $q->localized();
+        return $q;
     }
 
 

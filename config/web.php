@@ -1,6 +1,6 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
+
 
 $config = [
     'id' => 'basic',
@@ -29,7 +29,7 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mail' => [
-            'class' => 'yii\swiftmailer\Mailer',
+            'class' => yii\swiftmailer\Mailer::className(),
             'useFileTransport' => true,
         ],
         'log' => [
@@ -110,7 +110,7 @@ $config = [
         ]
 
     ],
-    'params' => $params
+    'params' => require(__DIR__ . '/params.php')
 ];
 
 if (YII_ENV_DEV) {
