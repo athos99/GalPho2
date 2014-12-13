@@ -13,3 +13,7 @@ vendor/
 images/
 assets/less/zzz.css
 assets/mybootstrap/less/bootstrap.css
+
+tests/_output/*
+tests/_output/*
+tests/_output/*
