@@ -1,12 +1,8 @@
 <?php
 namespace tests\unit\models;
-
 use tests\unit\PHPunit;
-
 use Yii;
-use yii\codeception\DbTestCase;
 use tests\fixtures;
-
 use app\models\GalElement;
 
 
