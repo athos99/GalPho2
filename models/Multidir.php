@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use athos99\multilingual\MultilingualTrait;
+use app\multilingual\MultilingualTrait;
 
 /**
  * This is the model class for table "{{%gal_dir}}".

@@ -9,7 +9,7 @@ use app\models\Galpho;
 use app\models\GalDirBase;
 use app\models\GalDir;
 
-class GalphoTest extends PHPunit
+class MultidirTest extends PHPunit
 {
     public function fixtures()
     {
