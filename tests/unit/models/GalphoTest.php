@@ -71,33 +71,37 @@ class GalphoTest extends PHPunit
 
     }
     public function test_GalphoGetCacheStructure() {
-        $txt1 = "ZZZZaaaaaaZZZZZZZZaaaaa";
-        $txt2 = "XXXXzzzzzzXXXXXXzXZXZXZXZX";
+
+
         DbTableDependency::reset();
         $struct = Galpho::getCacheStructure([1]);
-        $this->assertEquals($struct['#']['right'], $this->getFixture('galRights')['i11']['value']);
 
         // we change a record of table dir with model GalDirBase
         $rec = GalDirBase::find()->Where(['id'=>1])->one();
-        $rec->description = $txt1;
+        $rec->element_id_cover = $this->getFixture('galElements')['element2']['id'];
         $rec->save();
-        // the cache is not refresh, keep the old value
+
+        // because we use the model GalDirBase in place of DirBase, (without cache dependency) the cache is not refresh, keep the old value
         $struct = Galpho::getCacheStructure([1]);
-        $this->assertEquals($struct['#']['description'], $this->getFixture('galDirs')['dir1']['description']);
+        $this->assertEquals($struct['#']['cover'], $this->getFixture('galElements')['element1']['name']);
 
         // clear cache
         DbTableDependency::reset();
-        // cache value is update
+
+        // value are load from db and cache is set
         $struct = Galpho::getCacheStructure([1]);
-        $this->assertEquals($struct['#']['description'], $txt1);
+        $this->assertEquals($struct['#']['cover'], $this->getFixture('galDirs')['dir2']['path'].'/'. $this->getFixture('galElements')['element2']['name']);
 
         // we change a record of table dir with model GalDir, a dependency cache mechanism is implemented
         $rec = GalDir::find()->Where(['id'=>1])->one();
-        $rec->description = $txt2;
+        $rec->element_id_cover = $this->getFixture('galElements')['element3']['id'];
         $rec->save();
+
+
         // cache value is update
         $struct = Galpho::getCacheStructure([1]);
-        $this->assertEquals($struct['#']['description'], $txt2);
+        $this->assertEquals($struct['#']['cover'], $this->getFixture('galDirs')['dir3']['path'].'/'. $this->getFixture('galElements')['element3']['name']);
+
 
     }
 

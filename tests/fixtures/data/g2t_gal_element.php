@@ -3,7 +3,7 @@ return [
     'element1' => [
         'id' => 1,
         'dir_id' => '1',
-        'name' => 'element1',
+        'name' => 'element1.jpg',
         'title' => 'title1',
         'description' => 'description for element 2',
         'format' => 'img',
@@ -12,7 +12,7 @@ return [
     'element2' => [
         'id' => 2,
         'dir_id' => '2',
-        'name' => 'element2',
+        'name' => 'element2.jpg',
         'title' => 'title2',
         'description' => 'description for element 2',
         'format' => 'img',
@@ -20,8 +20,8 @@ return [
     ],
     'element3' => [
         'id' => 3,
-        'dir_id' => '2',
-        'name' => 'element3',
+        'dir_id' => '3',
+        'name' => 'element3.jpg',
         'title' => 'title3',
         'description' => 'description for element 3',
         'format' => 'img',
