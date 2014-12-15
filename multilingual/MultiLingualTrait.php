@@ -1,6 +1,6 @@
 <?php
 
-namespace athos99\multilingual;
+namespace app\multilingual;
 
 use Yii;
 use yii\db\ActiveQuery;
