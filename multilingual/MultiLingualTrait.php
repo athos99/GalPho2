@@ -12,8 +12,12 @@ trait MultilingualTrait
 
     public static function find()
     {
-        $x = Yii::createObject(ActiveQuery::className(), [get_called_class()]);
-        return $x;
+        /** @var ActiveQuery $query */
+        $query= Yii::createObject(ActiveQuery::className(), [get_called_class()]);
+        $query->leftJoin('{{%gal_dir_lang}}','{{%gal_dir_lang}}.dir_id={{%gal_dir}}.id');
+        $query->select('{{%gal_dir}}.*');
+        $query->addSelect('{{%gal_dir_lang}}.*');
+        return $query;
     }
 
 
