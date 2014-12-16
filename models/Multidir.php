@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 use app\multilingual\MultilingualTrait;
 
 /**
@@ -22,9 +23,10 @@ use app\multilingual\MultilingualTrait;
  * @property GalRight[] $galRights
  * @property GalGroup[] $groups
  */
-class Multidir extends MultilingualTrait
+class Multidir extends ActiveRecord
+
 {
-    /**
+    use MultilingualTrait;    /**
      * @inheritdoc
      */
     public static function tableName()
