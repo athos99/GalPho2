@@ -8,7 +8,8 @@ use yii\db\ActiveRecord;
 
 trait MultilingualTrait
 {
-
+  public $language;
+    public $title;
 
 
     public static function find()
