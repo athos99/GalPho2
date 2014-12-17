@@ -35,7 +35,9 @@ class MultidirTest extends PHPunit
      */
     public function test_Multidir() {
 
-        $rec = Multidir::find()->Where(['g2t_gal_dir.id' => '1'])->one();
-        $x= $rec->translations;
+        $rec = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
+        $rec=$rec->one();
+//        $x= $rec->translations;
+        $z=1;
     }
 }

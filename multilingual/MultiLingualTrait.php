@@ -10,8 +10,10 @@ trait MultilingualTrait
 {
 
 
+
     public static function find()
     {
+
         /** @var ActiveQuery $query */
         $query= Yii::createObject(ActiveQuery::className(), [get_called_class()]);
         $query->leftJoin('{{%gal_dir_lang}}','{{%gal_dir_lang}}.dir_id={{%gal_dir}}.id');
