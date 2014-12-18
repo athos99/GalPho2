@@ -1,26 +1,65 @@
 <?php
 
+////Assuming current language is english
+//
+//$model = Post::findOne(1);
+//echo $model->title; //echo "English title"
+//
+////Now let's imagine current language is french
+//$model = Post::findOne(1);
+//echo $model->title; //echo "Titre en Français"
+//
+//$model = Post::find()->localized('en')->one();
+//echo $model->title; //echo "English title"
+//
+////Current language is still french here
+
 namespace app\multilingual;
 
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+class MultilingualQuery extends ActiveQuery
+{
+    public function localized($language = null)
+    {
+        if (!$language) {
+            $language = Yii::$app->language;
+        }
+
+        return $this->andWhere(['language' => substr($language, 0, 2)]);
+    }
+}
+
 trait MultilingualTrait
 {
-  public $language;
-    public $title;
+
+    public $langForeignKey = 'dir_id';
+    public $langTableName = "{{%gal_dir_lang}}";
+    public $langAttributes = ['title', 'description'];
 
 
     public static function find()
     {
 
         /** @var ActiveQuery $query */
-        $query= Yii::createObject(ActiveQuery::className(), [get_called_class()]);
-        $query->leftJoin('{{%gal_dir_lang}}','{{%gal_dir_lang}}.dir_id={{%gal_dir}}.id');
+        $query = Yii::createObject(MultilingualQuery::className(), [get_called_class()]);
+        $query->leftJoin('{{%gal_dir_lang}}', '{{%gal_dir_lang}}.dir_id={{%gal_dir}}.id');
         $query->select('{{%gal_dir}}.*');
         $query->addSelect('{{%gal_dir_lang}}.*');
         return $query;
+    }
+
+
+    /**
+     * Scope for querying by all languages
+     * @return ActiveQuery
+     */
+    public function multilingual()
+    {
+        $this->with('translations');
+        return $this;
     }
 
 
@@ -29,6 +68,7 @@ trait MultilingualTrait
         $q = $this->hasManyLang();
         return $q;
     }
+
 
     public function hasManyLang()
     {
