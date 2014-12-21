@@ -25,145 +25,49 @@ class MultilingualQuery extends ActiveQuery
     public function localized($language = null)
     {
         if (!$language) {
-            $language = Yii::$app->language;
+            $language = substr(Yii::$app->language,0, 2);
         }
+        return $this->addParams([':language' => $language]);
 
-        return $this->andWhere(['language' => substr($language, 0, 2)]);
     }
 }
 
 trait MultilingualTrait
 {
 
-    public $langForeignKey = 'dir_id';
-    public $langTableName = "{{%gal_dir_lang}}";
-    public $langAttributes = ['title', 'description'];
+    public $language;
+    public static $langForeignKey = 'dir_id';
+    public static $langTableName = "{{%gal_dir_lang}}";
+    public static $langAttributes = ['title', 'description'];
 
 
     public static function find()
     {
+        $language = substr(Yii::$app->language,0, 2);
 
         /** @var ActiveQuery $query */
         $query = Yii::createObject(MultilingualQuery::className(), [get_called_class()]);
-        $query->leftJoin('{{%gal_dir_lang}}', '{{%gal_dir_lang}}.dir_id={{%gal_dir}}.id');
+        $query->join[0] = ['LEFT JOIN', '{{%gal_dir_lang}}',
+            '{{%gal_dir_lang}}.dir_id={{%gal_dir}}.id AND {{%gal_dir_lang}}.language = :language'];
+        $query->addParams([':language' => $language]);
         $query->select('{{%gal_dir}}.*');
-        $query->addSelect('{{%gal_dir_lang}}.*');
+        $query->addSelect('{{%gal_dir_lang}}.language');
+        foreach (static::$langAttributes as $attribute) {
+            $query->addSelect('{{%gal_dir_lang}}.' . $attribute . ' as lang_' . $attribute);
+        }
         return $query;
     }
 
 
-    /**
-     * Scope for querying by all languages
-     * @return ActiveQuery
-     */
-    public function multilingual()
+    public static function populateRecord($record, $row)
     {
-        $this->with('translations');
-        return $this;
+        foreach (static::$langAttributes as $attribute) {
+            $name = 'lang_' . $attribute;
+            if (isset($row[$name])) {
+                $row[$attribute] = $row[$name];
+            }
+        }
+        parent::populateRecord($record, $row);
     }
-
-
-    public function getTranslations()
-    {
-        $q = $this->hasManyLang();
-        return $q;
-    }
-
-
-    public function hasManyLang()
-    {
-        /* @var $class ActiveRecordInterface */
-        /* @var $query ActiveQuery */
-        $query = ActiveRecord::find();
-        $query->from = (['{{%gal_dir_lang}}']);
-        $query->primaryModel = $this;
-        $query->link = ['dir_id' => 'id'];
-        $query->multiple = true;
-        return $query;
-    }
-
-
-    /**
-     * Declares a `has-many` relation.
-     * The declaration is returned in terms of a relational [[ActiveQuery]] instance
-     * through which the related record can be queried and retrieved back.
-     *
-     * A `has-many` relation means that there are multiple related records matching
-     * the criteria set by this relation, e.g., a customer has many orders.
-     *
-     * For example, to declare the `orders` relation for `Customer` class, we can write
-     * the following code in the `Customer` class:
-     *
-     * ~~~
-     * public function getOrders()
-     * {
-     *     return $this->hasMany(Order::className(), ['customer_id' => 'id']);
-     * }
-     * ~~~
-     *
-     * Note that in the above, the 'customer_id' key in the `$link` parameter refers to
-     * an attribute name in the related class `Order`, while the 'id' value refers to
-     * an attribute name in the current AR class.
-     *
-     * Call methods declared in [[ActiveQuery]] to further customize the relation.
-     *
-     * @param string $class the class name of the related record
-     * @param array $link the primary-foreign key constraint. The keys of the array refer to
-     * the attributes of the record associated with the `$class` model, while the values of the
-     * array refer to the corresponding attributes in **this** AR class.
-     * @return ActiveQueryInterface the relational query object.
-     */
-    public function myhasMany($class, $link)
-    {
-        /* @var $class ActiveRecordInterface */
-        /* @var $query ActiveQuery */
-        $query = $class::find();
-        $query->primaryModel = $this;
-        $query->link = ['dir_id' => 'id'];
-        $query->multiple = true;
-        return $query;
-    }
-
-    /**
-     * Relation to model translations
-     * @return ActiveQuery
-     */
-    public function mygetTranslations()
-    {
-        return $this->owner->hasMany($this->langClassName, [$this->langForeignKey => $this->_ownerPrimaryKey]);
-    }
-
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getGalDirLangs()
-    {
-        return $this->hasMany(GalDirLang::className(), ['dir_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getGalElements()
-    {
-        return $this->hasMany(GalElement::className(), ['dir_id' => 'id']);
-
-        return $this->hasMany(GalGroup::className(), ['id' => 'group_id'])->viaTable('{{%gal_right}}', ['dir_id' => 'id']);
-    }
-
-
-    /**
-     * Relation to model translation
-     * @param $language
-     * @return ActiveQuery
-     */
-    public function getTranslation($language = null)
-    {
-        $language = $language ? $language : $this->_currentLanguage;
-        return $this->owner->hasMany($this->langClassName, [$this->langForeignKey => $this->_ownerPrimaryKey])
-            ->where([$this->languageField => $language]);
-    }
-
 
 }

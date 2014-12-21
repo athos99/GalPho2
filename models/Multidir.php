@@ -26,7 +26,8 @@ use app\multilingual\MultilingualTrait;
 class Multidir extends ActiveRecord
 
 {
-    use MultilingualTrait;    /**
+    use MultilingualTrait;
+    /**
      * @inheritdoc
      */
     public static function tableName()
