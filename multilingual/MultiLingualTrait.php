@@ -18,14 +18,15 @@ namespace app\multilingual;
 
 use Yii;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
+use yii\db\Query;
+use yii\base\NotSupportedException;
 
 class MultilingualQuery extends ActiveQuery
 {
     public function localized($language = null)
     {
         if (!$language) {
-            $language = substr(Yii::$app->language,0, 2);
+            $language = substr(Yii::$app->language, 0, 2);
         }
         return $this->addParams([':language' => $language]);
 
@@ -39,11 +40,12 @@ trait MultilingualTrait
     public static $langForeignKey = 'dir_id';
     public static $langTableName = "{{%gal_dir_lang}}";
     public static $langAttributes = ['title', 'description'];
+    public static $langLanguage = 'language';
 
 
     public static function find()
     {
-        $language = substr(Yii::$app->language,0, 2);
+        $language = substr(Yii::$app->language, 0, 2);
 
         /** @var ActiveQuery $query */
         $query = Yii::createObject(MultilingualQuery::className(), [get_called_class()]);
@@ -70,4 +72,38 @@ trait MultilingualTrait
         parent::populateRecord($record, $row);
     }
 
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        parent::save($runValidation, $attributeNames);
+        if (!empty($this->language)) {
+            $where = [static::$langForeignKey => $this->getPrimaryKey(), static::$langLanguage => $this->language];
+            $query = new Query();
+            $rows = $query->from(static::$langTableName)
+                ->where($where)
+                ->all();
+            $columns = [
+                static::$langLanguage => $this->language,
+                static::$langForeignKey => $this->getPrimaryKey()
+            ];
+
+            foreach (static::$langAttributes as $attribute) {
+                $columns[$attribute] = $this->$attribute;
+            }
+
+            $params = [];
+            if (empty($rows)) {
+                $this->db->createCommand()->insert(static::$langTableName, $columns)->execute();
+            } else {
+                $this->db->createCommand()->update(static::$langTableName, $columns, $where, [])->execute();
+            }
+        }
+    }
+
+    public function delete()
+    {
+        $where = [static::$langForeignKey => $this->getPrimaryKey()];
+        $this->db->createCommand()->delete(static::$langTableName,  $where, [])->execute();
+        parent::delete();
+    }
 }

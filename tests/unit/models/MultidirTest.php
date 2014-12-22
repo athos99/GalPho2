@@ -48,6 +48,18 @@ class MultidirTest extends PHPunit
         $x = $rec->title;
         $rec->title = 'ggggg';
         $rec->save();
+
+        $rec = new Multidir();
+        $rec->title = 'aaaaaa';
+        $rec->save();
+        $rec->language = 'it';
+        $rec->save();
+        $rec->title = 'bbbb';
+        $rec->save();
+        $rec->language = 'aa';
+        $rec->save();
+        $rec->delete();
+        Multidir::deleteAll();
         $z = 1;
     }
 }
