@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use app\multilingual\MultilingualTrait;
+use app\galpho\MultilingualTrait;
 
 /**
  * This is the model class for table "{{%gal_dir}}".
@@ -27,6 +27,9 @@ class Multidir extends ActiveRecord
 
 {
     use MultilingualTrait;
+    public static $langForeignKey = 'dir_id';
+    public static $langAttributes = ['title', 'description'];
+
     /**
      * @inheritdoc
      */

@@ -1,25 +1,9 @@
 <?php
-
-////Assuming current language is english
-//
-//$model = Post::findOne(1);
-//echo $model->title; //echo "English title"
-//
-////Now let's imagine current language is french
-//$model = Post::findOne(1);
-//echo $model->title; //echo "Titre en Français"
-//
-//$model = Post::find()->localized('en')->one();
-//echo $model->title; //echo "English title"
-//
-////Current language is still french here
-
-namespace app\multilingual;
+namespace app\galpho;
 
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Query;
-use yii\base\NotSupportedException;
 
 class MultilingualQuery extends ActiveQuery
 {
@@ -36,26 +20,35 @@ class MultilingualQuery extends ActiveQuery
 trait MultilingualTrait
 {
 
-    public $language;
-    public static $langForeignKey = 'dir_id';
-    public static $langTableName = "{{%gal_dir_lang}}";
-    public static $langAttributes = ['title', 'description'];
+//    public static $langForeignKey = 'dir_id';
+//    public static $langAttributes = ['title', 'description'];
     public static $langLanguage = 'language';
+
+    public $language;
+
+
+    public static function tableLangName()
+    {
+        $schema = static::getDb()->getSchema()->getTableSchema(static::tableName());
+        return $schema->fullName.'_lang';
+    }
 
 
     public static function find()
     {
         $language = substr(Yii::$app->language, 0, 2);
-
+        $primaryKey = static::primaryKey();
         /** @var ActiveQuery $query */
         $query = Yii::createObject(MultilingualQuery::className(), [get_called_class()]);
-        $query->join[0] = ['LEFT JOIN', '{{%gal_dir_lang}}',
-            '{{%gal_dir_lang}}.dir_id={{%gal_dir}}.id AND {{%gal_dir_lang}}.language = :language'];
+        $query->join[0] = [
+            'LEFT JOIN',
+            static::tableLangName(),
+            static::tableLangName() . '.' . static::$langForeignKey . '=' . static::tableName() . '.' . reset($primaryKey) . ' AND ' . static::tableLangName() . '.' . static::$langLanguage . ' = :language'];
         $query->addParams([':language' => $language]);
-        $query->select('{{%gal_dir}}.*');
-        $query->addSelect('{{%gal_dir_lang}}.language');
+        $query->select(static::tableName() . '.*');
+        $query->addSelect(static::tableLangName() . '.' . static::$langLanguage);
         foreach (static::$langAttributes as $attribute) {
-            $query->addSelect('{{%gal_dir_lang}}.' . $attribute . ' as lang_' . $attribute);
+            $query->addSelect(static::tableLangName() . '.' . $attribute . ' as lang_' . $attribute);
         }
         return $query;
     }
@@ -79,7 +72,7 @@ trait MultilingualTrait
         if (!empty($this->language)) {
             $where = [static::$langForeignKey => $this->getPrimaryKey(), static::$langLanguage => $this->language];
             $query = new Query();
-            $rows = $query->from(static::$langTableName)
+            $rows = $query->from(static::tableLangName())
                 ->where($where)
                 ->all();
             $columns = [
@@ -91,19 +84,27 @@ trait MultilingualTrait
                 $columns[$attribute] = $this->$attribute;
             }
 
-            $params = [];
             if (empty($rows)) {
-                $this->db->createCommand()->insert(static::$langTableName, $columns)->execute();
+                $this->db->createCommand()->insert(static::tableLangName(), $columns)->execute();
             } else {
-                $this->db->createCommand()->update(static::$langTableName, $columns, $where, [])->execute();
+                $this->db->createCommand()->update(static::tableLangName(), $columns, $where, [])->execute();
             }
         }
     }
 
-    public function delete()
+
+    public static function deleteAll($condition = '', $params = [])
     {
-        $where = [static::$langForeignKey => $this->getPrimaryKey()];
-        $this->db->createCommand()->delete(static::$langTableName,  $where, [])->execute();
-        parent::delete();
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = self::getDb()->getQueryBuilder();
+        /** @var Command $command */
+        $command = self::getDb()->createCommand();
+        $sql = "DELETE FROM " . self::getDb()->quoteTableName(static::tableLangName());
+        $subQuery = (new Query)->select(static::primaryKey())->from(static::tableName())->where($condition);
+        $where = $queryBuilder->buildWhere([static::$langForeignKey => $subQuery], $params);
+        $sql = $where === '' ? $sql : $sql . ' ' . $where;
+        $command->setSql($sql)->bindValues($params);
+        $command->execute();
     }
+
 }

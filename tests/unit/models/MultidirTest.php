@@ -4,11 +4,7 @@ namespace tests\unit\models;
 use app\models\Multidir;
 use tests\unit\PHPunit;
 use Yii;
-use app\models\DbTableDependency;
 use tests\fixtures;
-use app\models\Galpho;
-use app\models\GalDirBase;
-use app\models\GalDir;
 
 class MultidirTest extends PHPunit
 {
@@ -33,6 +29,8 @@ class MultidirTest extends PHPunit
      */
     public function test_Multidir()
     {
+
+        $table = Multidir::tableLangName();
 
         $rec = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
         $rec = $rec->one();
