@@ -8,7 +8,8 @@ return [
         'description' => 'description for dir1',
         'created_at' => '2010-01-01 01:00:00',
         'updated_at' => '2010-01-01 02:00:00',
-        'sort_order'=>null
+        'sort_order' => null,
+        'auto_path' => 1
     ],
     'dir2' => [
         'id' => 2,
@@ -18,7 +19,8 @@ return [
         'description' => 'description for dir2',
         'created_at' => '2010-01-01 01:00:00',
         'updated_at' => '2010-01-01 02:00:00',
-        'sort_order'=>null
+        'sort_order' => null,
+        'auto_path' => 1
     ],
     'dir3' => [
         'id' => 3,
@@ -28,7 +30,8 @@ return [
         'description' => 'description for dir3',
         'created_at' => '2010-01-01 01:00:00',
         'updated_at' => '2010-01-01 02:00:00',
-        'sort_order'=>null
+        'sort_order' => null,
+        'auto_path' => 1
     ],
     'dir4' => [
         'id' => 4,
@@ -38,7 +41,8 @@ return [
         'description' => 'description for dir2',
         'created_at' => '2010-01-01 01:00:00',
         'updated_at' => '2010-01-01 02:00:00',
-        'sort_order'=>null
+        'sort_order' => null,
+        'auto_path'=>1
     ],
 
 ];

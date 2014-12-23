@@ -1,12 +1,43 @@
 <?php
 namespace tests\unit\models;
 
-use app\models\Multidir;
 use tests\unit\PHPunit;
 use Yii;
 use tests\fixtures;
+use yii\db\ActiveRecord;
+use app\galpho\MultilingualTrait;
+use app\galpho\MultilingualQuery;
 
-class MultidirTest extends PHPunit
+class MultiDir extends ActiveRecord{
+    use MultilingualTrait;
+
+    public static $langForeignKey = 'dir_id';
+
+    public static $langAttributes = ['title', 'description'];
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%gal_dir}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['created_at', 'updated_at'], 'safe'],
+        ];
+    }
+
+
+}
+
+
+class MultiDirTest extends PHPunit
 {
     public function fixtures()
     {
@@ -31,9 +62,35 @@ class MultidirTest extends PHPunit
     {
 
         $table = Multidir::tableLangName();
+        $this->assertEquals('g2t_gal_dir_lang', $table);
+        $lang = Multidir::defaultLanguage();
+        $this->assertEquals('fr', $lang);
 
         $rec = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
-        $rec = $rec->one();
+        $this->assertInstanceOf(MultilingualQuery::className(),$rec);
+        $row = $rec->one();
+        $this->assertNotEmpty($row);
+        $this->assertInstanceOf(MultiDir::className(),$row);
+
+        $this->assertEquals(null,$row->language);
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['id'],$row->id);
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['description'],$row->description);
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['title'],$row->title);
+
+
+        $rec = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
+        $rows = $rec->all();
+        $this->assertNotEmpty($rows);
+        $this->assertInternalType('array',$rows);
+        $row = $row[0];
+        $this->assertInstanceOf(MultiDir::className(),$row);
+        $this->assertEquals(null,$row->language);
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['id'],$row->id);
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['description'],$row->description);
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['title'],$row->title);
+
+
+
         $rec = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
         $rec = $rec->localized('en');
 

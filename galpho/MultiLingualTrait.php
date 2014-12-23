@@ -9,11 +9,10 @@ class MultilingualQuery extends ActiveQuery
 {
     public function localized($language = null)
     {
-        if (!$language) {
-            $language = substr(Yii::$app->language, 0, 2);
+        if ($language) {
+            return $this->addParams([':language' => $language]);
         }
-        return $this->addParams([':language' => $language]);
-
+        return $this;
     }
 }
 
@@ -25,18 +24,21 @@ trait MultilingualTrait
     public static $langLanguage = 'language';
 
     public $language;
-
+    public static function defaultLanguage()
+    {
+        return substr(Yii::$app->language, 0, 2);
+    }
 
     public static function tableLangName()
     {
         $schema = static::getDb()->getSchema()->getTableSchema(static::tableName());
-        return $schema->fullName.'_lang';
+        return $schema->fullName . '_lang';
     }
 
 
     public static function find()
     {
-        $language = substr(Yii::$app->language, 0, 2);
+        $language = static::defaultLanguage();
         $primaryKey = static::primaryKey();
         /** @var ActiveQuery $query */
         $query = Yii::createObject(MultilingualQuery::className(), [get_called_class()]);
@@ -68,8 +70,15 @@ trait MultilingualTrait
 
     public function save($runValidation = true, $attributeNames = null)
     {
-        parent::save($runValidation, $attributeNames);
-        if (!empty($this->language)) {
+        if (empty($this->language) || $this->language == static::defaultLanguage()) {
+            parent::save($runValidation, $attributeNames);
+        } else {
+            foreach (static::$langAttributes as $attribute) {
+                $columns[$attribute] = $this->$attribute;
+                $this->$attribute = $this->getOldAttribute($attribute);
+            }
+
+            parent::save($runValidation, $attributeNames);
             $where = [static::$langForeignKey => $this->getPrimaryKey(), static::$langLanguage => $this->language];
             $query = new Query();
             $rows = $query->from(static::tableLangName())
@@ -80,9 +89,6 @@ trait MultilingualTrait
                 static::$langForeignKey => $this->getPrimaryKey()
             ];
 
-            foreach (static::$langAttributes as $attribute) {
-                $columns[$attribute] = $this->$attribute;
-            }
 
             if (empty($rows)) {
                 $this->db->createCommand()->insert(static::tableLangName(), $columns)->execute();

@@ -21,3 +21,4 @@ $_SERVER['SERVER_NAME'] = parse_url(\Codeception\Configuration::config(YII_CODEC
 $_SERVER['SERVER_PORT'] =  parse_url(\Codeception\Configuration::config(YII_CODECEPTION_CONFIG)['config']['test_entry_url'], PHP_URL_PORT) ?: '80';
 
 Yii::setAlias('@tests', __DIR__);
+Yii::setAlias('@app', dirname( __DIR__));

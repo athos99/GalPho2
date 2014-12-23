@@ -12,9 +12,16 @@ return [
     'd2' => [
         'id' => 2,
         'dir_id' => 1,
-        'language' => 'fr',
-        'title' => 'fr home',
-        'description' => 'fr description for dir1',
+        'language' => 'es',
+        'title' => 'es home',
+        'description' => 'es description for dir1',
+    ],
+    'd3' => [
+        'id' => 3,
+        'dir_id' => 3,
+        'language' => 'en',
+        'title' => 'en d2',
+        'description' => 'en d2  description',
     ],
 
 ];
