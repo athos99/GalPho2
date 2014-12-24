@@ -5,7 +5,7 @@ return [
         'dir_id' => '1',
         'name' => 'element1.jpg',
         'title' => 'title1',
-        'description' => 'description for element 2',
+        'description' => 'description for element 1',
         'format' => 'img',
         'rank'=>1
     ],

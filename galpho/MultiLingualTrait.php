@@ -7,12 +7,9 @@ use yii\db\Query;
 
 class MultilingualQuery extends ActiveQuery
 {
-    public function localized($language = null)
+    public function localized($language)
     {
-        if ($language) {
             return $this->addParams([':language' => $language]);
-        }
-        return $this;
     }
 }
 
@@ -24,10 +21,17 @@ trait MultilingualTrait
     public static $langLanguage = 'language';
 
     public $language;
+
     public static function defaultLanguage()
+    {
+        return substr(Yii::$app->sourceLanguage, 0, 2);
+    }
+
+    public static function currentLanguage()
     {
         return substr(Yii::$app->language, 0, 2);
     }
+
 
     public static function tableLangName()
     {
@@ -38,7 +42,7 @@ trait MultilingualTrait
 
     public static function find()
     {
-        $language = static::defaultLanguage();
+        $language = static::currentLanguage();
         $primaryKey = static::primaryKey();
         /** @var ActiveQuery $query */
         $query = Yii::createObject(MultilingualQuery::className(), [get_called_class()]);

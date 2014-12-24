@@ -2,26 +2,29 @@
 
 
 return [
-    'd1' => [
-        'id' => 1,
+    'd1fr' => [
         'dir_id' => 1,
-        'language' => 'en',
-        'title' => 'en home',
-        'description' => 'en description for dir1',
+        'language' => 'fr',
+        'title' => 'd1fr title',
+        'description' => 'd1fr description',
     ],
-    'd2' => [
-        'id' => 2,
+    'd1es' => [
         'dir_id' => 1,
         'language' => 'es',
-        'title' => 'es home',
-        'description' => 'es description for dir1',
+        'title' => 'd1es title',
+        'description' => 'd1es description',
     ],
-    'd3' => [
-        'id' => 3,
-        'dir_id' => 3,
+    'd2en' => [
+        'dir_id' => 2,
         'language' => 'en',
-        'title' => 'en d2',
-        'description' => 'en d2  description',
+        'title' => 'd2en title',
+        'description' => 'd2en description',
+    ],
+    'd2fr' => [
+        'dir_id' => 2,
+        'language' => 'fr',
+        'title' => 'd2fr title',
+        'description' => 'd2fr description',
     ],
 
 ];

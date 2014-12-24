@@ -129,14 +129,13 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->createIndex('i_path', '{{%gal_dir}}', 'path(255)', true);
 
         $this->createTable('{{%gal_dir_lang}}', [
-                'id' => 'pk',
                 'dir_id' => 'integer NOT NULL',
                 'language' => 'VARCHAR(6) NOT NULL',
                 'title' => 'VARCHAR(256) NULL',
                 'description' => 'text NULL',
             ],
             $tableOptions);
-        $this->execute('ALTER TABLE {{%gal_dir_lang}} DROP PRIMARY KEY , ADD PRIMARY KEY ( `id`,`dir_id`,`language` )');
+        $this->execute('ALTER TABLE {{%gal_dir_lang}}  ADD PRIMARY KEY ( `dir_id`,`language` )');
         $this->addForeignKey('fk_gal_dir_dir_id', '{{%gal_dir_lang}}',
             'dir_id', '{{%gal_dir}}', 'id', 'CASCADE', 'CASCADE');
 
