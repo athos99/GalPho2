@@ -9,7 +9,25 @@ class MultilingualQuery extends ActiveQuery
 {
     public function localized($language)
     {
-            return $this->addParams([':language' => $language]);
+        if ($language == 'all') {
+            $class = $this->modelClass;
+            $primaryKey = $class::primaryKey();
+            unset($this->params[':language']);
+            $this->join[0] = [
+                'LEFT JOIN',
+                $class::tableLangName(),
+                $class::tableLangName() . '.' . $class::$langForeignKey . '=' . $class::tableName() . '.' . reset($primaryKey)];
+            return $this;
+        }
+        return $this->addParams([':language' => $language]);
+    }
+
+    public function populate($rows)
+    {
+        if (!isset($this->params[':language'])) { // in case of language == 'all'
+            unset($this->join[0]); // remove join for remove the treatment removeDuplicatedModels
+        }
+        return parent::populate($rows);
     }
 }
 
@@ -68,13 +86,19 @@ trait MultilingualTrait
                 $row[$attribute] = $row[$name];
             }
         }
+        if ( !isset($row[static::$langLanguage])) {
+            $row[static::$langLanguage] = static::defaultLanguage();
+        }
         parent::populateRecord($record, $row);
     }
 
 
     public function save($runValidation = true, $attributeNames = null)
     {
-        if (empty($this->language) || $this->language == static::defaultLanguage()) {
+        if (empty($this->language)) {
+            $this->language = static::currentLanguage();
+        }
+        if ($this->language == static::defaultLanguage()) {
             parent::save($runValidation, $attributeNames);
         } else {
             foreach (static::$langAttributes as $attribute) {
@@ -88,10 +112,8 @@ trait MultilingualTrait
             $rows = $query->from(static::tableLangName())
                 ->where($where)
                 ->all();
-            $columns = [
-                static::$langLanguage => $this->language,
-                static::$langForeignKey => $this->getPrimaryKey()
-            ];
+            $columns[static::$langLanguage] = $this->language;
+            $columns[static::$langForeignKey] = $this->getPrimaryKey();
 
 
             if (empty($rows)) {
@@ -110,11 +132,13 @@ trait MultilingualTrait
         /** @var Command $command */
         $command = self::getDb()->createCommand();
         $sql = "DELETE FROM " . self::getDb()->quoteTableName(static::tableLangName());
-        $subQuery = (new Query)->select(static::primaryKey())->from(static::tableName())->where($condition);
-        $where = $queryBuilder->buildWhere([static::$langForeignKey => $subQuery], $params);
+        $subQuery = (new Query)->select(static::primaryKey())->from(static::tableName())->where($condition,$params);
+        $p=[];
+        $where = $queryBuilder->buildWhere([static::$langForeignKey => $subQuery], $p);
         $sql = $where === '' ? $sql : $sql . ' ' . $where;
-        $command->setSql($sql)->bindValues($params);
+        $command->setSql($sql)->bindValues($p);
         $command->execute();
+        parent::deleteAll($condition, $params);
     }
 
 }

@@ -60,6 +60,7 @@ class MultiElem extends ActiveRecord
     {
         return $this->hasOne(MultiDir::className(), ['id' => 'dir_id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -91,11 +92,13 @@ class MultiDirTest extends PHPunit
     /**
      * Test Multilingual extension
      *
+     * Read functions
+     *
      * The current language is French and default language is english
      *
      *
      */
-    public function test_Multidir_Read()
+    public function test_MultiDir_Read()
     {
         // set current and default language
         Yii::$app->sourceLanguage = 'en-US';
@@ -156,8 +159,8 @@ class MultiDirTest extends PHPunit
         $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $dir->title);
 
         /* Relation
-                   Read element id 1,
-                  After test relation getDir, to fetch dir with translation in french */
+                  Read element id 1,
+                  After test relation getDirLocalized, to fetch dir with translation in french */
         Yii::$app->language = 'fr-FR';
         $id = $this->getFixture('galElements')['element1']['id'];
         $row = MultiElem::findOne($id);
@@ -165,8 +168,6 @@ class MultiDirTest extends PHPunit
         $this->assertEquals('es', $dir->language);
         $this->assertEquals($this->getFixture('galDirLangs')['d1es']['description'], $dir->description);
         $this->assertEquals($this->getFixture('galDirLangs')['d1es']['title'], $dir->title);
-
-
 
         /* read dir for id 1 in default language */
         Yii::$app->language = 'en-US';
@@ -176,7 +177,7 @@ class MultiDirTest extends PHPunit
         $row = $aq->one();
         $this->assertNotEmpty($row);
         $this->assertInstanceOf(MultiDir::className(), $row);
-        $this->assertEquals(null, $row->language); // beacuse we use the default language
+        $this->assertEquals('en', $row->language); //  the default language
         $this->assertEquals($id, $row->id);
         $this->assertEquals($this->getFixture('galDirs')['dir1']['path'], $row->path);
         $this->assertEquals($this->getFixture('galDirs')['dir1']['description'], $row->description);
@@ -206,7 +207,7 @@ class MultiDirTest extends PHPunit
         $row = $aq->one();
         $this->assertNotEmpty($row);
         $this->assertInstanceOf(MultiDir::className(), $row);
-        $this->assertEquals(null, $row->language); // beacause we use the default language
+        $this->assertEquals('en', $row->language); //  the default language
         $this->assertEquals($id, $row->id);
         $this->assertEquals($this->getFixture('galDirs')['dir1']['path'], $row->path);
         $this->assertEquals($this->getFixture('galDirs')['dir1']['description'], $row->description);
@@ -214,12 +215,13 @@ class MultiDirTest extends PHPunit
 
 
         /* check localisation,
-            user is in french, localize to en and read dir for id 1*/
+            user is in french, localize to english and read dir for id 1*/
         Yii::$app->language = 'fr-FR';
         $id = $this->getFixture('galDirs')['dir1']['id'];
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
         $aq = $aq->localized('en');
-        $this->assertEquals(null, $row->language); // beacause we use the default language
+        $row = $aq->one();
+        $this->assertEquals('en', $row->language); //  the default language
         $this->assertEquals($id, $row->id);
         $this->assertEquals($this->getFixture('galDirs')['dir1']['path'], $row->path);
         $this->assertEquals($this->getFixture('galDirs')['dir1']['description'], $row->description);
@@ -227,15 +229,32 @@ class MultiDirTest extends PHPunit
 
 
         /* check localisation,
-            user is in french, localize to en and read dir for id 1*/
+            user is in french, localize to french and read dir for id 1*/
         Yii::$app->language = 'fr-FR';
         $id = $this->getFixture('galDirs')['dir1']['id'];
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
         $aq = $aq->localized('fr');
+        $row = $aq->one();
         $this->assertEquals($id, $row->id);
-        $this->assertEquals('fr', $dir->language);
-        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['description'], $dir->description);
-        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $dir->title);
+        $this->assertEquals('fr', $row->language);
+        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['description'], $row->description);
+        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $row->title);
+
+
+        /* check localisation,
+            user is in french, localize to "all" and read dir for id 1 for all lang*/
+        Yii::$app->language = 'fr-FR';
+        $id = $this->getFixture('galDirs')['dir1']['id'];
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $aq = $aq->localized('all');
+        $rows = $aq->all();
+        $this->assertEquals(2, count($rows));
+        foreach ($rows as $row) {
+            $this->assertEquals($id, $row->id);
+            $index = 'd1' . $row->language;
+            $this->assertEquals($this->getFixture('galDirLangs')[$index]['description'], $row->description);
+            $this->assertEquals($this->getFixture('galDirLangs')[$index]['title'], $row->title);
+        }
 
 
         /**
@@ -247,15 +266,15 @@ class MultiDirTest extends PHPunit
         $id = $this->getFixture('galDirs')['dir1']['id'];
         $row = MultiDir::findOne($id);
         $this->assertEquals($id, $row->id);
-        $this->assertEquals('fr', $dir->language);
-        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['description'], $dir->description);
-        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $dir->title);
+        $this->assertEquals('fr', $row->language);
+        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['description'], $row->description);
+        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $row->title);
 
 
         /*
          * find all
          *
-         * user is frech, read dir id:1, result in french
+         * user is french, read dir id:1, result in french
          */
 
         Yii::$app->language = 'fr-FR';
@@ -263,34 +282,153 @@ class MultiDirTest extends PHPunit
         $rows = MultiDir::findAll($id);
         $row = $rows[0];
         $this->assertEquals($id, $row->id);
-        $this->assertEquals('fr', $dir->language);
-        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['description'], $dir->description);
-        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $dir->title);
+        $this->assertEquals('fr', $row->language);
+        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['description'], $row->description);
+        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $row->title);
     }
 
-    public function test_Multidir_Write()
+    /**
+     * Test Multilingual extension
+     *
+     * Write functions
+     *
+     * The current language is French and default language is english
+     *
+     *
+     */
+    public function test_MultiDir_Write1()
     {
 
+        // set current and default language
+        Yii::$app->sourceLanguage = 'en-US';
+        Yii::$app->language = 'fr-FR';
 
+        // read record in user language, change the title and save
+        // only title for language french is changed
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
-        $aq = $aq->localized('xx');
+        $row = $aq->one();
+        $row->title = 'french title';
+        $row->save();
 
-        $aq = $aq->one();
-        $x = $aq->title;
-        $aq->title = 'ggggg';
-        $aq->save();
+        // check dir in french is changed
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
+        $row = $aq->one();
+        $this->assertEquals('fr', $row->language);
+        $this->assertEquals('french title', $row->title);
+        // dir in english is not changed
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
+        $row = $aq->localized('en')->one();
+        $this->assertEquals('en', $row->language);
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['title'], $row->title);
 
-        $aq = new Multidir();
-        $aq->title = 'aaaaaa';
-        $aq->save();
-        $aq->language = 'it';
-        $aq->save();
-        $aq->title = 'bbbb';
-        $aq->save();
-        $aq->language = 'aa';
-        $aq->save();
-        $aq->delete();
-        Multidir::deleteAll();
-        $z = 1;
     }
+
+    /**
+     * Test Multilingual extension
+     *
+     * Write functions
+     *
+     * The current language is French and default language is english
+     *
+     *
+     */
+    public function test_MultiDir_Write2()
+    {
+
+        // set current and default language
+        Yii::$app->sourceLanguage = 'en-US';
+        Yii::$app->language = 'fr-FR';
+
+
+        // read record in default language, change the title and save
+        // only title for language french is changed
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
+        $row = $aq->localized('en')->one();
+        $row->title = 'english title';
+        $row->save();
+
+
+        // check dir in french is not changed
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
+        $row = $aq->one();
+        $this->assertEquals('fr', $row->language);
+        $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $row->title);
+
+        // dir in english is  changed
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => '1']);
+        $row = $aq->localized('en')->one();
+        $this->assertEquals('en', $row->language);
+        $this->assertEquals('english title', $row->title);
+    }
+
+    /**
+     * Test Multilingual extension
+     *
+     * Write functions
+     *
+     * The current language is French and default language is english
+     *
+     *
+     */
+    public function test_MultiDir_Write3()
+    {
+
+        // set current and default language
+        Yii::$app->sourceLanguage = 'en-US';
+        Yii::$app->language = 'fr-FR';
+
+
+        $row = new Multidir();
+        $row->title = 'aaaaaa';
+        $row->save();
+        $id = $row->id;
+
+        // check dir in french is changed
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $row = $aq->one();
+        $this->assertEquals('fr', $row->language);
+        $this->assertEquals('aaaaaa', $row->title);
+        // dir in english is empty
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $row = $aq->localized('en')->one();
+        $this->assertEquals('en', $row->language);
+        $this->assertEquals(null, $row->title);
+
+
+        // save in english
+        $row->title = 'bbbb';
+        $row->language = 'en';
+        $row->save();
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $row = $aq->localized('en')->one();
+        $this->assertEquals('en', $row->language);
+        $this->assertEquals('bbbb', $row->title);
+
+
+        // save in pt
+        $row->title = 'cccc';
+        $row->language = 'pt';
+        $row->save();
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $row = $aq->localized('pt')->one();
+        $this->assertEquals('pt', $row->language);
+        $this->assertEquals('cccc', $row->title);
+
+         // delete one dir,  all translation are deleted
+        $row->delete();
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $row = $aq->localized('en')->one();
+        $this->assertEmpty($row);
+
+
+        // read all dir
+        $aq = Multidir::find();
+        $rows = $aq->localized('en')->all();
+        $this->assertNotEmpty($rows);   // not empty
+        Multidir::deleteAll();   // delete all dir
+        $aq = Multidir::find();
+        $rows = $aq->localized('en')->all();
+        $this->assertEmpty($rows);   //  empty
+    }
+
 }
