@@ -89,7 +89,20 @@ class MultiDirTest extends PHPunit
     }
 
 
-    /**
+
+    public function test_MultiDir()
+    {
+        // set current and default language
+        Yii::$app->sourceLanguage = 'en-US';
+        Yii::$app->language = 'fr-FR';
+
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => 1]);
+        $aq->localized('all');
+        $row = $aq->one();
+    }
+
+
+        /**
      * Test Multilingual extension
      *
      * Read functions

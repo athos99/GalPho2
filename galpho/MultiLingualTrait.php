@@ -7,16 +7,21 @@ use yii\db\Query;
 
 class MultilingualQuery extends ActiveQuery
 {
+    public $language;
     public function localized($language)
     {
+        $this->language = $language;
         if ($language == 'all') {
-            $class = $this->modelClass;
-            $primaryKey = $class::primaryKey();
             unset($this->params[':language']);
-            $this->join[0] = [
-                'LEFT JOIN',
-                $class::tableLangName(),
-                $class::tableLangName() . '.' . $class::$langForeignKey . '=' . $class::tableName() . '.' . reset($primaryKey)];
+            unset($this->join[0]);
+            $this->select = ['*'];
+
+//            $class = $this->modelClass;
+//            $primaryKey = $class::primaryKey();
+//            $this->join[0] = [
+//                'LEFT JOIN',
+//                $class::tableLangName(),
+//                $class::tableLangName() . '.' . $class::$langForeignKey . '=' . $class::tableName() . '.' . reset($primaryKey)];
             return $this;
         }
         return $this->addParams([':language' => $language]);
@@ -29,8 +34,16 @@ class MultilingualQuery extends ActiveQuery
         }
         return parent::populate($rows);
     }
-}
 
+
+    public function one($db = null)
+    {
+        if ( $this->language =='all') {
+           $a=1;
+        }
+       return parent::one($db);
+    }
+}
 trait MultilingualTrait
 {
 
@@ -60,15 +73,15 @@ trait MultilingualTrait
 
     public static function find()
     {
-        $language = static::currentLanguage();
         $primaryKey = static::primaryKey();
         /** @var ActiveQuery $query */
         $query = Yii::createObject(MultilingualQuery::className(), [get_called_class()]);
+        $query->language = static::currentLanguage();
         $query->join[0] = [
             'LEFT JOIN',
             static::tableLangName(),
             static::tableLangName() . '.' . static::$langForeignKey . '=' . static::tableName() . '.' . reset($primaryKey) . ' AND ' . static::tableLangName() . '.' . static::$langLanguage . ' = :language'];
-        $query->addParams([':language' => $language]);
+        $query->addParams([':language' => $query->language]);
         $query->select(static::tableName() . '.*');
         $query->addSelect(static::tableLangName() . '.' . static::$langLanguage);
         foreach (static::$langAttributes as $attribute) {
