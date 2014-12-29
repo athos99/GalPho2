@@ -30,10 +30,12 @@ class MultilingualQuery extends ActiveQuery
 
     public function populate($rows)
     {
-        $rows =parent::populate($rows);
+        $rows = parent::populate($rows);
         if ($this->language == 'all' && $rows !== null) {
+
             $class = $this->modelClass;
             foreach ($rows as &$row) {
+                $row->language = 'all';
                 $query = new Query();
                 $subRows = $query->from($class::tableLangName())
                     ->where([$class::$langForeignKey => $row->id])
@@ -123,7 +125,11 @@ trait MultilingualTrait
         if (empty($this->language)) {
             $this->language = static::currentLanguage();
         }
-        if ($this->language == static::defaultLanguage()) {
+        if ( $this->langage === 'all') {
+
+
+        }
+        elseif ($this->language == static::defaultLanguage()) {
             parent::save($runValidation, $attributeNames);
         } else {
             foreach (static::$langAttributes as $attribute) {

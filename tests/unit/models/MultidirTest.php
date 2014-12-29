@@ -89,7 +89,7 @@ class MultiDirTest extends PHPunit
     }
 
 
-    public function test_MultiDir_ReadAll()
+    public function test_MultiDir_MultiLang()
     {
         // set current and default language
         Yii::$app->sourceLanguage = 'en-US';
