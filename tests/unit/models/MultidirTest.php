@@ -89,20 +89,50 @@ class MultiDirTest extends PHPunit
     }
 
 
-
-    public function test_MultiDir()
+    public function test_MultiDir_ReadAll()
     {
         // set current and default language
         Yii::$app->sourceLanguage = 'en-US';
         Yii::$app->language = 'fr-FR';
 
-        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => 1]);
-        $aq->localized('all');
+        /* check localisation,
+            user is in french, localize to "all" and read dir for id 1 for all lang*/
+        Yii::$app->language = 'fr-FR';
+        $id = $this->getFixture('galDirs')['dir1']['id'];
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $aq = $aq->localized('all');
         $row = $aq->one();
+        $this->assertEquals($id, $row->id);
+        $this->assertEquals(3, count($row->title));
+        $this->assertEquals(3, count($row->description));
+
+
+        $this->assertInternalType('array', $row->title);
+        $this->assertInternalType('array', $row->description);
+
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['description'], $row->description['en']);
+        $this->assertEquals($this->getFixture('galDirs')['dir1']['title'], $row->title['en']);
+
+        $lang = 'fr';
+        $index = 'd1';
+        $this->assertEquals($this->getFixture('galDirLangs')[$index.$lang]['description'], $row->description[$lang]);
+        $this->assertEquals($this->getFixture('galDirLangs')[$index.$lang]['title'], $row->title[$lang]);
+
+        $lang = 'es';
+        $index = 'd1';
+        $this->assertEquals($this->getFixture('galDirLangs')[$index.$lang]['description'], $row->description[$lang]);
+        $this->assertEquals($this->getFixture('galDirLangs')[$index.$lang]['title'], $row->title[$lang]);
+
+        $aq = Multidir::find();
+        $aq = $aq->localized('all');
+        $rows = $aq->all();
+        $this->assertInternalType('array', $rows);
+        $this->assertInternalType('array', $rows[0]->title);
+
     }
 
 
-        /**
+    /**
      * Test Multilingual extension
      *
      * Read functions
@@ -252,22 +282,6 @@ class MultiDirTest extends PHPunit
         $this->assertEquals('fr', $row->language);
         $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['description'], $row->description);
         $this->assertEquals($this->getFixture('galDirLangs')['d1fr']['title'], $row->title);
-
-
-        /* check localisation,
-            user is in french, localize to "all" and read dir for id 1 for all lang*/
-        Yii::$app->language = 'fr-FR';
-        $id = $this->getFixture('galDirs')['dir1']['id'];
-        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
-        $aq = $aq->localized('all');
-        $rows = $aq->all();
-        $this->assertEquals(2, count($rows));
-        foreach ($rows as $row) {
-            $this->assertEquals($id, $row->id);
-            $index = 'd1' . $row->language;
-            $this->assertEquals($this->getFixture('galDirLangs')[$index]['description'], $row->description);
-            $this->assertEquals($this->getFixture('galDirLangs')[$index]['title'], $row->title);
-        }
 
 
         /**
@@ -427,7 +441,7 @@ class MultiDirTest extends PHPunit
         $this->assertEquals('pt', $row->language);
         $this->assertEquals('cccc', $row->title);
 
-         // delete one dir,  all translation are deleted
+        // delete one dir,  all translation are deleted
         $row->delete();
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
         $row = $aq->localized('en')->one();
@@ -437,11 +451,11 @@ class MultiDirTest extends PHPunit
         // read all dir
         $aq = Multidir::find();
         $rows = $aq->localized('en')->all();
-        $this->assertNotEmpty($rows);   // not empty
-        Multidir::deleteAll();   // delete all dir
+        $this->assertNotEmpty($rows); // not empty
+        Multidir::deleteAll(); // delete all dir
         $aq = Multidir::find();
         $rows = $aq->localized('en')->all();
-        $this->assertEmpty($rows);   //  empty
+        $this->assertEmpty($rows); //  empty
     }
 
 }
