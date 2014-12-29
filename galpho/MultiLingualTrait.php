@@ -125,19 +125,39 @@ trait MultilingualTrait
         if (empty($this->language)) {
             $this->language = static::currentLanguage();
         }
-        if ( $this->langage === 'all') {
-
-
-        }
-        elseif ($this->language == static::defaultLanguage()) {
+        if ($this->language === 'all') {
+            $subRows = [];
+            foreach (static::$langAttributes as $attribute) {
+                if (isset($this->$attribute)) {
+                    foreach ($this->$attribute as $lang => $att) {
+                        $subRows[$lang][$attribute] = $att;
+                    }
+                }
+                $this->$attribute = isset($subRows[static::defaultLanguage()][$attribute]) ? $subRows[static::defaultLanguage()][$attribute] : '';
+            }
+            unset($subRows[static::defaultLanguage()]);
             parent::save($runValidation, $attributeNames);
+            $where = [static::$langForeignKey => $this->getPrimaryKey()];
+            $this->db->createCommand()->delete(static::tableLangName(), $where)->execute();
+            foreach ($subRows as $lang => $subRow) {
+                $columns = $subRow;
+                $columns['static::$langLanguage'] = $lang;
+                $columns[static::$langForeignKey] = $this->getPrimaryKey();
+                $this->db->createCommand()->insert(static::tableLangName(), $columns)->execute();
+
+            }
+            return true;
+        } elseif ($this->language == static ::defaultLanguage()) {
+            return parent::save($runValidation, $attributeNames);
         } else {
             foreach (static::$langAttributes as $attribute) {
                 $columns[$attribute] = $this->$attribute;
                 $this->$attribute = $this->getOldAttribute($attribute);
             }
 
-            parent::save($runValidation, $attributeNames);
+            if (parent::save($runValidation, $attributeNames) === false) {
+                return false;
+            }
             $where = [static::$langForeignKey => $this->getPrimaryKey(), static::$langLanguage => $this->language];
             $query = new Query();
             $rows = $query->from(static::tableLangName())
@@ -148,9 +168,9 @@ trait MultilingualTrait
 
 
             if (empty($rows)) {
-                $this->db->createCommand()->insert(static::tableLangName(), $columns)->execute();
+                return ($this->db->createCommand()->insert(static::tableLangName(), $columns)->execute() > 0);
             } else {
-                $this->db->createCommand()->update(static::tableLangName(), $columns, $where, [])->execute();
+                return ($this->db->createCommand()->update(static::tableLangName(), $columns, $where, [])->execute() > 0);
             }
         }
     }

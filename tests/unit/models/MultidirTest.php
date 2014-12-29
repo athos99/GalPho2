@@ -115,19 +115,35 @@ class MultiDirTest extends PHPunit
 
         $lang = 'fr';
         $index = 'd1';
-        $this->assertEquals($this->getFixture('galDirLangs')[$index.$lang]['description'], $row->description[$lang]);
-        $this->assertEquals($this->getFixture('galDirLangs')[$index.$lang]['title'], $row->title[$lang]);
+        $this->assertEquals($this->getFixture('galDirLangs')[$index . $lang]['description'], $row->description[$lang]);
+        $this->assertEquals($this->getFixture('galDirLangs')[$index . $lang]['title'], $row->title[$lang]);
 
         $lang = 'es';
         $index = 'd1';
-        $this->assertEquals($this->getFixture('galDirLangs')[$index.$lang]['description'], $row->description[$lang]);
-        $this->assertEquals($this->getFixture('galDirLangs')[$index.$lang]['title'], $row->title[$lang]);
+        $this->assertEquals($this->getFixture('galDirLangs')[$index . $lang]['description'], $row->description[$lang]);
+        $this->assertEquals($this->getFixture('galDirLangs')[$index . $lang]['title'], $row->title[$lang]);
 
         $aq = Multidir::find();
         $aq = $aq->localized('all');
         $rows = $aq->all();
         $this->assertInternalType('array', $rows);
         $this->assertInternalType('array', $rows[0]->title);
+
+
+        $row = new Multidir();
+        $result = $row->save();
+        $this->assertEquals(true, $result);
+
+        $row = new MultiDir();
+        $row->title = ['en' => 'english title'];
+        $row->language = 'all';
+        $result = $row->save();
+        $this->assertEquals(true, $result);
+        $id = $row->id;
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $aq = $aq->localized('all');
+        $row = $aq->one();
+
 
     }
 
