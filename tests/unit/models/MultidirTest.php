@@ -95,7 +95,7 @@ class MultiDirTest extends PHPunit
         Yii::$app->sourceLanguage = 'en-US';
         Yii::$app->language = 'fr-FR';
 
-        /* check localisation,
+        /* read,
             user is in french, localize to "all" and read dir for id 1 for all lang*/
         Yii::$app->language = 'fr-FR';
         $id = $this->getFixture('galDirs')['dir1']['id'];
@@ -130,19 +130,50 @@ class MultiDirTest extends PHPunit
         $this->assertInternalType('array', $rows[0]->title);
 
 
-        $row = new Multidir();
-        $result = $row->save();
-        $this->assertEquals(true, $result);
-
+// write, create a new dir, set a title in english
         $row = new MultiDir();
         $row->title = ['en' => 'english title'];
         $row->language = 'all';
         $result = $row->save();
         $this->assertEquals(true, $result);
         $id = $row->id;
+
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
         $aq = $aq->localized('all');
         $row = $aq->one();
+        $this->assertInstanceOf(MultiDir::className(), $row);
+        $this->assertEquals('all', $row->language);
+
+        $this->assertInternalType('array', $row->description);
+        $this->assertEquals(1, count($row->description));
+        $this->assertEquals('', $row->description['en']);
+
+        $this->assertInternalType('array', $row->title);
+        $this->assertEquals(1, count($row->title));
+        $this->assertEquals('english title', $row->title['en']);
+
+// add a description in PT
+        $row->description =$row->description + ['pt'=>'pt description'];
+        $row->save();
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $aq = $aq->localized('all');
+        $row = $aq->one();
+        $this->assertInstanceOf(MultiDir::className(), $row);
+        $this->assertEquals('all', $row->language);
+
+        $this->assertInternalType('array', $row->description);
+        $this->assertEquals(2, count($row->description));
+        $this->assertEquals('pt description', $row->description['pt']);
+        $this->assertEquals('english title', $row->title['en']);
+
+// set only PT description,
+        $row->description =['es'=>'es description'];
+        $row->title =[];
+        $row->save();
+        $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
+        $aq = $aq->localized('all');
+        $row = $aq->one();
+        $this->assertEquals(2, count($row->description));  // beceause we have En et Pt
 
 
     }
@@ -419,6 +450,18 @@ class MultiDirTest extends PHPunit
         // set current and default language
         Yii::$app->sourceLanguage = 'en-US';
         Yii::$app->language = 'fr-FR';
+
+// create a empty dir in french
+        $row = new Multidir();
+        $result = $row->save();
+        $this->assertEquals(true, $result);
+        $this->assertEquals('fr', $row->language);
+// a empty dir in english
+        $row = new Multidir();
+        $row->language = 'en';
+        $result = $row->save();
+        $this->assertEquals(true, $result);
+
 
 
         $row = new Multidir();

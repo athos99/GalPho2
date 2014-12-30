@@ -141,7 +141,7 @@ trait MultilingualTrait
             $this->db->createCommand()->delete(static::tableLangName(), $where)->execute();
             foreach ($subRows as $lang => $subRow) {
                 $columns = $subRow;
-                $columns['static::$langLanguage'] = $lang;
+                $columns[static::$langLanguage] = $lang;
                 $columns[static::$langForeignKey] = $this->getPrimaryKey();
                 $this->db->createCommand()->insert(static::tableLangName(), $columns)->execute();
 

@@ -133,6 +133,7 @@ class m000101_010101_galpho extends yii\db\Migration
                 'language' => 'VARCHAR(6) NOT NULL',
                 'title' => 'VARCHAR(256) NULL',
                 'description' => 'text NULL',
+                'path' => 'text',
             ],
             $tableOptions);
         $this->execute('ALTER TABLE {{%gal_dir_lang}}  ADD PRIMARY KEY ( `dir_id`,`language` )');
@@ -168,6 +169,20 @@ class m000101_010101_galpho extends yii\db\Migration
         //           'element_id_cover', '{{%gal_element}}', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_gal_element_dir_id', '{{%gal_element}}',
             'dir_id', '{{%gal_dir}}', 'id', 'CASCADE', 'CASCADE');
+
+        $this->createTable('{{%gal_element_lang}}', [
+                'element_id' => 'integer NOT NULL',
+                'language' => 'VARCHAR(6) NOT NULL',
+                'title' => 'VARCHAR(256) NULL',
+                'description' => 'text NULL',
+            ],
+            $tableOptions);
+        $this->execute('ALTER TABLE {{%gal_element_lang}}  ADD PRIMARY KEY ( `element_id`,`language` )');
+        $this->addForeignKey('fk_gal_element_element_id', '{{%gal_element_lang}}',
+            'element_id', '{{%gal_element}}', 'id', 'CASCADE', 'CASCADE');
+
+
+
 
         $this->createTable('{{%gal_group}}', [
                 'id' => 'pk',
@@ -228,6 +243,7 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->dropTable('{{%gal_group}}');
         $this->dropTable('{{%gal_dir_lang}}');
         $this->dropTable('{{%gal_dir}}');
+        $this->dropTable('{{%gal_element_lang}}');
         $this->dropTable('{{%gal_element}}');
         $this->dropTable('{{%user_field}}');
         $this->dropTable('{{%user_authenticate}}');
