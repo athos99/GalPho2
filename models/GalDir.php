@@ -2,13 +2,18 @@
 namespace app\models;
 use yii;
 use yii\db\Query;
-use omgdef\multilingual\MultilingualBehavior;
-use omgdef\multilingual\MultilingualTrait;
-use omgdef\multilingual\MultilingualQuery;
+use app\galpho\MultilingualTrait;
+//use app\galpho\MultilingualQuery;
+
 
 class GalDir extends GalDirBase
 {
     use MultilingualTrait;
+
+    public static $langForeignKey = 'dir_id';
+
+    public static $langAttributes = ['title', 'description','path'];
+
     public $_url = null;
 
     public function getUrl()
@@ -41,24 +46,6 @@ class GalDir extends GalDirBase
                 ],
                 'value' => new yii\db\Expression('NOW()'),
             ],
-            'ml' => [
-                'class' => MultilingualBehavior::className(),
-                'languages' => [
-                    'fr' => 'French',
-                    'en-US' => 'English',
-                ],
-                //'languageField' => 'language',
-                //'localizedPrefix' => '',
-                //'forceOverwrite' => false',
-                //'dynamicLangClass' => true',
-                //'langClassName' => PostLang::className(), // or namespace/for/a/class/PostLang
-                'defaultLanguage' => 'fr',
-                'langForeignKey' => 'dir_id',
-                'tableName' => "{{%gal_dir_lang}}",
-                'attributes' => [
-                    'title', 'description',
-                ]
-            ],
         ];
     }
 
@@ -76,12 +63,6 @@ class GalDir extends GalDirBase
     }
 
 
-    public static function find()
-    {
-        $q = new MultilingualQuery(get_called_class());
-        $q->localized();
-        return $q;
-    }
 
 
     public function getCoverElement()
@@ -159,18 +140,23 @@ class GalDir extends GalDirBase
      * @param null $idGroups
      * @return array of array of object records
      */
-    public static function getDirsRightsForGroups($idGroups = null)
+    public static function getDirsRightsForGroups($idGroups = null, $language=null)
     {
+         if ( $language === null) {
+             $language = static::currentLanguage();
+         }
         $query = new  Query();
 
         if ($idGroups !== null) {
-            $query->select('t.id, t.*, r.value, e.dir_id, e.name')
+            $query->select('t.id, t.*, r.value, e.dir_id, e.name, l.title as l_title, l.description as l_description,l.path as l_path')
                 ->from('{{%gal_dir}} t')
+                ->leftJoin('{{%gal_dir_lang}} l', ['and', 't.id=l.dir_id', ['language' =>  $language]])
                 ->leftJoin('{{%gal_right}} r', ['and', 't.id=r.dir_id', ['group_id' => $idGroups]])
                 ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');
         } else {
-            $query->select('t.id, t.*, e.dir_id, e.name')
+            $query->select('t.id, t.*, e.dir_id, e.name, l.title as l_title, l.description as l_description,l.path as l_path')
                 ->from('{{%gal_dir}} t')
+                ->leftJoin('{{%gal_dir_lang}} l', ['and', 't.id=l.dir_id', ['language' =>  $language]])
                 ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');
 
         }

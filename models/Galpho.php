@@ -42,6 +42,8 @@ class Galpho extends base\Object
             $record = $dirRight[0];
             $level = 0;
             $key = '';
+            $path = isset($record->l_path) ? $record->l_path : $record->path;
+
             if (($path = trim($record->path, '/')) != '') {
                 foreach (explode('/', $path) as $key) {
                     if (!array_key_exists($key, $data)) {

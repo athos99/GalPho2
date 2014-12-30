@@ -8,5 +8,5 @@ use yii\test\ActiveFixture;
  */
 class GalDirLangFixture extends ActiveFixture
 {
-    public $modelClass = 'app\models\GalDirLangBase';
+    public $modelClass = 'tests\fixtures\GalDirLangBase';
 }
