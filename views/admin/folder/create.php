@@ -2,9 +2,12 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $galdir app\models\GalDir */
-/* @var $form ActiveForm */
+/*
+ * @var $this yii\web\View
+ * @var $galdir app\models\GalDir
+ * @var $form ActiveForm
+ * @var app\galpho\Galpho $galpho
+ */
 
 ?>
 <h1>admin folder create</h1>

@@ -406,4 +406,12 @@ class Galpho extends component
         $this->setPath($path);
         $this->getPathStructure();
     }
+
+
+    public function getLanguages() {
+        return Yii::$app->params['language'];
+    }
 }
+
+
+

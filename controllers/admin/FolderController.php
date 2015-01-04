@@ -19,14 +19,16 @@ class FolderController extends Controller
 
     public function actionCreate($id)
     {
+        /** @var \app\galpho\Galpho $galpho */
+        $galpho = Yii::$app->get('galpho');
         $model = new GalDir(['scenario' => 'form']);
+        $model::$langLanguages = $galpho->getLanguages();
+        $model->language = 'fr';
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            /** @var \app\galpho\Galpho $galpho */
-            $galpho = Yii::$app->get('galpho');
             $galpho->setIdPath($id);
             $dir = new GalDir();
             $name = BaseInflector::slug(trim($model->title), '-', true);
@@ -43,16 +45,19 @@ class FolderController extends Controller
             return Yii::$app->getResponse()->redirect($galpho->url . '/' . $dir->path);
         }
         $model->auto_path = 1;
-        return $this->render('//admin/folder/create', ['model' => $model]);
+        return $this->render('//admin/folder/create', ['model' => $model, 'galpho' => $galpho]);
     }
 
     public function actionEdit($id)
     {
-        $model = GalDir::findOne($id);
+
+        /** @var \app\galpho\Galpho $galpho */
+        $galpho = Yii::$app->get('galpho');
+        $model = GalDir::find()->where(['id'=>$id])->localized('all')->one();
+//        $model = GalDir::findOne($id);
         $model->setScenario('form');
+        $model::$langLanguages = $galpho->getLanguages();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            /** @var \app\galpho\Galpho $galpho */
-            $galpho = Yii::$app->get('galpho');
             $galpho->setIdPath($id);
             $model->title = trim($model->title);
             $model->description = trim($model->description);
@@ -60,7 +65,7 @@ class FolderController extends Controller
             $galpho->renameFolder($model->url);
             return Yii::$app->getResponse()->redirect($galpho->url . '/' . $galpho->path);
         }
-        return $this->render('//admin/folder/edit', ['model' => $model]);
+        return $this->render('//admin/folder/edit', ['model' => $model, 'galpho' => $galpho]);
     }
 
 
@@ -77,7 +82,7 @@ class FolderController extends Controller
                 }
                 $rights[$rightId] = $value;
             }
-            $galDir->saveRight($rights,!empty($_POST['children'])) ;
+            $galDir->saveRight($rights, !empty($_POST['children']));
             return $this->redirect(['admin/group']);
 
         } elseif (array_key_exists('cancel', $_POST)) {
@@ -88,14 +93,14 @@ class FolderController extends Controller
 
         $galGroup = new GalGroup();
         $records = GalGroup::find()
-            ->with(['galRights'=>function($query) use($id){
-                    $query->andWhere(['dir_id'=>$id]);
+            ->with(['galRights' => function ($query) use ($id) {
+                    $query->andWhere(['dir_id' => $id]);
                 }])
             ->orderBy('name')
-        ->all();
+            ->all();
         return $this->render('//admin/folder/right', [
             'records' => $records,
-            'galGroup' =>$galGroup
+            'galGroup' => $galGroup
 
         ]);
     }

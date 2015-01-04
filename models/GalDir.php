@@ -11,8 +11,8 @@ class GalDir extends GalDirBase
     use MultilingualTrait;
 
     public static $langForeignKey = 'dir_id';
-
-    public static $langAttributes = ['title', 'description','path'];
+    public static $langLanguages = [];
+    public static $langAttributes = ['title', 'description'];
 
     public $_url = null;
 
@@ -57,7 +57,8 @@ class GalDir extends GalDirBase
         $rules = parent::rules();
         $rules[] = [['title'], 'required', 'on' => 'form'];
         $rules[] = [['title'], 'string', 'min' => 2];
-        $rules[] = [['url'], 'match', 'pattern' => '/[^a-z0-9=_—–-]/', 'not' => true, 'message' => Yii::t('app', 'Only lowercase alphanumeric chars')];
+        $rules[] = [['url'], 'match', 'pattern' => '/[^a-z0-9=_—–-]/', 'not' => true,
+            'message' => Yii::t('app', 'Only lowercase alphanumeric chars')];
 
         return $rules;
     }
@@ -148,13 +149,13 @@ class GalDir extends GalDirBase
         $query = new  Query();
 
         if ($idGroups !== null) {
-            $query->select('t.id, t.*, r.value, e.dir_id, e.name, l.title as l_title, l.description as l_description,l.path as l_path')
+            $query->select('t.id, t.*, r.value, e.dir_id, e.name, l.title as l_title, l.description as l_description')
                 ->from('{{%gal_dir}} t')
                 ->leftJoin('{{%gal_dir_lang}} l', ['and', 't.id=l.dir_id', ['language' =>  $language]])
                 ->leftJoin('{{%gal_right}} r', ['and', 't.id=r.dir_id', ['group_id' => $idGroups]])
                 ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');
         } else {
-            $query->select('t.id, t.*, e.dir_id, e.name, l.title as l_title, l.description as l_description,l.path as l_path')
+            $query->select('t.id, t.*, e.dir_id, e.name, l.title as l_title, l.description as l_description')
                 ->from('{{%gal_dir}} t')
                 ->leftJoin('{{%gal_dir_lang}} l', ['and', 't.id=l.dir_id', ['language' =>  $language]])
                 ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');

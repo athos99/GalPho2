@@ -2,9 +2,11 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\GalGroup */
-/* @var $form ActiveForm */
+/*
+ * @var $this yii\web\View
+ * @var $model app\models\GalGroup
+ * @var $form ActiveForm
+ */
 
 $this->title = Yii::t('app/admin', 'Admin edit group');
 $this->params['breadcrumbs'][] = $this->title;

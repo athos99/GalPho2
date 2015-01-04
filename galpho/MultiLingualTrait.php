@@ -4,6 +4,7 @@ namespace app\galpho;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 
 trait MultilingualTrait
@@ -11,6 +12,7 @@ trait MultilingualTrait
 
 //    public static $langForeignKey = 'dir_id';
 //    public static $langAttributes = ['title', 'description'];
+//    public static $languages = ['en'=>'english',fr'=>'french']
     public static $langLanguage = 'language';
 
     public $language;
@@ -141,4 +143,31 @@ trait MultilingualTrait
         parent::deleteAll($condition, $params);
     }
 
+    public function createValidators()
+    {
+        $validators = parent::createValidators();
+        if ($this->language === 'all') {
+            foreach ($validators as $validator) {
+                foreach ($validator->attributes as $index => $attribute) {
+                    if (in_array($attribute, static::$langAttributes)) {
+                        foreach (static::$langLanguages as $key => $language) {
+                            $validator->attributes[] = $attribute . '["' . $key . '"]';
+                        }
+                        unset($validator->attributes[$index]);
+                    }
+                }
+            }
+        }
+        return $validators;
+    }
+
+    public function __get($name)
+    {
+        if (($pos = strpos($name, '[')) !== false) {
+            if (($attribute = $this->getAttribute(substr($name, 0, $pos))) !== null) {
+                return ArrayHelper::getValue($attribute, substr($name, $pos + 2, -2));
+            }
+        }
+        return parent::__get($name);
+    }
 }

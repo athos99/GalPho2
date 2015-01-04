@@ -42,7 +42,6 @@ class Galpho extends base\Object
             $record = $dirRight[0];
             $level = 0;
             $key = '';
-            $path = isset($record->l_path) ? $record->l_path : $record->path;
 
             if (($path = trim($record->path, '/')) != '') {
                 foreach (explode('/', $path) as $key) {
@@ -67,8 +66,8 @@ class Galpho extends base\Object
                 'cover' => $cover,
                 'level' => $level,
                 'id' => $id,
-                'title' => $record->title,
-                'description' => $record->description,
+                'title' => isset($record->l_title) ? $record->l_title : $record->title,
+                'description' => isset($record->l_description) ? $record->l_description : $record->description,
                 'right' => $value,
                 'path' => $record->path,
                 'name' => $key

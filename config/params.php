@@ -21,5 +21,9 @@ return [
         3 => 'large',
         4 => 'normal',
         5 => 'thumb',
+    ],
+    'language' => [
+        'fr'=>'français',
+        'en'=>'english'
     ]
 ];

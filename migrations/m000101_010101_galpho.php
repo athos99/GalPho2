@@ -133,7 +133,6 @@ class m000101_010101_galpho extends yii\db\Migration
                 'language' => 'VARCHAR(6) NOT NULL',
                 'title' => 'VARCHAR(256) NULL',
                 'description' => 'text NULL',
-                'path' => 'text',
             ],
             $tableOptions);
         $this->execute('ALTER TABLE {{%gal_dir_lang}}  ADD PRIMARY KEY ( `dir_id`,`language` )');
@@ -147,7 +146,8 @@ class m000101_010101_galpho extends yii\db\Migration
             'path' => '',
             'title' => 'root',
             'created_at' => new yii\db\Expression('NOW()'),
-            'updated_at' => new yii\db\Expression('NOW()')
+            'updated_at' => new yii\db\Expression('NOW()'),
+            'auto_path' => 0
         ]);
 
         $this->createTable('{{%gal_element}}', [
