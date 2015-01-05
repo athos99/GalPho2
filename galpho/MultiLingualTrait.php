@@ -5,6 +5,7 @@ use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
+use yii\validators\RequiredValidator;
 
 
 trait MultilingualTrait
@@ -150,8 +151,12 @@ trait MultilingualTrait
             foreach ($validators as $validator) {
                 foreach ($validator->attributes as $index => $attribute) {
                     if (in_array($attribute, static::$langAttributes)) {
+                        $first = true;
                         foreach (static::$langLanguages as $key => $language) {
-                            $validator->attributes[] = $attribute . '["' . $key . '"]';
+                            if ( $first || (get_class($validator)!== RequiredValidator::className()) ) {
+                            $validator->attributes[] = $attribute . '_' . $key ;
+                            }
+                            $first = false;
                         }
                         unset($validator->attributes[$index]);
                     }
@@ -165,9 +170,9 @@ trait MultilingualTrait
 
     public function __get($name)
     {
-        if (($pos = strpos($name, '[')) !== false) {
+        if (($pos = strrpos($name, '_')) !== false) {
             if (($attribute = $this->getAttribute(substr($name, 0, $pos))) !== null) {
-                return ArrayHelper::getValue($attribute, substr($name, $pos + 2, -2));
+                return ArrayHelper::getValue($attribute, substr($name, $pos + 1));
             }
         }
         return parent::__get($name);
@@ -175,10 +180,10 @@ trait MultilingualTrait
 
     public function __set($name, $value)
     {
-        if (($pos = strpos($name, '[')) !== false) {
+        if (($pos = strrpos($name, '_')) !== false) {
             $attributeName = substr($name, 0, $pos);
             if (($attribute = $this->getAttribute($attributeName)) !== null) {
-                $attribute[substr($name, $pos + 2, -2)] = $value;
+                $attribute[substr($name, $pos + 1)] = $value;
                 $this->setAttribute($attributeName, $attribute);
                 return;
             }
