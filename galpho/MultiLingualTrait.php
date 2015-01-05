@@ -87,7 +87,7 @@ trait MultilingualTrait
                 $this->$attribute = isset($subRows[static::defaultLanguage()][$attribute]) ? $subRows[static::defaultLanguage()][$attribute] : '';
             }
             unset($subRows[static::defaultLanguage()]);
-            parent::save($runValidation, $attributeNames);
+            parent::save(false, $attributeNames);
             $where = [static::$langForeignKey => $this->getPrimaryKey()];
             $this->db->createCommand()->delete(static::tableLangName(), $where)->execute();
             foreach ($subRows as $lang => $subRow) {
@@ -161,6 +161,8 @@ trait MultilingualTrait
         return $validators;
     }
 
+
+
     public function __get($name)
     {
         if (($pos = strpos($name, '[')) !== false) {
@@ -204,4 +206,5 @@ trait MultilingualTrait
             }
         }
     }
+
 }

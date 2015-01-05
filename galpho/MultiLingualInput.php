@@ -23,11 +23,9 @@ class MultiLingualInput extends InputWidget
 
     public $languages;
     public $type;
-    /**
-     * @var array the HTML attributes for the input tag.
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public $options = ['class' => 'form-control'];
+    public $labelOptions = ['class' => 'control-label'];
+    public $inputOptions = ['class' => 'form-control'];
+    public $divInputOptions = ['class' => ''];
 
 
     /**
@@ -49,25 +47,25 @@ class MultiLingualInput extends InputWidget
     public function run()
     {
         if ($this->hasModel()) {
-
             $this->name = Html::getInputName($this->model, $this->attribute);
             $this->value = Html::getAttributeValue($this->model, $this->attribute);
-            $id = Html::getInputId($this->model, $this->attribute);
         }
-        if (!array_key_exists('id', $this->options)) {
-            $this->options['id'] = $id;
+        if (!array_key_exists('id', $this->inputOptions)) {
+            $this->inputOptions['id'] = $id = Html::getInputId($this->model, $this->attribute);
         }
-        echo Html::beginTag('div');
         foreach ($this->languages as $key => $language) {
-            echo Html::label($language);
+            echo Html::beginTag('div',['class'=>'form-group']);
+            echo Html::label($language, $this->inputOptions['id'],$this->labelOptions);
+            echo Html::beginTag('div',$this->divInputOptions);
             if ($this->type === 'textarea') {
-                echo Html::textarea($this->name . '[' . $key . ']', ArrayHelper::getValue($this->value, $key), $this->options);
+                echo Html::textarea($this->name . '[' . $key . ']', ArrayHelper::getValue($this->value, $key), $this->inputOptions);
 
             } else {
-                echo Html::textInput($this->name . '[' . $key . ']', ArrayHelper::getValue($this->value, $key), $this->options);
+                echo Html::textInput($this->name . '[' . $key . ']', ArrayHelper::getValue($this->value, $key), $this->inputOptions);
             }
+            echo Html::endTag('div');
+            echo Html::endTag('div');
+            $this->inputOptions['id'] = $id . '_' . $key;
         }
-        echo Html::endTag('div');
-        unset($this->options['id']);
     }
 }
