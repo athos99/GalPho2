@@ -26,6 +26,7 @@ class MultiLingualInput extends InputWidget
     public $labelOptions = ['class' => 'control-label'];
     public $inputOptions = ['class' => 'form-control'];
     public $divInputOptions = ['class' => ''];
+    public $errorOptions = ['class' => 'help-block'];
 
 
     /**
@@ -65,6 +66,7 @@ class MultiLingualInput extends InputWidget
             }
             echo Html::endTag('div');
             echo Html::endTag('div');
+            Html::error($this->model, $this->attribute . '[' . $key . ']', $this->errorOptions);
             $this->inputOptions['id'] = $id . '_' . $key;
         }
     }
