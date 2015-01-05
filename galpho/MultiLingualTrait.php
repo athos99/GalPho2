@@ -170,4 +170,38 @@ trait MultilingualTrait
         }
         return parent::__get($name);
     }
+
+    public function __set($name, $value)
+    {
+        if (($pos = strpos($name, '[')) !== false) {
+            $attributeName = substr($name, 0, $pos);
+            if (($attribute = $this->getAttribute($attributeName)) !== null) {
+                $attribute[substr($name, $pos + 2, -2)] = $value;
+                $this->setAttribute($attributeName, $attribute);
+                return;
+            }
+        }
+        parent::__set($name, $value);
+    }
+
+
+    public function setAttributes($values, $safeOnly = true)
+    {
+        if (is_array($values)) {
+            $attributes = array_flip($safeOnly ? $this->safeAttributes() : $this->attributes());
+            foreach ($values as $name => $value) {
+                if (isset($attributes[$name])) {
+                    $this->$name = $value;
+                } elseif (is_array($values[$name])) {
+                    $attribute = [];
+                    foreach ($values[$name] as $k => $v) {
+                        $attribute[$k] = $v;
+                    }
+                    $this->$name = $attribute;
+                } elseif ($safeOnly) {
+                    $this->onUnsafeAttribute($name, $value);
+                }
+            }
+        }
+    }
 }

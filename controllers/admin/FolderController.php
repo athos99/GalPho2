@@ -59,8 +59,6 @@ class FolderController extends Controller
         $model::$langLanguages = $galpho->getLanguages();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $galpho->setIdPath($id);
-            $model->title = trim($model->title);
-            $model->description = trim($model->description);
             $model->save();
             $galpho->renameFolder($model->url);
             return Yii::$app->getResponse()->redirect($galpho->url . '/' . $galpho->path);

@@ -57,6 +57,7 @@ class GalDir extends GalDirBase
         $rules = parent::rules();
         $rules[] = [['title'], 'required', 'on' => 'form'];
         $rules[] = [['title'], 'string', 'min' => 2];
+        $rules[] = [['title','description'],'trim'];
         $rules[] = [['url'], 'match', 'pattern' => '/[^a-z0-9=_—–-]/', 'not' => true,
             'message' => Yii::t('app', 'Only lowercase alphanumeric chars')];
 
