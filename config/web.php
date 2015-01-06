@@ -30,7 +30,7 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mail' => [
-            'class' => yii\swiftmailer\Mailer::className(),
+            'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => true,
         ],
         'log' => [

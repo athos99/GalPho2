@@ -23,29 +23,33 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
 ?>
 <div class="row"><?php
     foreach ($list as $element) :
-    if ($element['type'] == 'dir') :
-    ?>
-    <div class="galpho-thumb galpho-dir">
-        <a class="thumbnail" href="<?php echo $url . '/' . $element['path']; ?>">
-            <img src="<?php echo $img . '/' . $element['cover']; ?>">
-        </a>
-        <a href="<?php echo $url . '/' . $element['path']; ?>">
-            <div><?php echo $element['title'] ?></a></div>
-    <div><?php echo $element['description'] ?></div>
-</div>
-<?php
-else :
-?>
-<div class="galpho-thumb galpho-img">
-    <a class="thumbnail" href="<?php echo $url . '/' . $element['path']; ?>">
-        <img src="<?php echo $img . '/' . $element['path']; ?>">
-    </a>
-    <a href="<?php echo $url . '/' . $element['path']; ?>">
-        <div><?php echo $element['title'] ?></a></div>
-<div><?php echo $element['description'] ?></div>
-</div>
-<?php
-endif;
-endforeach;
-echo yii\Widgets\LinkPager::widget(['pagination' => $pagination,]);
-?></div>
+        if ($element['type'] == 'dir') :
+            ?>
+            <div class="galpho-thumb galpho-dir">
+                <a class="thumbnail" href="<?php echo $url . $element['path']; ?>">
+                    <img src="<?php echo $img . '/' . $element['cover']; ?>">
+                </a>
+                <a href="<?php echo $url . $element['path']; ?>">
+                    <div><?php echo $element['title'] ?></div>
+                </a>
+
+                <div><?php echo $element['description'] ?></div>
+            </div>
+        <?php
+        else :
+            ?>
+            <div class="galpho-thumb galpho-img">
+                <a class="thumbnail" href="<?php echo $url . $element['path']; ?>">
+                    <img src="<?php echo $img . '/' . $element['path']; ?>">
+                </a>
+                <a href="<?php echo $url . $element['path']; ?>">
+                    <div><?php echo $element['title'] ?></div>
+                </a>
+
+                <div><?php echo $element['description'] ?></div>
+            </div>
+        <?php
+        endif;
+    endforeach;
+    echo yii\Widgets\LinkPager::widget(['pagination' => $pagination,]);
+    ?></div>
