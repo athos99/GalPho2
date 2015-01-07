@@ -60,7 +60,6 @@ class GalDir extends GalDirBase
         $rules[] = [['title','description'],'trim'];
         $rules[] = [['url'], 'match', 'pattern' => '/[^a-z0-9=_—–-]/', 'not' => true,
             'message' => Yii::t('app', 'Only lowercase alphanumeric chars')];
-
         return $rules;
     }
 
@@ -108,7 +107,7 @@ class GalDir extends GalDirBase
 
     /**
      * Save the rights of each group to the dir
-     * and optionaly to children dir
+     * and optionally to children dir
      *
      * @param $groupRights array of right for each group
      * @param $children boolean (apply right to children dir)
@@ -148,15 +147,15 @@ class GalDir extends GalDirBase
              $language = static::currentLanguage();
          }
         $query = new  Query();
-
+        $subQuery = (new Query)->select('COUNT(*)')->where('esub.dir_id = t.id')->from('{{%gal_element}} esub');
         if ($idGroups !== null) {
-            $query->select('t.id, t.*, r.value, e.dir_id, e.name, l.title as l_title, l.description as l_description')
+            $query->select(['t.id', 't.*', 'r.value', 'e.dir_id', 'e.name', 'l_title' => 'l.title', 'l_description'=>'l.description', 'nb_element'=>$subQuery])
                 ->from('{{%gal_dir}} t')
                 ->leftJoin('{{%gal_dir_lang}} l', ['and', 't.id=l.dir_id', ['language' =>  $language]])
                 ->leftJoin('{{%gal_right}} r', ['and', 't.id=r.dir_id', ['group_id' => $idGroups]])
                 ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');
         } else {
-            $query->select('t.id, t.*, e.dir_id, e.name, l.title as l_title, l.description as l_description')
+            $query->select(['t.id', 't.*', 'e.dir_id', 'e.name', 'l_title'=>'l.title', 'l_description'=>'l.description', 'nb_element'=>$subQuery])
                 ->from('{{%gal_dir}} t')
                 ->leftJoin('{{%gal_dir_lang}} l', ['and', 't.id=l.dir_id', ['language' =>  $language]])
                 ->leftJoin('{{%gal_element}} e', 'e.id=t.element_id_cover');

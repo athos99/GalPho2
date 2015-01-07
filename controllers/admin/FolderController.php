@@ -57,7 +57,8 @@ class FolderController extends Controller
 //        $model = GalDir::findOne($id);
         $model->setScenario('form');
         $model::$langLanguages = $galpho->getLanguages();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+        if (!isset(Yii::$app->request->post()['cancel']) && $model->load(Yii::$app->request->post()) && $model->validate()) {
             $galpho->setIdPath($id);
             $model->save();
             $galpho->renameFolder($model->url);
