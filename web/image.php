@@ -36,7 +36,8 @@ defined('YII_DEBUG') or define('YII_DEBUG', false);
 defined('YII_ENV') or define('YII_ENV', 'prod');
 defined('YII_ENV_DEV') or define('YII_ENV_DEV', false);
 
-$config = require(__DIR__ . '/../config/web.php');
+$params = require(__DIR__ . '/../config/params.php');
+$db = require(__DIR__ . '/../config/db.php');
 
 
 class Image
@@ -653,7 +654,7 @@ class Image
 
 }
 
-new Image($config['params']['image'], $config['components']['db']);
+new Image($params['image'], $db);
 
 
 
