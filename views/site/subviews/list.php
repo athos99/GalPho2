@@ -29,26 +29,24 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
         <div class="image">
             <a href="<?php echo $url . $element['path']; ?>">
                 <img src="<?php echo $img . '/' . $element['cover']; ?>">
-            </a>
+
 
             <div class="zone1">
-                <div class="bar">
-                <span class="opacity-background"></span>
-                <span class="forground">
+                <span>
                     <i class="glyphicon glyphicon-folder-open"></i>
                     <a href="<?= $url . $element['path']; ?>"><?= $element['title']; ?></a>
                 </span>
-                </div>>
             </div>
             <div class="zone2">
-                <span class="opacity-background"></span>
-                <span class="forground">zone2</span>
+                <span>zone2</span>
             </div>
+            </a>
         </div>
     </div>
+</div>
 
     <div><?php echo $element['description'] ?></div>
-</div>
+    </div>
 <?php
 else :
 ?>
