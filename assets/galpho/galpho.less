@@ -3,6 +3,19 @@
 @lum1: #AAA;
 @lum4: #0FF;
 
+.opacity(@opacity) {
+  opacity: @opacity;
+  // IE8 filter
+  @opacity-ie: (@opacity * 100);
+  filter: ~"alpha(opacity=@{opacity-ie})";
+}
+.transition(@transition) {
+  -webkit-transition: @transition;
+  -o-transition: @transition;
+  transition: @transition;
+}
+
+
 body {
   padding-top: 50px; // top offset for header menu bar
 }
@@ -11,7 +24,50 @@ body {
 
   //width:250px;
   float: left;
+  position: relative;
+  .image {
+    position: relative;
+  }
+  .zone1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .zone2 {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    width: 100%;
 
+  }
+  .bar {
+    position: relative;
+  }
+
+  .opacity-background {
+    .opacity(.10);
+    background-color: #000;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    .transition(opacity .3s linear);
+  }
+  .opacity-background:hover {
+    .opacity(.70);
+    .transition(opacity .3s linear);
+
+  }
+
+  .forground {
+    color: #FF0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+  }
 
   &.galpho-img {
     img {
