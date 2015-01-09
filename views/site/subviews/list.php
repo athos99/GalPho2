@@ -27,20 +27,25 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
     ?>
     <div class="galpho-thumb galpho-dir thumbnail">
         <div class="image">
-            <a href="<?php echo $url . $element['path']; ?>">
+            <a href="<?= $url . $element['path']; ?>">
                 <img src="<?php echo $img . '/' . $element['cover']; ?>">
+            </a>
 
 
             <div class="zone1">
-                <span>
+                <span class ="foreground">
                     <i class="glyphicon glyphicon-folder-open"></i>
-                    <a href="<?= $url . $element['path']; ?>"><?= $element['title']; ?></a>
+                    zzz
+                    <a href="<?= $url . $element['path']; ?>">
+                        <?= $element['title']; ?>aaaaa
+                    </a>
                 </span>
+                <span class ="background"></span>
             </div>
             <div class="zone2">
-                <span>zone2</span>
+                <span class ="background"></span>
+                <span class="foreground">zone2</span>
             </div>
-            </a>
         </div>
     </div>
 </div>
