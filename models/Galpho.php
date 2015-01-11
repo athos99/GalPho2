@@ -42,13 +42,18 @@ class Galpho extends base\Object
             $record = $dirRight[0];
             $level = 0;
             $key = '';
+            $nb_e = (int)$record->nb_element;
 
             if (($path = trim($record->path, '/')) != '') {
+                $data['#']['tot_e'] += $nb_e;
                 foreach (explode('/', $path) as $key) {
                     if (!array_key_exists($key, $data)) {
                         $data[$key] = [];
+                        $data = & $data[$key];
+                    } else {
+                        $data = & $data[$key];
+                        $data['#']['tot_e'] += $nb_e;
                     }
-                    $data = & $data[$key];
                     $level++;
                 }
             }
@@ -70,14 +75,16 @@ class Galpho extends base\Object
                 'description' => isset($record->l_description) ? $record->l_description : $record->description,
                 'right' => $value,
                 'path' => $record->path,
-                'name' => $key
+                'name' => $key,
+                'nb_e' => $nb_e,
+                'tot_e' => $nb_e
             ];
         }
         return $structure;
     }
 
     /**
-     * @param $structure[]
+     * @param $structure []
      * @param $path string
      * @return false or structure[] of the path
      */
@@ -136,7 +143,7 @@ class Galpho extends base\Object
     public static function clearCache()
     {
         DbTableDependency::reset();
-        FileHelper::removeDirectory(Yii::getAlias('@runtime/cache') );
+        FileHelper::removeDirectory(Yii::getAlias('@runtime/cache'));
     }
 
 

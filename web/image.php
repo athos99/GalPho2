@@ -194,7 +194,7 @@ class Image
                 }
             }
         }
-
+$bOk =true;
         return $bOk;
     }
 
