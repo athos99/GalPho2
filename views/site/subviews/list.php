@@ -33,18 +33,12 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
 
 
                     <div class="zone zone1">
-                       <h3>
-
-
-                           <i class="glyphicon glyphicon-folder-open"></i><small><?=yii::t('app','{nb, plural, =0{no image} =1{1 image} other{# images}}',['nb'=>$element['tot_e']]);?></small>
-                        </h3>
+                           <i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<?=yii::t('app','{nb, plural, =0{no image} =1{1 image} other{# images}}',['nb'=>$element['tot_e']]);?>
                  </div>
                     <div class="zone zone2">
-                        <h3>
                         <a href="<?= $url . $element['path']; ?>">
                             <?= $element['title']; ?>
                         </a>
-                        </h3>
                     </div>
                 </div>
                 <div><?php echo $element['description'] ?></div>
