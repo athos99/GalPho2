@@ -13,6 +13,7 @@ $img = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_HEIGHT;
 
 
 $fullList = $galpho->getPathList();
+$info = $galpho->getPathInfo();
 $pagination = new \yii\data\Pagination(['totalCount' => count($fullList),
     'pageSize' => 3,
     'route' => $galpho->route . '/' . $galpho->getPath(),
