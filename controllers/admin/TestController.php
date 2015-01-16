@@ -12,6 +12,14 @@ class TestController extends Controller
     {
         return $this->render('//admin/test');
     }
+
+    public function actionGenerate()
+    {
+        return $this->render('//admin/test/generate');
+
+
+    }
+
 }
 
 

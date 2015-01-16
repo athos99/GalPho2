@@ -18,8 +18,6 @@ class CacheController extends Controller
         Yii::$app->getSession()->setFlash('info', 'cache cleared');
         return Yii::$app->getResponse()->redirect($galpho->url);
     }
-
-
 }
 
 

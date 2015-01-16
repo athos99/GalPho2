@@ -57,6 +57,8 @@ $menuItems = [
 
             '<li class="divider"></li>',
             '<li class="dropdown-header">Dropdown Header</li>',
+            ['label' => 'Generate dummy', 'url' => ['/admin/test/generate']],
+
             ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
         ],
     ],
