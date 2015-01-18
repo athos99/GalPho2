@@ -20,23 +20,23 @@ body {
   padding-top: 50px; // top offset for header menu bar
 }
 
-.galpho-img .zone {
-  a, a:hover {
-    font-size: 100%;
-  }
-  margin: 2px 3px;
-}
-
-.galpho-dir, .galpho-img {
-  position: relative;
-  .galpho-img {
-    img {
-      height: 200px;
-    }
-
-  }
+.galpho {
 
   .galpho-thumb {
+    &.galpho-thumb-img {
+      img {
+        height: 200px;
+      }
+      .photo .zone {
+        margin: 2px 3px;
+        a, a:hover {
+          color: #FFF;
+          font-size: 150%;
+        }
+      }
+
+
+    }
 
     //width:250px;
     float: left;

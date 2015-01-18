@@ -27,7 +27,7 @@ $galpho = Yii::$app->get('galpho');
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="galpho">
 <?php $this->beginBody() ?>
 <?php
 NavBar::begin([
