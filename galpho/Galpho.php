@@ -42,7 +42,7 @@ class Galpho extends component
     {
         parent::init();
         $this->route = 'v';
-        $this->url = Yii::$app->getUrlManager()->createUrl($this->route).'/';
+        $this->url = Yii::$app->getUrlManager()->createUrl($this->route) . '/';
     }
 
     public function setPath($path)
@@ -91,6 +91,11 @@ class Galpho extends component
         return $this->_fullStructure;
     }
 
+    public function resetFullStructure()
+    {
+        $this->_fullStructure = null;
+    }
+
     public function getPathStructure()
     {
         $this->getFullStructure();
@@ -105,6 +110,8 @@ class Galpho extends component
                     $this->_viewMode = self::VIEW_DETAIL;
                     $this->_elementName = basename($this->_path);
                     $this->_elementBase = dirname($this->_path);
+                } else {
+                    $this->_pathStructure = null;
                 }
 
             }
@@ -155,7 +162,10 @@ class Galpho extends component
     }
 
 
-    public function getPathList()
+
+
+
+    public function getListForFolder()
     {
         $this->getPathStructure();
         $list = [];
@@ -176,31 +186,9 @@ class Galpho extends component
     }
 
 
-    public function getImgPathList()
+    public function addElement($filename, $title, $description)
     {
-        $this->getPathStructure();
-        $list = [];
-        if ($this->_idPath !== null) {
-            $galElements = models\Galpho::getCacheListElementsForDir($this->_idPath, $this->_path);
-            foreach ($galElements as $galElement) {
-                $list[] = [
-                    'id' => $galElement->id,
-                    'title' => $galElement->title,
-                    'path' => $this->_path . '/' . $galElement->name,
-                    'cover' => $this->_path . '/' . $galElement->name,
-                    'description' => $galElement->description,
-                    'info' => $galElement->info,
-                    'createTime' => $galElement->created_at,
-                    'type' => 'img'];
-            }
-        }
-        return $list;
-    }
 
-    public function addElement($filename, $name)
-    {
-        $exif = null;
-        $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getPath();
         try {
             $mime = FileHelper::getMimeType($filename);
             if ($mime == "image/jpeg") {
@@ -210,10 +198,66 @@ class Galpho extends component
 
         }
 
-        if (!is_dir($dst)) {
-            mkdir($dst, 777, true);
+        $name = basename($filename);
+        $dirId = $this->getIdPath();
+        $element = models\GalElement::findOne(['dir_id' => $dirId, 'name' => $name]);
+        if ($element === null) {
+            $element = new models\GalElement();
+            $element->name = $name;
+            $element->dir_id = $dirId;
         }
-        $out = @fopen($dst . '/' . $name, "wb");
+        if ($title === null) {
+            $title = $name;
+        }
+        $element->title = $title;
+        $element->description = $description;
+        $element->format = 'image';
+        if (isset($exif)) {
+            $tick = null;
+            if (ctype_digit($exif->caption)) {
+                $tick = strtotime($exif->caption);
+                if ($tick) {
+                    $element->created_at = $exif->caption;
+                }
+
+            }
+            $element->info = json_encode([
+                'caption' => $tick ? date('d.m.Y H:i', $tick) : '',
+                'aperture' => $exif->aperture,
+                'speed' => $exif->speed,
+                'iso' => $exif->iso,
+                'focal' => $exif->focal,
+                'model' => $exif->model
+
+            ]);
+        }
+        $element->save();
+        // add image to parent folder if are not set
+        foreach ($this->getParents() as $parent) {
+            if ($parent['cover'] === null) {
+                $galDir = models\GalDir::findOne($parent['id']);
+                if ($galDir) {
+                    $galDir->element_id_cover = $element->id;
+                    $galDir->save();
+                }
+            } else {
+                break;
+            }
+
+        }
+
+    }
+
+    public function addMoveElement($filename, $name, $description)
+    {
+        $exif = null;
+        $dir = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getPath();
+
+        if (!is_dir($dir)) {
+            mkdir($dir, 777, true);
+        }
+        $dst = $dir . '/' . BaseInflector::slug($name, '-', true);
+        $out = @fopen($dst, "wb");
         if ($out) {
             // Read binary input stream and append it to temp file
             $in = @fopen($filename, "rb");
@@ -230,54 +274,15 @@ class Galpho extends component
             @fclose($in);
             @fclose($out);
             @unlink($filename);
+            $this->addElement($dst, $name, $description);
 
-
-            $element = new models\GalElement();
-            $element->name = $name;
-            $element->title = $name;
-            $element->format = 'image';
-            $element->dir_id = $this->getIdPath();
-//            $element->created_at = new \yii\db\Expression('NOW()');
-//            $element->updated_at = new \yii\db\Expression('NOW()');
-            $tick = null;
-            if (isset($exif)) {
-                if (ctype_digit($exif->caption)) {
-                    $tick = strtotime($exif->caption);
-                    if ($tick) {
-
-                        $element->created_at = $exif->caption;
-                    }
-
-                }
-                $element->info = json_encode([
-                    'caption' => $tick ? date('d.m.Y H:i', $tick) : '',
-                    'aperture' => $exif->aperture,
-                    'speed' => $exif->speed,
-                    'iso' => $exif->iso,
-                    'focal' => $exif->focal,
-                    'model' => $exif->model
-
-                ]);
-            }
-            $element->save();
-            // add image to parents folders if are not set
-            foreach( $this->getParents() as $parent) {
-                if ($parent['cover'] === null) {
-                    $galDir = models\GalDir::findOne($parent['id']);
-                    if ($galDir) {
-                        $galDir->element_id_cover = $element->id;
-                        $galDir->save();
-                    }
-                } else {
-                    break;
-                }
-
-            }
         }
+
     }
 
     public function getParents()
     {
+        $this->getPathStructure();
         $list = [];
         $structure = $this->_fullStructure;
         foreach (explode('/', trim($this->_elementBase, '/')) as $key) {
@@ -343,6 +348,27 @@ class Galpho extends component
 
     }
 
+
+    public function addFolder($name, $title, $description)
+    {
+        $path = trim($this->getPath() . '/' . $name, '/');
+        $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src'] . '/' . $path);
+        if (!is_dir($dst)) {
+            mkdir($dst, 777, true);
+        }
+
+        $dir = models\GalDir::findOne(['path' => $path]);
+        if ($dir === null) {
+            $dir = new models\GalDir();
+            $dir->path = $path;
+        }
+        $dir->title = $title;
+        $dir->description = $description;
+        $dir->save();
+        $this->resetFullStructure();
+        return $dir->id;
+    }
+
     public function renameFolder($newName)
     {
         if ($this->_path === '' || $this->_path === $newName) {
@@ -361,6 +387,7 @@ class Galpho extends component
         @rename($dirSrc, $dirDst);
         models\GalDir::renameDir($this->_path, $dst);
         $this->deleteImageCache($this->path);
+        $this->resetFullStructure();
         $this->setPath($dst);
 
 
@@ -408,7 +435,8 @@ class Galpho extends component
     }
 
 
-    public function getLanguages() {
+    public function getLanguages()
+    {
         return Yii::$app->params['language'];
     }
 }

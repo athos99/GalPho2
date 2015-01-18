@@ -20,18 +20,30 @@ body {
   padding-top: 50px; // top offset for header menu bar
 }
 
+.galpho-dir, .galpho-img {
+  position: relative;
+}
+
 .galpho-thumb {
 
   //width:250px;
   float: left;
   position: relative;
+  &.galpho-img {
+    img {
+      height: 200px;
+    }
+  }
+  &.galpho-dir {
+
+  }
   .photo {
     position: relative;
     .zone {
       margin: 2px 30px;
       display: block;
       position: absolute;
-     // width: 100%;
+      // width: 100%;
       left: 0;
       color: #CCC;
       background-color: rgba(0, 0, 0, 0.3);
@@ -54,14 +66,6 @@ body {
     }
   }
 
-  &.galpho-img {
-    img {
-      height: 200px;
-    }
-  }
-  &.galpho-dir {
-
-  }
 }
 
 .galphostructure {

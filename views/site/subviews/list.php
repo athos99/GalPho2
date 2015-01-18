@@ -9,13 +9,14 @@
 $request = Yii::$app->getRequest();
 
 $url = $galpho->url;
-$img = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_HEIGHT;
+$thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB;
+$thumbImg = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_HEIGHT;
 
 
-$fullList = $galpho->getPathList();
+$fullList = $galpho->getListForFolder();
 $info = $galpho->getPathInfo();
 $pagination = new \yii\data\Pagination(['totalCount' => count($fullList),
-    'pageSize' => 3,
+    'pageSize' => 25,
     'route' => $galpho->route . '/' . $galpho->getPath(),
     'params' => $_REQUEST,
 ]);
@@ -23,42 +24,59 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
 
 ?>
 <div class="row"><?php
+
+    $this->beginBlock('dirList');
     foreach ($list as $element) :
         if ($element['type'] == 'dir') :
             ?>
-            <div class="galpho-thumb galpho-dir thumbnail">
+            <div class="galpho-thumb thumbnail">
                 <div class="photo">
                     <a href="<?= $url . $element['path']; ?>">
-                        <img src="<?php echo $img . '/' . $element['cover']; ?>">
+                        <img src="<?php echo $thumbDir . '/' . $element['cover']; ?>">
                     </a>
 
-
                     <div class="zone zone1">
-                           <i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<?=yii::t('app','{nb, plural, =0{no image} =1{1 image} other{# images}}',['nb'=>$element['tot_e']]);?>
-                 </div>
+                        <i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<?= yii::t('app', '{nb, plural, =0{no image} =1{1 image} other{# images}}', ['nb' => $element['tot_e']]); ?>
+                    </div>
                     <div class="zone zone2">
                         <a href="<?= $url . $element['path']; ?>">
                             <?= $element['title']; ?>
                         </a>
                     </div>
                 </div>
-                <div><?php echo $element['description'] ?></div>
-            </div>
-        <?php
-        else :
-            ?>
-            <div class="galpho-thumb galpho-img">
-                <a class="thumbnail" href="<?php echo $url . $element['path']; ?>">
-                    <img src="<?php echo $img . '/' . $element['path']; ?>">
-                </a>
-                <a href="<?php echo $url . $element['path']; ?>">
-                    <div><?php echo $element['title'] ?></div>
-                </a>
-
-                <div><?php echo $element['description'] ?></div>
             </div>
         <?php
         endif;
     endforeach;
+    $this->endBlock();
+    $this->beginBlock('imgList');
+    foreach ($list as $element) :
+        if ($element['type'] == 'img') :
+            ?>
+            <div class="galpho-thumb  thumbnail">
+                <div class="photo">
+                    <a class="photo" href="<?php echo $url . $element['path']; ?>">
+                        <img src="<?php echo $thumbImg . '/' . $element['path']; ?>">
+                    </a>
+
+                    <div class="zone zone2">
+                        <a href="<?= $url . $element['path']; ?>">
+                            <?= $element['title']; ?>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <?php
+        endif;
+    endforeach;
+    $this->endBlock();
+    if ($this->blocks['dirList'] <> '') :
+        ?>
+        <div class="galpho-dir clearfix"><?= $this->blocks['dirList'] ?> </div><?php
+    endif;
+    if ($this->blocks['imgList'] <> '') :
+        ?>
+        <div class="galpho-img clearfix"><?= $this->blocks['imgList'] ?> </div><?php
+    endif;
     echo yii\Widgets\LinkPager::widget(['pagination' => $pagination,]);
     ?></div>

@@ -15,6 +15,9 @@ class TestController extends Controller
 
     public function actionGenerate()
     {
+
+        $adminTool =new \app\galpho\AdminTool();
+        $adminTool->generateGallery();
         return $this->render('//admin/test/generate');
 
 
