@@ -29,7 +29,7 @@ class VController extends Controller
                 $file = $uploadManager->cleanFileName($file);
                 if ($file != '') {
                     $filename = $uploadManager->targetDir.'/'.$file;
-                    $galpho->addMoveElement($filename, $file);
+                    $galpho->addMoveElement($filename, $file,null);
 
 
                 }

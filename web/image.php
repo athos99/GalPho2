@@ -91,9 +91,10 @@ class Image
                 return;
             }
             if (is_file($this->srcFullName)) {
-                $this->getImage($this->srcFullName);
+                if ( $this->getImage($this->srcFullName) !== false) {
                 $this->output();
                 return;
+                }
             }
 
         }
@@ -485,7 +486,7 @@ $bOk =true;
         $this->img = null;
 
         $infoFile = pathinfo($filename);
-        $imgType = strtolower($infoFile['extension']);
+        $imgType = strtolower(   isset($infoFile['extension'])) ? $infoFile['extension'] : null ;
 
         switch ($imgType) {
             case 'jpg':

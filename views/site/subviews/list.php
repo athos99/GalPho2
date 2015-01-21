@@ -29,8 +29,8 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
     foreach ($list as $element) :
         if ($element['type'] == 'dir') :
             ?>
-            <div class="galpho-thumb galpho-thumb-dir ">
-                <div class="photo">
+            <div class="galpho-thumb galpho-thumb-dir">
+                <div class="photo ">
                     <a href="<?= $url . $element['path']; ?>">
                         <img src="<?php echo $thumbDir . '/' . $element['cover']; ?>">
                     </a>

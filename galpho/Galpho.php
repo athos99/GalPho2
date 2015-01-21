@@ -162,9 +162,6 @@ class Galpho extends component
     }
 
 
-
-
-
     public function getListForFolder()
     {
         $this->getPathStructure();
@@ -256,7 +253,7 @@ class Galpho extends component
         if (!is_dir($dir)) {
             mkdir($dir, 777, true);
         }
-        $dst = $dir . '/' . BaseInflector::slug($name, '-', true);
+        $dst = $dir . '/' . $name;
         $out = @fopen($dst, "wb");
         if ($out) {
             // Read binary input stream and append it to temp file
