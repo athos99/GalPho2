@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        body {
+            background-color: #aaa;
+        }
+
+
+        html,body {
+            /* suppression des éventuels styles par défaut */
+            margin:0;
+            padding:0;
+
+            /* on spécifie un repère pour le calcul des hauteurs */
+            height:100%;
+        }
+        .strut, #content {
+            /* on permet à ces éléments de s'aligner verticalement */
+            display:inline-block;
+            vertical-align:middle;
+        }
+        .strut {
+            /* hauteur de la fenêtre, par rapport à laquelle les éléments vont être alignés */
+            height:100%;
+        }
+        #content {
+            /* des dimensions au hasard */
+            width:50%;
+            height:50%;
+
+            /* on le rend visible */
+            background-color:red;
+        }
+        DIV.container {
+            min-height: 10em;
+            display: table-cell;
+            vertical-align: middle }
+
+
+    </style>
+</head>
+<body>
+
+<div class="strut">aa</div>
+    <div id="content">xxx
+</div>
+
+
+<DIV class="container">
+    <P>Ce court paragraphe...
+</DIV>
+
+
+</body>
+</html>

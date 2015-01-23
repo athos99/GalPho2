@@ -23,6 +23,20 @@ $pagination = new \yii\data\Pagination(['totalCount' => count($fullList),
 $list = array_slice($fullList, $pagination->offset, $pagination->limit);
 
 ?>
+
+<div class="row">
+    <div class="media">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object"  src="/galpho2/web/img/1/concert/Tulips.jpg" alt="">
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">Media heading</h4>
+        </div>
+    </div>
+</div>
+
 <div class="row"><?php
 
     $this->beginBlock('dirList');
