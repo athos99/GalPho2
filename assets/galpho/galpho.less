@@ -21,59 +21,63 @@ body {
 }
 
 .galpho {
-  .galpho-thumb {
-    border: 1px  solid ;
-    border-color: #000 #444 #444 #000;;
-    background-color: #444;
 
-//    padding: 30px 30px;
+
+  .galpho-dir, .galpho-img {
+//    background-color: #d4d1bf;
+//    border-radius: 5px;
+
+  }
+
+  .galpho-thumb .photo {
+    width: 220px;
+    height: 220px;
+  }
+
+  .galpho-thumb {
+    border: 1px solid;
+    border-color: #fff #fff #ccc #ccc;
+    background-color: #eee;
     &.galpho-thumb-img {
       .photo .zone {
         a, a:hover {
-          color: #FFF;
           font-size: 150%;
         }
       }
     }
-    &.galpho-thumb-dir {
-      width: 300px;
-      height: 300px;
-    }
-    //width:250px;
     float: left;
     position: relative;
+
     .photo {
       display: table-cell;
       vertical-align: middle;
       text-align: center;
 
       img {
-        border: 4px solid #666;
-        display:block;
-        vertical-align: middle;
+        border: 2px solid #fff;
       }
-
 
       position: relative;
       .zone {
-        margin: 2px 30px;
-//        display: block;
+        word-wrap: break-word;
+        text-shadow: 0 0 5px #000;
+        width:100%;
+        margin: 4px 0px;
         position: absolute;
-        // width: 100%;
         left: 0;
-        color: #CCC;
-        background-color: rgba(0, 0, 0, 0.3);
+        color: #fff;
+//        background-color: rgba(0, 0, 0, 0.1);
         .transition(background-color .3s linear);
         a, a:hover {
-          color: #FFF;
+          color: #fff;
           font-size: 200%;
         }
       }
       .zone1 {
-        top: 0;
+        top: 5px;
       }
       .zone2 {
-        bottom: 0px;
+        bottom: 5px;
       }
     }
     &:hover {

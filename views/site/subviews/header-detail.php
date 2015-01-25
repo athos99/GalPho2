@@ -8,8 +8,11 @@ use \yii\helpers\Html;
 use \yii\helpers\ArrayHelper;
 
 $info = $galpho->getPathInfo();
-$title = ArrayHelper::getValue($info, 'title');
-$description = ArrayHelper::getValue($info, 'description');
+$image = $galpho->getImageInfo();
+
+$title = ArrayHelper::getValue($image, 'title');
+$description = ArrayHelper::getValue($image, 'description');
+$id=ArrayHelper::getValue($image,'id');
 
 // breadcrumbs
 $breadcrumbs = $galpho->getBreadcrumb();
@@ -23,8 +26,11 @@ echo Html::encode($lastCrumb ) . '</br>';
 ?>
 
 <br>
-<h1> <?php echo Html::encode($title) ?></h1>
-<p><?php echo Html::encode($description) ?></p>
+<h1><?php echo app\galpho\Helper::editable($title,
+        ['pk' => $id, 'model' => 'GalElement', 'name' => 'title'], ''); ?></h1>
+<p><?php echo app\galpho\Helper::editable($description,
+        ['pk' => $id, 'model' => 'GalElement', 'name' => 'description'], '',['data-type'=>'textarea']); ?></p>
+
 
 
 

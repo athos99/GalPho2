@@ -27,3 +27,23 @@ $this->blocks['block3'] = $this->render('//site/subviews/upload', ['galpho' => $
     </div>
 
 </div>
+<?php
+
+
+yii\bootstrap\Modal::begin([
+    'header' => '<h2>Hello world</h2>',
+    'toggleButton' => ['label' => 'click me'],
+]);
+
+echo 'Say hello...';
+
+yii\bootstrap\Modal::end();
+\yii\jui\Dialog::begin([
+'clientOptions' => [
+'modal' => true,
+],
+]);
+
+echo 'Dialog contents here...';
+
+\yii\jui\Dialog::end();

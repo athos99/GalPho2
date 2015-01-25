@@ -28,3 +28,5 @@ echo Html::encode($lastCrumb ) . '</br>';
 
 
 
+<?= app\galpho\Helper::editable('blalvlvl',
+    ['pk' => '1', 'model' => 'GalDir', 'name' => 'description'], 'xxxxxx'); ?>

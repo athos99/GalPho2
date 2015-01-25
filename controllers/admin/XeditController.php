@@ -18,7 +18,7 @@ class XeditController extends Controller
             $class = 'app\\models\\' . $model;
             if (class_exists($class) && is_subclass_of($class, '\yii\db\ActiveRecord')) {
                 $ar = $class::findOne($pk);
-                if (($ar !== null) && isset($ar->$name)) {
+                if (($ar !== null) ) {
                     $ar->$name = $value;
                     $ar->save();
                     exit();

@@ -22,22 +22,7 @@ $pagination = new \yii\data\Pagination(['totalCount' => count($fullList),
 ]);
 $list = array_slice($fullList, $pagination->offset, $pagination->limit);
 
-?>
-
-<div class="row">
-    <div class="media">
-        <div class="media-left">
-            <a href="#">
-                <img class="media-object"  src="/galpho2/web/img/1/concert/Tulips.jpg" alt="">
-            </a>
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading">Media heading</h4>
-        </div>
-    </div>
-</div>
-
-<div class="row"><?php
+?><div class="row"><?php
 
     $this->beginBlock('dirList');
     foreach ($list as $element) :
@@ -86,11 +71,11 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
     $this->endBlock();
     if ($this->blocks['dirList'] <> '') :
         ?>
-        <div class="galpho-dir clearfix"><?= $this->blocks['dirList'] ?> </div><?php
+        <div class="galpho-dir clearfix jumbotron"><h2><?= Yii::t('app','galleries');?></h2><?= $this->blocks['dirList'] ?> </div><?php
     endif;
     if ($this->blocks['imgList'] <> '') :
         ?>
-        <div class="galpho-img clearfix"><?= $this->blocks['imgList'] ?> </div><?php
+        <div class="galpho-img clearfix jumbotron"><?= $this->blocks['imgList'] ?> </div><?php
     endif;
     echo yii\Widgets\LinkPager::widget(['pagination' => $pagination,]);
     ?></div>

@@ -7,7 +7,7 @@ class AppAsset extends AssetBundle
 {
     public $sourcePath = '@app/assets/galpho';
     public $css = [
-        'site.css',
+//        'site.css',
         'galpho.less'
     ];
     public $js = [
