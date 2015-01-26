@@ -32,8 +32,7 @@ $this->blocks['block3'] = $this->render('//site/subviews/upload', ['galpho' => $
 
 yii\bootstrap\Modal::begin([
     'header' => '<h2>Hello world</h2>',
-    'toggleButton' =>
-        ['label' => '', 'tag'=>'a', 'class'=>'glyphicon glyphicon-edit'],
+    'toggleButton' =>['label' => '', 'tag'=>'a', 'class'=>'glyphicon glyphicon-edit'],
 
 ]);
 
