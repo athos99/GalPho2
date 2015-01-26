@@ -32,7 +32,9 @@ $this->blocks['block3'] = $this->render('//site/subviews/upload', ['galpho' => $
 
 yii\bootstrap\Modal::begin([
     'header' => '<h2>Hello world</h2>',
-    'toggleButton' => ['label' => 'click me'],
+    'toggleButton' =>
+        ['label' => '', 'tag'=>'a', 'class'=>'glyphicon glyphicon-edit'],
+
 ]);
 
 echo 'Say hello...';
@@ -47,3 +49,4 @@ yii\bootstrap\Modal::end();
 echo 'Dialog contents here...';
 
 \yii\jui\Dialog::end();
+?><br><br>$$$
