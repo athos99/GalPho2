@@ -2,8 +2,9 @@
 namespace app\galpho;
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\BaseHtml;
+use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 
 class Helper
 {
@@ -18,11 +19,28 @@ class Helper
         $options['data-url'] = Url::to(['/admin/xedit']);
         $options['data-params'] = json_encode($params);
         $options['class'] = (isset($options['class']) ? $options['class'] . ' ' : '') . 'galpho-editable';
-        return BaseHtml::tag('span', $text, $options);
+        return Html::tag('span', $text, $options);
     }
 
 
-    public static function dialog($text, $url, $content, $options) {
+    public static function dialog($url, $label = '', $class = null, $header = null)
+    {
+        if ($class === null) {
+            $class = 'glyphicon glyphicon-edit';
+        }
+        Modal::begin([
+            'header' => 'Dialog',
+            'toggleButton' => ['label' => $label, 'tag' => 'a', 'class' => $class, 'data-targetx' => Url::to($url)],
+        ]);
+        Modal::end();
+        $view = Yii::$app->getView();
+        $linkSelector = Json::encode('#' . $id . ' a');
+        $formSelector = Json::encode('#' . $id . ' form[data-pjax]');
+        PjaxAsset::register($view);
+
+        $js = "jQuery(document).pjax($linkSelector, \"#$id\", $options);";
+        $js .= "\njQuery(document).on('submit', $formSelector, function (event) {jQuery.pjax.submit(event, '#$id', $options);});";
+        $view->registerJs($js);
 
     }
 }
