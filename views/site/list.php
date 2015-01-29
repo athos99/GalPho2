@@ -1,5 +1,6 @@
 <?php
 use \yii\helpers\Html;
+use \yii\helpers\Url;
 
 /**
  * @var \app\galpho\Galpho $galpho
@@ -11,7 +12,19 @@ $this->blocks['header'] = $this->render('//site/subviews/header-list', ['galpho'
 $this->blocks['block1'] = $this->render('//site/subviews/tree', ['galpho' => $galpho]);
 $this->blocks['block2'] = $this->render('//site/subviews/list', ['galpho' => $galpho]);
 $this->blocks['block3'] = $this->render('//site/subviews/upload', ['galpho' => $galpho]);
-echo app\galpho\Helper::dialog(    ['/admin/folder/edit', 'id' => $galpho->getIdPath()]);
+echo app\galpho\Helper::dialog(Url::to(['/admin/folder/edit', 'id' => $galpho->getIdPath()]));
+
+
+yii\bootstrap\Modal::begin([
+    'header' => '<h2>Hello world</h2>',
+    'toggleButton' =>['label' => '', 'tag'=>'a', 'class'=>'glyphicon glyphicon-edit'],
+
+]);
+
+echo 'Say hello...';
+
+yii\bootstrap\Modal::end();
+
 
 
 ?>
@@ -30,15 +43,3 @@ echo app\galpho\Helper::dialog(    ['/admin/folder/edit', 'id' => $galpho->getId
     </div>
 
 </div>
-<?php
-
-
-//yii\bootstrap\Modal::begin([
-//    'header' => '<h2>Hello world</h2>',
-//    'toggleButton' =>['label' => '', 'tag'=>'a', 'class'=>'glyphicon glyphicon-edit'],
-//
-//]);
-//
-//echo 'Say hello...';
-//
-//yii\bootstrap\Modal::end();

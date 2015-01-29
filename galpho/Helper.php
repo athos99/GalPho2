@@ -1,13 +1,21 @@
 <?php
 namespace app\galpho;
 
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\Json;
 use yii\bootstrap\Modal;
+use  yii\base\Widget;
 
 class Helper
 {
+    public static function getAutoId()
+    {
+        return Widget::$autoIdPrefix . Widget::$counter++;
+    }
+
     public static function editable($text, $params, $title = '', $options = [])
     {
         if (!isset($options['data-type'])) {
@@ -28,18 +36,34 @@ class Helper
         if ($class === null) {
             $class = 'glyphicon glyphicon-edit';
         }
-        Modal::begin([
-            'header' => 'Dialog',
-            'toggleButton' => ['label' => $label, 'tag' => 'a', 'class' => $class, 'data-targetx' => Url::to($url)],
-        ]);
-        Modal::end();
-        $view = Yii::$app->getView();
-        $linkSelector = Json::encode('#' . $id . ' a');
-        $formSelector = Json::encode('#' . $id . ' form[data-pjax]');
-        PjaxAsset::register($view);
+        $idButton = static::getAutoId();
+        $idModal = static::getAutoId();
+        echo Html::tag('a', $label, ['id' => $idButton, 'data-toggle' => 'modal', 'data-target' => '#'.$idModal, 'class' => $class]);
+        echo Html::beginTag('div', ['id' => $idModal, 'class' => 'fade modal', 'role' => 'dialog']);
+        echo Html::beginTag('div', ['class' => 'modal-dialog ']);
+        echo Html::beginTag('div', ['class' => 'modal-content']);
+        echo Html::beginTag('div', ['class' => 'modal-header']);
+        echo Html::tag('button', '&times;', ['type' => 'button', 'class' => 'close', 'data-dismiss' => 'modal', 'aria-hidden' => 'true']);
+        echo $header;
+        echo Html::endTag('div');
+        echo Html::tag('div', '&nbsp;$$$$$$', ['class' => 'modal-body']);
+        echo Html::endTag('div');
+        echo Html::endTag('div');
+        echo Html::endTag('div');
 
-        $js = "jQuery(document).pjax($linkSelector, \"#$id\", $options);";
-        $js .= "\njQuery(document).on('submit', $formSelector, function (event) {jQuery.pjax.submit(event, '#$id', $options);});";
+
+        $view = Yii::$app->getView();
+        $linkSelector = Json::encode('#' . $idModal . ' a');
+        $formSelector = Json::encode('#' . $idModal . ' form[data-pjax]');
+
+        \yii\bootstrap\BootstrapPluginAsset::register($view);
+        \yii\widgets\PjaxAsset::register($view);
+        $options = Json::encode(['push' => true, 'replace' => false, 'timeout' => 1000, 'scrollTo'=>false, 'url'=>$url]);
+        $js = "jQuery(document).pjax($linkSelector, \"#$idModal\", $options);";
+        $js .= "\njQuery(document).on('submit', $formSelector, function (event) {jQuery.pjax.submit(event, '#$idModal', $options);});";
+        $options = Json::encode( ['url'=>$url,'container'=>'#'.$idModal]);
+//        $js .= "jQuery.pjax($options);";
+
         $view->registerJs($js);
 
     }
