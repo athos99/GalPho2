@@ -61,10 +61,8 @@ class Helper
         $options = Json::encode(['push' => true, 'replace' => false, 'timeout' => 1000, 'scrollTo'=>false, 'url'=>$url]);
         $js = "jQuery(document).pjax($linkSelector, \"#$idModal\", $options);";
         $js .= "\njQuery(document).on('submit', $formSelector, function (event) {jQuery.pjax.submit(event, '#$idModal', $options);});";
-        $options = Json::encode( ['url'=>$url,'container'=>'#'.$idModal]);
-//        $js .= "jQuery.pjax($options);";
-
+        $options = Json::encode( ['url'=>$url,'container'=>'#'.$idModal,'fragment'=>'body','push'=>false]);
+        $js .= "jQuery('#".$idButton."').on('click', function(event){\njQuery.pjax(".$options.");});";
         $view->registerJs($js);
-
     }
 }
