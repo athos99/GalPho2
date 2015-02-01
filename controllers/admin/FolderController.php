@@ -6,14 +6,13 @@ namespace app\controllers\admin;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseInflector;
-use yii\web\Controller;
 use app\models\GalRight;
 use app\models\GalDir;
 use app\models\GalGroup;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
-class FolderController extends Controller
+class FolderController extends BaseController
 {
 
 

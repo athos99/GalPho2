@@ -3,9 +3,8 @@
 namespace app\controllers\admin;
 
 use Yii;
-use yii\web\Controller;
 
-class TestController extends Controller
+class TestController extends BaseController
 {
 
     public function actionIndex()

@@ -3,9 +3,8 @@
 namespace app\controllers\admin;
 
 use Yii;
-use yii\web\Controller;
 
-class XeditController extends Controller
+class XeditController extends BaseController
 {
     public function actionIndex()
     {

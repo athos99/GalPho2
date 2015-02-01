@@ -26,4 +26,22 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div><!-- folder-form -->
+<?php
+
+$js = <<<EOT
+function _urlFolder() {
+  if ($('#galdir-auto_path').prop("checked")) {
+  $('#galdir-url').val(replaceDiacritics($('#galdir-title').val().toLowerCase().replace(/[\s]+/g, '-')).replace(/[^a-z0-9-_]+/g, ''));
+  }
+}
+$('#galdir-title').on('change.galpho keyup.galpho', _urlFolder);
+$('#galdir-auto_path').on('change.galpho', _urlFolder);
+EOT;
+
+
+
+
+$this->registerJs($js, yii\web\View::POS_READY,null);
+
+
 

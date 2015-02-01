@@ -6,10 +6,9 @@ namespace app\controllers\admin;
 use app\models\GalGroup;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use app\models\User;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * Display a group list grid

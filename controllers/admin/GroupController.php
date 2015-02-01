@@ -6,11 +6,10 @@ namespace app\controllers\admin;
 use app\models\Galpho;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use app\models\GalGroup;
 use app\models\User;
 
-class GroupController extends Controller
+class GroupController extends BaseController
 {
     /**
      * Display a group list grid

@@ -42,8 +42,9 @@ yii.galpho = (function ($) {
         init: function () {
             no_validation();
             galphostructure_check();
-            urlFolder();
+ //           urlFolder();
             xEditable();
+            dialog();
         }
     };
 
@@ -93,8 +94,52 @@ yii.galpho = (function ($) {
     }
 
     function xEditable() {
-      // $.fn.editable.defaults.mode = 'inline';
+        // $.fn.editable.defaults.mode = 'inline';
         $(".galpho-editable").editable();
+    }
+
+    function dialog() {
+        var $dialog = $(".dialog-open");
+        var $modal;
+        // on click open dialog box and load content with ajax
+        $dialog.off("click.galpho").on("click.galpho", function () {
+            $this = $(this);
+            var title = $this.attr('title');
+            var url = $this.attr("href");
+            $modal = $('#'+$this.attr('data-modal'));
+            $.post(url, {
+                data: 'data'
+            }, _bindAfterLoad, 'html');
+            $modal.modal("show");
+            return false;
+        });
+        // when the content is load bind links
+        function _bindAfterLoad(html) {
+            if (html.length == 0) {
+                $modal.modal("close");
+            }
+            $modal.find(".modal-body").html(html);
+            // on image click store id and close the dialog
+            $modal.find('.dialog-close').click(function (event) {
+                $modal.modal("hide");
+                return false
+            });
+            // on pagination click load content with ajax
+            $modal.find('.dialog-load ').click(function () {
+                $.post($(this).attr('href'), {
+                }, _bindAfterLoad, 'html');
+                return false;
+            });
+            $modal.find('form').on('submit', function () {
+                $.ajax(this.action, {
+                    type: "POST",
+                    data: $(this).serialize() + '&submit=ajax',
+                    success: _bindAfterLoad,
+                    dataType: "html"
+                });
+                return false;
+            });
+        }
     }
 
     return pub;

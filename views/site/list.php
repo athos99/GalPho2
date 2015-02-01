@@ -14,18 +14,6 @@ $this->blocks['block2'] = $this->render('//site/subviews/list', ['galpho' => $ga
 $this->blocks['block3'] = $this->render('//site/subviews/upload', ['galpho' => $galpho]);
 echo app\galpho\Helper::dialog(Url::to(['/admin/folder/edit', 'id' => $galpho->getIdPath()]));
 ?>
-<br>
-<?php
-yii\bootstrap\Modal::begin([
-    'header' => '<h2>Hello world</h2>',
-    'toggleButton' =>['label' => '', 'tag'=>'a', 'class'=>'glyphicon glyphicon-edit'],
-]);
-echo 'Say hello...';
-yii\bootstrap\Modal::end();
-
-
-
-?>
 <div class="row">
     <div class="col-md-10 col.md-push-2">
         <?= $this->blocks['header']; ?>
