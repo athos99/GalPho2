@@ -42,7 +42,7 @@ yii.galpho = (function ($) {
         init: function () {
             no_validation();
             galphostructure_check();
- //           urlFolder();
+            //           urlFolder();
             xEditable();
             dialog();
         }
@@ -106,7 +106,7 @@ yii.galpho = (function ($) {
             $this = $(this);
             var title = $this.attr('title');
             var url = $this.attr("href");
-            $modal = $('#'+$this.attr('data-modal'));
+            $modal = $('#' + $this.attr('data-modal'));
             $.post(url, {
                 data: 'data'
             }, _bindAfterLoad, 'html');
