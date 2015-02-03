@@ -110,7 +110,7 @@ yii.galpho = (function ($) {
             $.post(url, {
                 data: 'data'
             }, _bindAfterLoad, 'html');
-            $modal.modal("show");
+            $modal.modal({ 'keyboard': false, 'backdrop':'static'});
             return false;
         });
         // when the content is load bind links

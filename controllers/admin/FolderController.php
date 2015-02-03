@@ -41,7 +41,7 @@ class FolderController extends BaseController
                 $right->value = 0x07;
                 $right->save();
             }
-            return Yii::$app->getResponse()->redirect($galpho->url . '/' . $dir->path);
+            return Yii::$app->getResponse()->redirect($galpho->url . $dir->path);
         }
         $model->auto_path = 1;
         return $this->render('//admin/folder/create', ['model' => $model, 'galpho' => $galpho]);
@@ -52,16 +52,19 @@ class FolderController extends BaseController
 
         /** @var \app\galpho\Galpho $galpho */
         $galpho = Yii::$app->get('galpho');
-        $model = GalDir::find()->where(['id'=>$id])->localized('all')->one();
+        $galpho->setIdPath($id);
+        $model = GalDir::find()->where(['id' => $id])->localized('all')->one();
 //        $model = GalDir::findOne($id);
         $model->setScenario('form');
         $model::$langLanguages = $galpho->getLanguages();
 
-        if (!isset(Yii::$app->request->post()['cancel']) && $model->load(Yii::$app->request->post()) && $model->validate()) {
-            $galpho->setIdPath($id);
+        if (isset(Yii::$app->request->post()['cancel'])) {
+            return Yii::$app->getResponse()->redirect($galpho->url .  $galpho->path);
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->save();
             $galpho->renameFolder($model->url);
-            return Yii::$app->getResponse()->redirect($galpho->url . '/' . $galpho->path);
+            return Yii::$app->getResponse()->redirect($galpho->url .  $galpho->path);
         }
         return $this->render('//admin/folder/edit', ['model' => $model, 'galpho' => $galpho]);
     }
