@@ -126,7 +126,8 @@
         "yiisoft/yii2-authclient": "*",
         "yiisoft/yii2-jui": "*",
         "vitalets/x-editable": "dev-master",
-        "omgdef/yii2-multilingual-behavior": "*"
+        "omgdef/yii2-multilingual-behavior": "*",
+        "dektrium/yii2-user": "*"
     },
 
     "require-dev": {
