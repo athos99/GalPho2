@@ -17,6 +17,7 @@ class BootstrapAsset extends AssetBundle
 
     ];
     public $depends = [
+        'yii\web\JqueryAsset',
     ];
 
     public function init()

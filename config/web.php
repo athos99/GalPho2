@@ -8,6 +8,12 @@ $config = [
     'bootstrap' => ['log'],
     'language' => 'fr-CH',
     'sourceLanguage' => 'fr-CH',
+    'modules' => [
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'admins'=>['admin']
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -21,11 +27,10 @@ $config = [
             //'serializer' => false
             //    'serializer'=>['json_encode','json_decode']
         ],
-
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
+//        'user' => [
+//            'identityClass' => 'app\models\User',
+//            'enableAutoLogin' => true,
+//        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

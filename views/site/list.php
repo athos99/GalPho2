@@ -1,5 +1,4 @@
 <?php
-use \yii\helpers\Html;
 use \yii\helpers\Url;
 
 /**
@@ -8,11 +7,11 @@ use \yii\helpers\Url;
  */
 
 
-$this->blocks['header'] = $this->render('//site/subviews/header-list', ['galpho' => &$galpho]);
-$this->blocks['block1'] = $this->render('//site/subviews/tree', ['galpho' => $galpho]);
-$this->blocks['block2'] = $this->render('//site/subviews/list', ['galpho' => $galpho]);
-$this->blocks['block3'] = $this->render('//site/subviews/upload', ['galpho' => $galpho]);
-echo app\galpho\Helper::dialog(Url::to(['/admin/folder/edit', 'id' => $galpho->getIdPath()]));
+$editIcon =  app\galpho\Helper::dialog(Url::to(['/admin/folder/edit', 'id' => $galpho->getIdPath()]));
+$this->blocks['header'] = $this->render('//site/subviews/header-list', ['galpho' => &$galpho, 'editIcon'=>&$editIcon]);
+$this->blocks['block1'] = $this->render('//site/subviews/tree', ['galpho' => &$galpho]);
+$this->blocks['block2'] = $this->render('//site/subviews/list', ['galpho' => &$galpho]);
+$this->blocks['block3'] = $this->render('//site/subviews/upload', ['galpho' => &$galpho]);
 ?>
 <div class="row">
     <div class="col-md-10 col.md-push-2">

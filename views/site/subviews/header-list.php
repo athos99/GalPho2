@@ -2,15 +2,16 @@
 /**
  * @var app\galpho\Galpho $galpho
  * @var yii\Web\View $this
+ * @var string $editIcon
  */
 
 use \yii\helpers\Html;
 use \yii\helpers\ArrayHelper;
-
 $info = $galpho->getPathInfo();
 $title = ArrayHelper::getValue($info, 'title');
 $description = ArrayHelper::getValue($info, 'description');
 
+echo $editIcon;
 // breadcrumbs
 $breadcrumbs = $galpho->getBreadcrumb();
 end( $breadcrumbs);
@@ -21,12 +22,6 @@ foreach ($breadcrumbs as $key => $value) {
 }
 echo Html::encode($lastCrumb ) . '</br>';
 ?>
-
 <br>
 <h1> <?php echo Html::encode($title) ?></h1>
 <p><?php echo Html::encode($description) ?></p>
-
-
-
-<?= app\galpho\Helper::editable('blalvlvl',
-    ['pk' => '1', 'model' => 'GalDir', 'name' => 'description'], 'xxxxxx'); ?>

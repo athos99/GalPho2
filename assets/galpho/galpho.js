@@ -43,7 +43,7 @@ yii.galpho = (function ($) {
             no_validation();
             galphostructure_check();
             //           urlFolder();
-            xEditable();
+            //xEditable();
             dialog();
         }
     };

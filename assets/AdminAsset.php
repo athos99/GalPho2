@@ -12,7 +12,7 @@ class AdminAsset extends AssetFileBundle
 
     ];
     public $depends = [
-        'yii\widgets\ActiveFormAsset',
+//        'yii\widgets\ActiveFormAsset',
 
     ];
 }

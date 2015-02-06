@@ -1,5 +1,6 @@
 <?php
 namespace app\assets;
+
 use yii;
 use yii\web\AssetBundle;
 
@@ -19,14 +20,15 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'app\assets\BootstrapAsset',
-       'app\assets\AdminAsset',
-        'app\assets\XeditableAsset',
-//        'yii\web\JqueryAsset',
+        'app\assets\AdminAsset',
+//        'app\assets\XeditableAsset',
+        'yii\web\JqueryAsset',
     ];
 
 
-public function init() {
-    parent::init();
-}
+    public function init()
+    {
+        parent::init();
+    }
 
 }

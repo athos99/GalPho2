@@ -5,9 +5,8 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\helpers\Json;
-use yii\bootstrap\Modal;
 use  yii\base\Widget;
+use yii\web\View;
 
 class Helper
 {
@@ -33,25 +32,27 @@ class Helper
 
     public static function dialog($url, $label = '', $header = null, $close = false, $options = array())
     {
-
         $id = self::getAutoId();
-        echo '<div id="' . $id . '" class="modal fade"><div class="modal-dialog"><div class="modal-content">';
+        $html = '<div id="' . $id . '" class="modal fade"><div class="modal-dialog"><div class="modal-content">';
         if ($header !== null or $close) {
-            echo '<div class="modal-header">';
+            $html .= '<div class="modal-header">';
             if ($close) {
-                echo '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                $html .= '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
             }
             if ($header !== null) {
-                echo '<h2 class="modal-title" >'.$header.'</h2>';
+                $html .= '<h2 class="modal-title" >' . $header . '</h2>';
             }
-            echo '</div>';
+            $html .= '</div>';
         }
-        echo '<div class="modal-body" ></div ></div ></div ></div >';
-        $options['href']= $url;
-        $options ['data-modal']=$id;
-        $options['class'] = (isset($options['class']) ?  $options['class'] : ''). 'glyphicon glyphicon-edit dialog-open';
-        echo Html::tag('a', $label, $options);
+        $html .= '<div class="modal-body" ></div ></div ></div ></div >';
+        $options['href'] = $url;
+        $options ['data-modal'] = $id;
+        $options['class'] = (isset($options['class']) ? $options['class'] : '') . 'glyphicon glyphicon-edit dialog-open';
         $view = Yii::$app->getView();
+        $view->on(View::EVENT_END_BODY, function ($event) use ($html) {
+            echo  $html;
+        });
         \yii\bootstrap\BootstrapPluginAsset::register($view);
+        return Html::tag('a', $label, $options).'&nbsp';
     }
 }

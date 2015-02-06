@@ -96,30 +96,16 @@ NavBar::end();
     <div class="row">
         <?= Alert::widget() ?>
     </div>
-    <div class="row">
-        <?= app\galpho\Helper::editable('blalvlvl', ['pk' => '1', 'model' => 'GalDir', 'name' => 'description'], 'xxxxxx'); ?>
-        <span data-name="title"
-              data-type="text"
-              data-params="{table:'folder',id:'1', field:'title'}"
-              data-url="<?= \yii\helpers\Url::to(['/admin/folder/edit']) ?>"
-              data-pk="1"
-              data-title="Enter username" class="galpho-editable"
-              data-original-title=""
-              title="">span</span>
-        <a href="#" data-type="text" data-pk="1" data-title="Enter username" class="galpho-editable"
-           data-original-title=""
-           title="">superuser</a>
-
-        <?=
+    <div class="row"><?=
         Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-    </div>
+        ]) ?></div>
     <?= $content ?>
 </div>
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
