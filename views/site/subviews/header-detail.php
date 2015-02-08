@@ -22,13 +22,10 @@ array_pop($breadcrumbs);
 foreach ($breadcrumbs as $key => $value) {
     echo '<a href="' . $value . '">' . \yii\helpers\Html::encode($key) . '</a> / ';
 }
-echo Html::encode($lastCrumb ) . '</br>';
 ?>
-
-<br>
-<h1><?php echo app\galpho\Helper::editable($title,
-        ['pk' => $id, 'model' => 'GalElement', 'name' => 'title'], ''); ?></h1>
-<p><?php echo app\galpho\Helper::editable($description,
+<p><?= Html::encode($lastCrumb );?></p>
+<h1><?=$title?></h1>
+<p class="lead"><?php echo app\galpho\Helper::editable($description,
         ['pk' => $id, 'model' => 'GalElement', 'name' => 'description'], '',['data-type'=>'textarea']); ?></p>
 
 

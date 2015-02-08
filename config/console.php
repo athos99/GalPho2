@@ -9,9 +9,9 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
     'modules' => [
-        'user' => [
-            'class' => 'dektrium\user\Module',
-        ],
+//        'user' => [
+//            'class' => 'dektrium\user\Module',
+//        ],
     ],
     'components' => [
         'cache' => [

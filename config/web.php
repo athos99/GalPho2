@@ -9,10 +9,10 @@ $config = [
     'language' => 'fr-CH',
     'sourceLanguage' => 'fr-CH',
     'modules' => [
-        'user' => [
-            'class' => 'dektrium\user\Module',
-            'admins'=>['admin']
-        ],
+ //       'user' => [
+ //           'class' => 'dektrium\user\Module',
+ //           'admins'=>['admin']
+ //       ],
     ],
     'components' => [
         'request' => [
@@ -27,10 +27,10 @@ $config = [
             //'serializer' => false
             //    'serializer'=>['json_encode','json_decode']
         ],
-//        'user' => [
-//            'identityClass' => 'app\models\User',
-//            'enableAutoLogin' => true,
-//        ],
+        'user' => [
+           'identityClass' => 'app\models\User',
+            'enableAutoLogin' => true,
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

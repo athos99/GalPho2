@@ -9,8 +9,8 @@
 $request = Yii::$app->getRequest();
 
 $url = $galpho->url;
-$thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB;
-$thumbImg = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_HEIGHT;
+$thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_DIR;
+$thumbImg = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_IMG;
 
 
 $fullList = $galpho->getListForFolder();
@@ -21,9 +21,6 @@ $pagination = new \yii\data\Pagination(['totalCount' => count($fullList),
     'params' => $_REQUEST,
 ]);
 $list = array_slice($fullList, $pagination->offset, $pagination->limit);
-
-?><div class="row"><?php
-
     $this->beginBlock('dirList');
     foreach ($list as $element) :
         if ($element['type'] == 'dir') :
@@ -75,7 +72,6 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
     endif;
     if ($this->blocks['imgList'] <> '') :
         ?>
-        <div class="galpho-img clearfix jumbotron"><?= $this->blocks['imgList'] ?> </div><?php
+        <div class="galpho-img clearfix jumbotron"><h2><?= Yii::t('app','images');?></h2><?= $this->blocks['imgList'] ?> </div><?php
     endif;
     echo yii\Widgets\LinkPager::widget(['pagination' => $pagination,]);
-    ?></div>
