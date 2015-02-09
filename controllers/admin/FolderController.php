@@ -47,7 +47,8 @@ class FolderController extends BaseController
         return $this->render('//admin/folder/create', ['model' => $model, 'galpho' => $galpho]);
     }
 
-    public function actionEdit($id)
+
+    public function actionIndex($id)
     {
 
         /** @var \app\galpho\Galpho $galpho */
@@ -59,39 +60,29 @@ class FolderController extends BaseController
         $model::$langLanguages = $galpho->getLanguages();
 
         if (isset(Yii::$app->request->post()['cancel'])) {
-            return Yii::$app->getResponse()->redirect($galpho->url .  $galpho->path);
+            return Yii::$app->getResponse()->redirect($galpho->url . $galpho->path);
         }
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $model->save();
-            $galpho->renameFolder($model->url);
-            return Yii::$app->getResponse()->redirect($galpho->url .  $galpho->path);
-        }
-        return $this->render('//admin/folder/edit', ['model' => $model, 'galpho' => $galpho]);
-    }
-
-
-    public function actionRight($id)
-    {
         if (array_key_exists('save', $_POST)) {
-            $galDir = GalDir::findOne($id);
-            $rawRights = ArrayHelper::getValue($_POST, 'r', []);
-            $rights = [];
-            foreach ($rawRights as $rightId => $right) {
-                $value = 0;
-                foreach ($right as $v) {
-                    $value += $v;
+
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+
+
+                $galpho->renameFolder($model->url);
+                $galDir = GalDir::findOne($id);
+                $rawRights = ArrayHelper::getValue($_POST, 'r', []);
+                $rights = [];
+                foreach ($rawRights as $rightId => $right) {
+                    $value = 0;
+                    foreach ($right as $v) {
+                        $value += $v;
+                    }
+                    $rights[$rightId] = $value;
                 }
-                $rights[$rightId] = $value;
+                $galDir->saveRight($rights, !empty($_POST['children']));
+                return Yii::$app->getResponse()->redirect($galpho->url . $galpho->path);
             }
-            $galDir->saveRight($rights, !empty($_POST['children']));
-            return $this->redirect(['admin/group']);
-
-        } elseif (array_key_exists('cancel', $_POST)) {
-            return $this->redirect(['admin/group']);
-
         }
-
-
         $galGroup = new GalGroup();
         $records = GalGroup::find()
             ->with(['galRights' => function ($query) use ($id) {
@@ -99,12 +90,16 @@ class FolderController extends BaseController
                 }])
             ->orderBy('name')
             ->all();
-        return $this->render('//admin/folder/right', [
+
+        return $this->render('//admin/folder/index', [
+            'model' => $model,
+            'galpho' => $galpho,
             'records' => $records,
             'galGroup' => $galGroup
-
         ]);
     }
+
+
 }
 
 

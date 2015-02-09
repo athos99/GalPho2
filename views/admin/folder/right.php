@@ -9,14 +9,7 @@ use yii\widgets\ActiveForm;
  */
 
 
-$this->title = Yii::t('app/admin', 'Folder rights');
-$this->params['breadcrumbs'][] = $this->title;
 $rights = Yii::$app->params['right'];
-
-?>
-<h1><?= $this->title ?></h1><?php
-/*  @var yii\widgets\ActiveForm $form */
-$form = ActiveForm::begin();
 ?>
 <div class="gal-group-index">
 
@@ -61,12 +54,4 @@ $form = ActiveForm::begin();
 
     <div><?= Html::checkbox('children',false,['label'=>Yii::t('app/admin','Apply to children folder')])?></div>
 
-    <div class="row">
-        <div class="form-group">
-            <?= Html::resetButton(Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
-            <?= Html::submitButton(Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default  no-validation', 'name' => 'cancel']) ?>
-            <?= Html::submitButton(Yii::t('app/admin', 'Save'), ['class' => 'btn btn-primary', 'name' => 'save']) ?>
-        </div>
-    </div>
 </div>
-<?php ActiveForm::end(); ?>

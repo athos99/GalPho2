@@ -44,8 +44,7 @@ $menuItems = [
     ['label' => 'Folder', 'items' =>
         [
             ['label' => 'Create sub folder', 'url' => ['/admin/folder/create', 'id' => $galpho->getIdPath()]],
-            ['label' => 'Edit', 'url' => ['/admin/folder/edit', 'id' => $galpho->getIdPath()]],
-            ['label' => 'Right', 'url' => ['/admin/folder/right', 'id' => $galpho->getIdPath()]],
+            ['label' => 'Edit', 'url' => ['/admin/folder/index', 'id' => $galpho->getIdPath()]],
         ],
     ],
     ['label' => 'Dropdown', 'items' =>

@@ -30,14 +30,14 @@ class Helper
     }
 
 
-    public static function dialog($url, $label = '', $header = null, $close = false, $options = array())
+    public static function dialog($url, $label = '', $header = null, $close = true, $options = array())
     {
         $id = self::getAutoId();
         $html = '<div id="' . $id . '" class="modal fade"><div class="modal-dialog"><div class="modal-content">';
         if ($header !== null or $close) {
             $html .= '<div class="modal-header">';
             if ($close) {
-                $html .= '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                $html .= '<button type="button" class="close dialog-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
             }
             if ($header !== null) {
                 $html .= '<h2 class="modal-title" >' . $header . '</h2>';
@@ -47,7 +47,7 @@ class Helper
         $html .= '<div class="modal-body" ></div ></div ></div ></div >';
         $options['href'] = $url;
         $options ['data-modal'] = $id;
-        $options['class'] = (isset($options['class']) ? $options['class'] : '') . 'glyphicon glyphicon-edit dialog-open';
+        $options['class'] = (isset($options['class']) ? $options['class'] : '') . 'glyphicon glyphicon-edit dialog-open lead';
         $view = Yii::$app->getView();
         $view->on(View::EVENT_END_BODY, function ($event) use ($html) {
             echo  $html;

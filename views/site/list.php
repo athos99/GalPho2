@@ -1,13 +1,15 @@
 <?php
 use \yii\helpers\Url;
+use \yii\helpers\ArrayHelper;
 
 /**
  * @var \app\galpho\Galpho $galpho
  * @var \yii\Web\View $this
  */
 
-
-$editIcon =  app\galpho\Helper::dialog(Url::to(['/admin/folder/edit', 'id' => $galpho->getIdPath()]));
+$info = $galpho->getPathInfo();
+$title = ArrayHelper::getValue($info, 'title');
+$editIcon =  app\galpho\Helper::dialog(Url::to(['/admin/folder/index', 'id' => $galpho->getIdPath()]),'',$title);
 $this->blocks['header'] = $this->render('//site/subviews/header-list', ['galpho' => &$galpho, 'editIcon'=>&$editIcon]);
 $this->blocks['block1'] = $this->render('//site/subviews/tree', ['galpho' => &$galpho]);
 $this->blocks['block2'] = $this->render('//site/subviews/list', ['galpho' => &$galpho]);
