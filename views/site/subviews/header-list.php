@@ -21,5 +21,5 @@ foreach ($breadcrumbs as $key => $value) {
 }
 ?>
 <?=Html::encode($lastCrumb )?></p>
-<h1><?=Html::encode($title) ?></h1>
+<h1 style="page-title"><?=Html::encode($title) ?></h1>
 <p class="lead"><?=Html::encode($description);?></p>

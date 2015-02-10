@@ -7,9 +7,7 @@ use \yii\helpers\ArrayHelper;
  * @var \yii\Web\View $this
  */
 
-$info = $galpho->getPathInfo();
-$title = ArrayHelper::getValue($info, 'title');
-$editIcon =  app\galpho\Helper::dialog(Url::to(['/admin/folder/index', 'id' => $galpho->getIdPath()]),'',$title);
+$editIcon =  app\galpho\Helper::dialog(Url::to(['/admin/folder/index', 'id' => $galpho->getIdPath()]),'',null);
 $this->blocks['header'] = $this->render('//site/subviews/header-list', ['galpho' => &$galpho, 'editIcon'=>&$editIcon]);
 $this->blocks['block1'] = $this->render('//site/subviews/tree', ['galpho' => &$galpho]);
 $this->blocks['block2'] = $this->render('//site/subviews/list', ['galpho' => &$galpho]);

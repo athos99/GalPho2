@@ -18,8 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-?><h1><?= Html::encode($this->title) ?></h1>
-<div class="folder-form">
+?><h1 class="page-title"><?= Html::encode($this->title) ?></h1>
+<div class="folder-form page-content">
 <?php $form = ActiveForm::begin(); ?>
 <?php
 
