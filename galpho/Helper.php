@@ -30,18 +30,15 @@ class Helper
     }
 
 
-    public static function dialog($url, $label = '', $header = null, $close = true, $options = array())
+    public static function dialog($url, $label = null, $header = null, $close = true, $options = array())
     {
         $id = self::getAutoId();
-        if ($close) {
-            $htmlClose = '<button type="button" class="close dialog-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-        }
+        $htmlClose = ($close) ? '<button type="button" class="close dialog-close" data-dismiss="modal" aria-label="Close" style="position:absolute;top:3px;right:3px"><span aria-hidden="true">&times;</span></button>' : '';
         $html = '<div id="' . $id . '" class="modal fade"><div class="modal-dialog"><div class="modal-content">';
-        if ($header !== null || $close) {
-            $html .= '<div class="modal-header">' . $htmlClose . '<h2 class="modal-title" >' . $header . '</h2></div>';
+        if ($header !== null) {
+            $html .= '<div class="modal-header"><h2 class="modal-title" >' . $header . '</h2></div>';
         }
-        $html .= '<div class="modal-body" ></div >';
-        $html .= '</div ></div ></div >';
+        $html .= '<div class="modal-body" ></div >'.$htmlClose.'</div ></div ></div >';
         $options['href'] = $url;
         $options ['data-modal'] = $id;
         $options['class'] = (isset($options['class']) ? $options['class'] : '') . 'glyphicon glyphicon-edit dialog-open lead';
