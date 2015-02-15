@@ -9,7 +9,7 @@ use \yii\helpers\ArrayHelper;
 $info = $galpho->getPathInfo();
 $title = ArrayHelper::getValue($info, 'title');
 $description = ArrayHelper::getValue($info, 'description');
-?><p><?php
+?><div class="page-breadcrumb"><?php
 echo $editIcon;
 // breadcrumbs
 $breadcrumbs = $galpho->getBreadcrumb();
@@ -20,6 +20,6 @@ foreach ($breadcrumbs as $key => $value) {
     echo '<a href="' . $value . '">' . \yii\helpers\Html::encode($key) . '</a> / ';
 }
 ?>
-<?=Html::encode($lastCrumb )?></p>
-<h1 style="page-title"><?=Html::encode($title) ?></h1>
-<p class="lead"><?=Html::encode($description);?></p>
+<?=Html::encode($lastCrumb )?></div>
+<div class="page-title"><?=Html::encode($title) ?></div>
+<div class="page-description"><?=Html::encode($description);?></div>

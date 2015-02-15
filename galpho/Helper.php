@@ -41,7 +41,7 @@ class Helper
         $html .= '<div class="modal-body" ></div >'.$htmlClose.'</div ></div ></div >';
         $options['href'] = $url;
         $options ['data-modal'] = $id;
-        $options['class'] = (isset($options['class']) ? $options['class'] : '') . 'glyphicon glyphicon-edit dialog-open lead';
+        $options['class'] = (isset($options['class']) ? $options['class'] : '') . 'glyphicon glyphicon-edit dialog-open';
         $view = Yii::$app->getView();
         $view->on(View::EVENT_END_BODY, function ($event) use ($html) {
             echo $html;

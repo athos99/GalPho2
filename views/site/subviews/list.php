@@ -68,10 +68,10 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
     $this->endBlock();
     if ($this->blocks['dirList'] <> '') :
         ?>
-        <div class="galpho-dir clearfix jumbotron"><h2><?= Yii::t('app','galleries');?></h2><?= $this->blocks['dirList'] ?> </div><?php
+        <div class="galpho-dir clearfix"><h2><?= Yii::t('app','galleries');?></h2><?= $this->blocks['dirList'] ?> </div><?php
     endif;
     if ($this->blocks['imgList'] <> '') :
         ?>
-        <div class="galpho-img clearfix jumbotron"><h2><?= Yii::t('app','images');?></h2><?= $this->blocks['imgList'] ?> </div><?php
+        <div class="galpho-img clearfix"><h2><?= Yii::t('app','images');?></h2><?= $this->blocks['imgList'] ?> </div><?php
     endif;
     echo yii\Widgets\LinkPager::widget(['pagination' => $pagination,]);
