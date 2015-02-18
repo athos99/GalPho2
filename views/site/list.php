@@ -1,6 +1,7 @@
 <?php
 use \yii\helpers\Url;
-use \yii\helpers\ArrayHelper;
+use app\galpho\Helper;
+
 
 /**
  * @var \app\galpho\Galpho $galpho
@@ -16,7 +17,9 @@ $this->blocks['block3'] = $this->render('//site/subviews/upload', ['galpho' => &
 <div class="row">
     <div class="col-md-10 col.md-push-2">
         <?= $this->blocks['header']; ?>
+        <div id="<?=Helper::pJax();?>">
         <?= $this->blocks['block2']; ?>
+            </div>
     </div>
     <div class="col-md-2 col.md-pull-10">
         <?= $this->blocks['block1']; ?>

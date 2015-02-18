@@ -5,22 +5,28 @@
  */
 
 
+
 /** @var \yii\web\request $request */
 $request = Yii::$app->getRequest();
 
 $url = $galpho->url;
 $thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_DIR;
 $thumbImg = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_IMG;
-
-
 $fullList = $galpho->getListForFolder();
 $info = $galpho->getPathInfo();
+
+?>
+<div class="pagination-left"><</div>
+<div class="pagination-center">
+    <?php
 $pagination = new \yii\data\Pagination(['totalCount' => count($fullList),
     'pageSize' => 25,
     'route' => $galpho->route . '/' . $galpho->getPath(),
     'params' => $_REQUEST,
 ]);
 $list = array_slice($fullList, $pagination->offset, $pagination->limit);
+echo yii\Widgets\LinkPager::widget(['pagination' => $pagination]);
+
     $this->beginBlock('dirList');
     foreach ($list as $element) :
         if ($element['type'] == 'dir') :
@@ -66,12 +72,13 @@ $list = array_slice($fullList, $pagination->offset, $pagination->limit);
         endif;
     endforeach;
     $this->endBlock();
+
     if ($this->blocks['dirList'] <> '') :
         ?>
-        <div class="galpho-dir clearfix"><h2><?= Yii::t('app','galleries');?></h2><?= $this->blocks['dirList'] ?> </div><?php
+        <div class="galpho-dir clearfix"><xh2><?= Yii::t('app','galleries');?></xh2><?= $this->blocks['dirList'] ?> </div><?php
     endif;
     if ($this->blocks['imgList'] <> '') :
         ?>
-        <div class="galpho-img clearfix"><h2><?= Yii::t('app','images');?></h2><?= $this->blocks['imgList'] ?> </div><?php
+        <div class="galpho-img clearfix"><xh2><?= Yii::t('app','images');?></xh2><?= $this->blocks['imgList'] ?> </div><?php
     endif;
-    echo yii\Widgets\LinkPager::widget(['pagination' => $pagination,]);
+?></div><div class="pagination-right"></div>

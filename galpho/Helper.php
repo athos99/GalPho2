@@ -30,7 +30,7 @@ class Helper
     }
 
 
-    public static function dialog($url, $label = null, $header = null, $close = true, $options = array())
+    public static function dialog($url, $label = null, $header = null, $close = true, $options = [])
     {
         $id = self::getAutoId();
         $htmlClose = ($close) ? '<button type="button" class="close dialog-close" data-dismiss="modal" aria-label="Close" style="position:absolute;top:3px;right:3px"><span aria-hidden="true">&times;</span></button>' : '';
@@ -49,4 +49,21 @@ class Helper
         \yii\bootstrap\BootstrapPluginAsset::register($view);
         return Html::tag('a', $label, $options) . '&nbsp';
     }
+
+    public static function pJax($linkSelector=null, $formSelector=null, $options=[]) {
+
+        $id = self::getAutoId();
+        $options = json_encode($options+['push'=>true,'replace'=>false,'timeout'=>1000,'scrollTo'=>0]);
+        $linkSelector = json_encode($linkSelector !== null ? $linkSelector : '#' . $id . ' a');
+        $formSelector = json_encode($formSelector !== null ? $formSelector : '#' . $id . ' form');
+        $view = Yii::$app->getView();
+
+        \yii\widgets\PjaxAsset::register($view);
+        $js = "jQuery(document).pjax($linkSelector, \"#$id\", $options);";
+        $js .= "\njQuery(document).on('submit', $formSelector, function (event) {jQuery.pjax.submit(event, '#$id', $options);});";
+        $view->registerJs($js);
+        return $id;
+
+    }
+
 }

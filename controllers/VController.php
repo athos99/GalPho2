@@ -17,8 +17,8 @@ class VController extends Controller
         $galpho = Yii::$app->get('galpho');
         $galpho->setPath($path);
         $galpho->setGroups([1, 2, 3]);
-        if ( $pathStructure = $galpho->getPathStructure() === false) {
-            Yii::$app->getSession()->setFlash('error', 'The path '. $path.' doesn\'t exist');
+        if ($pathStructure = $galpho->getPathStructure() === false) {
+            Yii::$app->getSession()->setFlash('error', 'The path ' . $path . ' doesn\'t exist');
             return Yii::$app->getResponse()->redirect($galpho->url);
         }
 
@@ -28,8 +28,8 @@ class VController extends Controller
             foreach ($_POST['file'] as $file) {
                 $file = $uploadManager->cleanFileName($file);
                 if ($file != '') {
-                    $filename = $uploadManager->targetDir.'/'.$file;
-                    $galpho->addMoveElement($filename, $file,null);
+                    $filename = $uploadManager->targetDir . '/' . $file;
+                    $galpho->addMoveElement($filename, $file, null);
 
 
                 }
@@ -39,13 +39,16 @@ class VController extends Controller
         }
 
 
-//        $galpho->repair();
         switch ($galpho->getViewMode()) {
             case \app\galpho\Galpho::VIEW_LIST :
-                return $this->render('//site/list', ['galpho' => $galpho]);
+                if (Yii::$app->request->isAjax) {
+                    return $this->renderAjax('//site/subviews/list', ['galpho' => &$galpho]);
+                } else {
+                    return $this->render('//site/list', ['galpho' => &$galpho]);
+                }
                 break;
             case \app\galpho\Galpho::VIEW_DETAIL :
-                return $this->render('//site/detail', ['galpho' => $galpho]);
+                return $this->render('//site/detail', ['galpho' => &$galpho]);
                 break;
             default :
                 Yii::$app->getResponse()->redirect(['/']);
