@@ -25,7 +25,7 @@ $pagination = new \yii\data\Pagination(['totalCount' => count($fullList),
     'params' => $_REQUEST,
 ]);
 $list = array_slice($fullList, $pagination->offset, $pagination->limit);
-echo yii\Widgets\LinkPager::widget(['pagination' => $pagination]);
+echo yii\widgets\LinkPager::widget(['pagination' => $pagination]);
 
     $this->beginBlock('dirList');
     foreach ($list as $element) :
