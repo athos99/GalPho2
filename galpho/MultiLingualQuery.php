@@ -5,7 +5,7 @@ use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Query;
 
-class MultilingualQuery extends ActiveQuery
+class MultiLingualQuery extends ActiveQuery
 {
     public $language;
 

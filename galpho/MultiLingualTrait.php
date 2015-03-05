@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 use yii\validators\RequiredValidator;
 
 
-trait MultilingualTrait
+trait MultiLingualTrait
 {
 
 //    public static $langForeignKey = 'dir_id';
@@ -40,7 +40,7 @@ trait MultilingualTrait
     {
         $primaryKey = static::primaryKey();
         /** @var ActiveQuery $query */
-        $query = Yii::createObject(MultilingualQuery::className(), [get_called_class()]);
+        $query = Yii::createObject(MultiLingualQuery::className(), [get_called_class()]);
         $query->language = static::currentLanguage();
         $query->join[0] = [
             'LEFT JOIN',

@@ -2,13 +2,13 @@
 namespace app\models;
 use yii;
 use yii\db\Query;
-use app\galpho\MultilingualTrait;
-//use app\galpho\MultilingualQuery;
+use app\galpho\MultiLingualTrait;
+//use app\galpho\MultiLingualQuery;
 
 
 class GalDir extends GalDirBase
 {
-    use MultilingualTrait;
+    use MultiLingualTrait;
 
     public static $langForeignKey = 'dir_id';
     public static $langLanguages = [];

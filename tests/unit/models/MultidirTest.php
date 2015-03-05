@@ -5,8 +5,8 @@ use tests\unit\PHPunit;
 use Yii;
 use tests\fixtures;
 use yii\db\ActiveRecord;
-use app\galpho\MultilingualTrait;
-use app\galpho\MultilingualQuery;
+use app\galpho\MultiLingualTrait;
+use app\galpho\MultiLingualQuery;
 
 
 
@@ -211,7 +211,7 @@ class MultiDirTest extends PHPunit
         Yii::$app->language = 'fr-FR';
         $id = $this->getFixture('galDirs')['dir1']['id'];
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
-        $this->assertInstanceOf(MultilingualQuery::className(), $aq);
+        $this->assertInstanceOf(MultiLingualQuery::className(), $aq);
         $row = $aq->one();
         $this->assertNotEmpty($row);
         $this->assertInstanceOf(MultiDir::className(), $row);
@@ -265,7 +265,7 @@ class MultiDirTest extends PHPunit
         Yii::$app->language = 'en-US';
         $id = $this->getFixture('galDirs')['dir1']['id'];
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
-        $this->assertInstanceOf(MultilingualQuery::className(), $aq);
+        $this->assertInstanceOf(MultiLingualQuery::className(), $aq);
         $row = $aq->one();
         $this->assertNotEmpty($row);
         $this->assertInstanceOf(MultiDir::className(), $row);
@@ -280,7 +280,7 @@ class MultiDirTest extends PHPunit
         Yii::$app->language = 'en-US';
         $id = $this->getFixture('galDirs')['dir2']['id'];
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
-        $this->assertInstanceOf(MultilingualQuery::className(), $aq);
+        $this->assertInstanceOf(MultiLingualQuery::className(), $aq);
         $row = $aq->one();
         $this->assertNotEmpty($row);
         $this->assertInstanceOf(MultiDir::className(), $row);
@@ -295,7 +295,7 @@ class MultiDirTest extends PHPunit
         Yii::$app->language = 'pt-PT';
         $id = $this->getFixture('galDirs')['dir1']['id'];
         $aq = Multidir::find()->Where(['g2t_gal_dir.id' => $id]);
-        $this->assertInstanceOf(MultilingualQuery::className(), $aq);
+        $this->assertInstanceOf(MultiLingualQuery::className(), $aq);
         $row = $aq->one();
         $this->assertNotEmpty($row);
         $this->assertInstanceOf(MultiDir::className(), $row);
