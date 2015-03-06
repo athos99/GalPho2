@@ -30,7 +30,7 @@ class AdminTool extends Galpho
         imagecolordeallocate($img, $c);
         $dir = dirname($file);
         if (!is_dir($dir)) {
-            mkdir($dir, 777, true);
+            mkdir($dir, 0777, true);
         }
         imagejpeg($img, $file);
         @chmod($file, 0777);

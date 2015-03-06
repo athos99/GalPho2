@@ -367,7 +367,7 @@ $bOk =true;
     public function output()
     {
         if (!is_dir($this->dstDir)) {
-            mkdir($this->dstDir, 777, true);
+            mkdir($this->dstDir, 0777, true);
         }
         imagejpeg($this->img, $this->dstFullName);
         @chmod($this->dstFullName, 0777);

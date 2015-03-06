@@ -251,7 +251,7 @@ class Galpho extends component
         $dir = Yii::getAlias('@app/' . Yii::$app->params['image']['src']) . '/' . $this->getPath();
 
         if (!is_dir($dir)) {
-            mkdir($dir, 777, true);
+            mkdir($dir, 0777, true);
         }
         $dst = $dir . '/' . $name;
         $out = @fopen($dst, "wb");
@@ -327,7 +327,7 @@ class Galpho extends component
         // clear right cache
         $dir = Yii::getAlias('@app/') . Yii::$app->params['image']['src'];
         if (!is_dir($dir)) {
-            mkdir($dir, 777, true);
+            mkdir($dir, 0777, true);
         }
         $list = FileHelper::findFiles(Yii::getAlias('@app/') . Yii::$app->params['image']['src'], ['only' => ['right.php']]);
         foreach ($list as $file) {
@@ -351,7 +351,7 @@ class Galpho extends component
         $path = trim($this->getPath() . '/' . $name, '/');
         $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src'] . '/' . $path);
         if (!is_dir($dst)) {
-            mkdir($dst, 777, true);
+            mkdir($dst, 0777, true);
         }
 
         $dir = models\GalDir::findOne(['path' => $path]);
