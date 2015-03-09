@@ -37,13 +37,13 @@ class Exif
                 $this->model = $exif['IFD0']['Model'];
             }
             if (isset($exif['EXIF']['FNumber'])) {
-                eval("\$v=" . $exif['EXIF']['FNumber'] . ";");
+                eval('$v=' . $exif['EXIF']['FNumber'] . ';');
                 $this->aperture = 'f/' . number_format($v, 1);
             }
 
             if (isset($exif['EXIF']['ExposureTime'])) {
 
-                eval("\$v=" . $exif['EXIF']['ExposureTime'] . ";");
+                eval('\$v=' . $exif['EXIF']['ExposureTime'] . ';');
                 if ($v < 1 && $v != 0 && is_numeric($v)) {
                     $v = "1/" . round(1 / $v);
                 }
