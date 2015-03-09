@@ -32,7 +32,7 @@ class FolderController extends BaseController
             $dir = new GalDir();
             $name = BaseInflector::slug(trim($model->title), '-', true);
             $dir->title = trim($model->title);
-            $dir->path = trim($galpho->getPath() . '/' . $name, '/');
+            $dir->path = rtrim($galpho->getPath() . '/' . $name, '/');
             $dir->description = trim($model->description);
             if ($dir->save()) {
                 $right = new GalRight();

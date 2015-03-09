@@ -39,7 +39,7 @@ class AdminTool extends Galpho
 
     public function createImage($width, $height, $name)
     {
-        $src = trim(Yii::getAlias('@app/' . Yii::$app->params['image']['src'] . '/' . $this->getPath()), '/');
+        $src = rtrim(Yii::getAlias('@app/' . Yii::$app->params['image']['src'] . '/' . $this->getPath()), '/');
         $file = $src . '/' . $name . '.jpg';
         if (is_file($file)) {
             unlink($file);

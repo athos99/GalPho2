@@ -47,7 +47,7 @@ class Galpho extends component
 
     public function setPath($path)
     {
-        $this->_path = trim($path, '/');
+        $this->_path = rtrim($path, '/');
         $this->_pathStructure = null;
         $this->_idPath = null;
     }
@@ -348,7 +348,7 @@ class Galpho extends component
 
     public function addFolder($name, $title, $description)
     {
-        $path = trim($this->getPath() . '/' . $name, '/');
+        $path = rtrim($this->getPath() . '/' . $name, '/');
         $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src'] . '/' . $path);
         if (!is_dir($dst)) {
             mkdir($dst, 0777, true);
@@ -372,7 +372,7 @@ class Galpho extends component
             // root folder, we can't rename
             return false;
         }
-        $dst = trim($this->getParentPath() . '/' . $newName, '/');
+        $dst = rtrim($this->getParentPath() . '/' . $newName, '/');
         // check if new folder doesn't exist
         if (models\Galpho::findPath($this->_fullStructure, $dst) !== false) {
             return false;

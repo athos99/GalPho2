@@ -5,6 +5,7 @@ use yii\db\Schema;
 
 class m000101_010101_galpho extends yii\db\Migration
 {
+
     public function up()
     {
         $tableOptions = null;
@@ -13,27 +14,27 @@ class m000101_010101_galpho extends yii\db\Migration
         }
 
         $this->createTable('{{%user}}', [
-                'id' => 'pk',
-                'username' => 'VARCHAR(64) NULL',
+            'id' => 'pk',
+            'username' => 'VARCHAR(64) NULL',
 
 
-                'email' => 'VARCHAR(100) NULL',
-                'permanent' => 'boolean NOT NULL default 0',
+            'email' => 'VARCHAR(100) NULL',
+            'permanent' => 'boolean NOT NULL default 0',
 
-                'validated' => 'boolean NOT NULL DEFAULT 0',
-                'active' => 'boolean NOT NULL DEFAULT 0',
-                'superuser' => 'boolean NOT NULL DEFAULT 0',
-                'create' => 'datetime',
-                'last_login' => 'datetime',
+            'validated' => 'boolean NOT NULL DEFAULT 0',
+            'active' => 'boolean NOT NULL DEFAULT 0',
+            'superuser' => 'boolean NOT NULL DEFAULT 0',
+            'create' => 'datetime',
+            'last_login' => 'datetime',
 
-                'auth_key' => 'VARCHAR(140)',
-                'password_hash' => 'NVARCHAR(140)',
-                'password_reset_token' => 'NVARCHAR(140)',
-                'role' => 'SMALLINT NOT NULL DEFAULT 10',
-                'status' => 'SMALLINT  NOT NULL DEFAULT 10',
-                'created_at' => 'datetime NULL',
-                'updated_at' => 'datetime NULL',
-            ],
+            'auth_key' => 'VARCHAR(140)',
+            'password_hash' => 'NVARCHAR(140)',
+            'password_reset_token' => 'NVARCHAR(140)',
+            'role' => 'SMALLINT NOT NULL DEFAULT 10',
+            'status' => 'SMALLINT  NOT NULL DEFAULT 10',
+            'created_at' => 'datetime NULL',
+            'updated_at' => 'datetime NULL',
+        ],
             $tableOptions);
         $this->insert('{{%user}}', [
             'id' => 1,
@@ -49,15 +50,15 @@ class m000101_010101_galpho extends yii\db\Migration
 
 
         $this->createTable('{{%user_authenticate}}', [
-                'id' => 'pk',
-                'user_id' => 'integer NOT NULL',
-                'provider' => 'VARCHAR(64) NULL',
-                'identifier' => 'VARCHAR(256) NULL',
-                'authenticate' => 'VARCHAR(512) NULL',
-                'user_data' => 'text',
-                'expire' => 'datetime NULL',
-                'active' => 'boolean NOT NULL DEFAULT 0',
-            ],
+            'id' => 'pk',
+            'user_id' => 'integer NOT NULL',
+            'provider' => 'VARCHAR(64) NULL',
+            'identifier' => 'VARCHAR(256) NULL',
+            'authenticate' => 'VARCHAR(512) NULL',
+            'user_data' => 'text',
+            'expire' => 'datetime NULL',
+            'active' => 'boolean NOT NULL DEFAULT 0',
+        ],
             $tableOptions);
         $this->createIndex('i_user_id', '{{%user_authenticate}}', 'user_id', false);
         $this->addForeignKey('fk_user_authenticate_user_id', '{{%user_authenticate}}',
@@ -74,31 +75,31 @@ class m000101_010101_galpho extends yii\db\Migration
         ]);
 
         $this->createTable('{{%user_field}}', [
-                'id' => 'pk',
-                'user_id' => 'integer NOT NULL',
-                'field' => 'VARCHAR(64) NOT NULL',
-                'value' => 'text',
-            ],
+            'id' => 'pk',
+            'user_id' => 'integer NOT NULL',
+            'field' => 'VARCHAR(64) NOT NULL',
+            'value' => 'text',
+        ],
             $tableOptions);
         $this->addForeignKey('fk_user_field_user_id', '{{%user_field}}', 'user_id',
             '{{%user}}', 'id', 'CASCADE', 'CASCADE');
 
 
         $this->createTable('{{%auth_item}}', [
-                'name' => 'VARCHAR(64) NOT NULL PRIMARY KEY',
-                'type' => 'integer NOT NULL',
-                'description' => 'text',
-                'biz_rule' => 'text',
-                'data' => 'text'
-            ],
+            'name' => 'VARCHAR(64) NOT NULL PRIMARY KEY',
+            'type' => 'integer NOT NULL',
+            'description' => 'text',
+            'biz_rule' => 'text',
+            'data' => 'text'
+        ],
             $tableOptions);
         $this->createIndex('i_type', '{{%auth_item}}', 'type', false);
 
 
         $this->createTable('{{%auth_item_child}}', [
-                'parent' => 'VARCHAR(64) NOT NULL',
-                'child' => 'VARCHAR(64) NOT NULL',
-            ],
+            'parent' => 'VARCHAR(64) NOT NULL',
+            'child' => 'VARCHAR(64) NOT NULL',
+        ],
             $tableOptions);
         $this->execute('ALTER TABLE {{%auth_item_child}} ADD PRIMARY KEY ( `parent` , `child` )');
         $this->addForeignKey('fk_parent', '{{%auth_item_child}}', 'parent', '{{%auth_item}}', 'name', 'CASCADE', 'CASCADE');
@@ -106,34 +107,34 @@ class m000101_010101_galpho extends yii\db\Migration
 
 
         $this->createTable('{{%auth_assignment}}', [
-                'item_name' => 'VARCHAR(64) NOT NULL',
-                'user_id' => 'VARCHAR(64) NOT NULL PRIMARY KEY',
-                'biz_rule' => 'text',
-                'data' => 'text'],
+            'item_name' => 'VARCHAR(64) NOT NULL',
+            'user_id' => 'VARCHAR(64) NOT NULL PRIMARY KEY',
+            'biz_rule' => 'text',
+            'data' => 'text'],
             $tableOptions);
         $this->addForeignKey('fk_item_name', '{{%auth_assignment}}', 'item_name', '{{%auth_item}}', 'name', 'CASCADE', 'CASCADE');
 
 
         $this->createTable('{{%gal_dir}}', [
-                'id' => 'pk',
-                'element_id_cover' => 'integer',
-                'path' => 'text',
-                'title' => 'VARCHAR(256) NULL',
-                'auto_path' => 'boolean NOT NULL default 1',
-                'description' => 'text NULL',
-                'created_at' => 'datetime NULL',
-                'updated_at' => 'datetime NULL',
-                'sort_order' => 'VARCHAR(30) NULL',
-            ],
+            'id' => 'pk',
+            'element_id_cover' => 'integer',
+            'path' => 'text',
+            'title' => 'VARCHAR(256) NULL',
+            'auto_path' => 'boolean NOT NULL default 1',
+            'description' => 'text NULL',
+            'created_at' => 'datetime NULL',
+            'updated_at' => 'datetime NULL',
+            'sort_order' => 'VARCHAR(30) NULL',
+        ],
             $tableOptions);
         $this->createIndex('i_path', '{{%gal_dir}}', 'path(255)', true);
 
         $this->createTable('{{%gal_dir_lang}}', [
-                'dir_id' => 'integer NOT NULL',
-                'language' => 'VARCHAR(6) NOT NULL',
-                'title' => 'VARCHAR(256) NULL',
-                'description' => 'text NULL',
-            ],
+            'dir_id' => 'integer NOT NULL',
+            'language' => 'VARCHAR(6) NOT NULL',
+            'title' => 'VARCHAR(256) NULL',
+            'description' => 'text NULL',
+        ],
             $tableOptions);
         $this->execute('ALTER TABLE {{%gal_dir_lang}}  ADD PRIMARY KEY ( `dir_id`,`language` )');
         $this->addForeignKey('fk_gal_dir_dir_id', '{{%gal_dir_lang}}',
@@ -151,17 +152,17 @@ class m000101_010101_galpho extends yii\db\Migration
         ]);
 
         $this->createTable('{{%gal_element}}', [
-                'id' => 'pk',
-                'dir_id' => 'integer NOT NULL',
-                'name' => 'VARCHAR(128) NULL',
-                'title' => 'VARCHAR(256) NULL',
-                'description' => 'text NULL',
-                'info' => 'text NULL',
-                'created_at' => 'datetime NULL',
-                'updated_at' => 'datetime NULL',
-                'format' => 'VARCHAR(10) NOT NULL',
-                'rank' => 'integer NOT NULL DEFAULT 0'
-            ],
+            'id' => 'pk',
+            'dir_id' => 'integer NOT NULL',
+            'name' => 'VARCHAR(128) NULL',
+            'title' => 'VARCHAR(256) NULL',
+            'description' => 'text NULL',
+            'info' => 'text NULL',
+            'created_at' => 'datetime NULL',
+            'updated_at' => 'datetime NULL',
+            'format' => 'VARCHAR(10) NOT NULL',
+            'rank' => 'integer NOT NULL DEFAULT 0'
+        ],
             $tableOptions);
 
 
@@ -171,25 +172,23 @@ class m000101_010101_galpho extends yii\db\Migration
             'dir_id', '{{%gal_dir}}', 'id', 'CASCADE', 'CASCADE');
 
         $this->createTable('{{%gal_element_lang}}', [
-                'element_id' => 'integer NOT NULL',
-                'language' => 'VARCHAR(6) NOT NULL',
-                'title' => 'VARCHAR(256) NULL',
-                'description' => 'text NULL',
-            ],
+            'element_id' => 'integer NOT NULL',
+            'language' => 'VARCHAR(6) NOT NULL',
+            'title' => 'VARCHAR(256) NULL',
+            'description' => 'text NULL',
+        ],
             $tableOptions);
         $this->execute('ALTER TABLE {{%gal_element_lang}}  ADD PRIMARY KEY ( `element_id`,`language` )');
         $this->addForeignKey('fk_gal_element_element_id', '{{%gal_element_lang}}',
             'element_id', '{{%gal_element}}', 'id', 'CASCADE', 'CASCADE');
 
 
-
-
         $this->createTable('{{%gal_group}}', [
-                'id' => 'pk',
-                'permanent' => 'boolean NOT NULL default 0',
-                'name' => 'VARCHAR(128) NULL',
-                'description' => 'text NULL'
-            ],
+            'id' => 'pk',
+            'permanent' => 'boolean NOT NULL default 0',
+            'name' => 'VARCHAR(128) NULL',
+            'description' => 'text NULL'
+        ],
             $tableOptions);
 
 
@@ -202,9 +201,9 @@ class m000101_010101_galpho extends yii\db\Migration
 
 
         $this->createTable('{{%gal_group_user}}', [
-                'group_id' => 'integer',
-                'user_id' => 'integer',
-            ],
+            'group_id' => 'integer',
+            'user_id' => 'integer',
+        ],
             $tableOptions);
         $this->addForeignKey('fk_gal_group_user_group_id', '{{%gal_group_user}}',
             'group_id', '{{%gal_group}}', 'id', 'CASCADE', 'CASCADE');
@@ -212,10 +211,10 @@ class m000101_010101_galpho extends yii\db\Migration
             'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
 
         $this->createTable('{{%gal_right}}', [
-                'group_id' => 'integer',
-                'dir_id' => 'integer',
-                'value' => 'integer NOT NULL DEFAULT 0'
-            ],
+            'group_id' => 'integer',
+            'dir_id' => 'integer',
+            'value' => 'integer NOT NULL DEFAULT 0'
+        ],
             $tableOptions);
         $this->addPrimaryKey('pk_primary', '{{%gal_right}}', 'group_id, dir_id');
         $this->addForeignKey('fk_gal_right_group_id', '{{%gal_right}}',
@@ -229,8 +228,10 @@ class m000101_010101_galpho extends yii\db\Migration
             'dir_id' => 1,
             'value' => 0xFF,
         ]);
-        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache'));
-
+        try {
+            \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache'));
+        } catch (Exception $e) {
+        }
         return true;
     }
 
@@ -251,7 +252,10 @@ class m000101_010101_galpho extends yii\db\Migration
         $this->dropTable('{{%auth_assignment}}');
         $this->dropTable('{{%auth_item_child}}');
         $this->dropTable('{{%auth_item}}');
-        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache'));
+        try {
+            \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/cache'));
+        } catch (Exception $e) {
+        }
         return true;
     }
 }

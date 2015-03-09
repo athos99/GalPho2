@@ -21,9 +21,11 @@ $config = [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+            'fileMode'=>0775
         ],
         'cacheFast' => [
             'class' => 'yii\caching\FileCache',
+            'fileMode'=>0775
             //'serializer' => false
             //    'serializer'=>['json_encode','json_decode']
         ],
