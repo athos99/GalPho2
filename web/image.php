@@ -91,9 +91,9 @@ class Image
                 return;
             }
             if (is_file($this->srcFullName)) {
-                if ( $this->getImage($this->srcFullName) !== false) {
-                $this->output();
-                return;
+                if ($this->getImage($this->srcFullName) !== false) {
+                    $this->output();
+                    return;
                 }
             }
 
@@ -195,7 +195,7 @@ class Image
                 }
             }
         }
-$bOk =true;
+        $bOk = true;
         return $bOk;
     }
 
@@ -369,7 +369,7 @@ $bOk =true;
         if (!is_dir($this->dstDir)) {
             mkdir($this->dstDir, 0777, true);
         }
-        imagejpeg($this->img, $this->dstFullName);
+        imagejpeg($this->img, $this->dstFullName,90);
         @chmod($this->dstFullName, 0777);
         imagedestroy($this->img);
         $this->header('jpg');
@@ -486,7 +486,7 @@ $bOk =true;
         $this->img = null;
 
         $infoFile = pathinfo($filename);
-        $imgType = strtolower(   isset($infoFile['extension'])) ? $infoFile['extension'] : null ;
+        $imgType = strtolower(isset($infoFile['extension'])) ? $infoFile['extension'] : null;
 
         switch ($imgType) {
             case 'jpg':

@@ -85,7 +85,7 @@ class Galpho extends base\Object
 
     /**
      * @param $structure []
-     * @param $path string
+     * @param $path stringurl
      * @return false or structure[] of the path
      */
 

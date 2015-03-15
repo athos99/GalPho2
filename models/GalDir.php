@@ -19,7 +19,7 @@ class GalDir extends GalDirBase
     public function getUrl()
     {
         if ($this->_url === null) {
-            $this->_url = basename($this->path);
+            $this->_url = rtrim(basename($this->path),'/');
         }
         return $this->_url;
     }
@@ -27,7 +27,7 @@ class GalDir extends GalDirBase
 
     public function setUrl($val)
     {
-        $this->_url = $val;
+        $this->_url = rtrim($val,'/');
     }
 
 

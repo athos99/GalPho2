@@ -37,23 +37,42 @@ class Exif
                 $this->model = $exif['IFD0']['Model'];
             }
             if (isset($exif['EXIF']['FNumber'])) {
-                eval('$v=' . $exif['EXIF']['FNumber'] . ';');
+                $v=$exif['EXIF']['FNumber'];
+                if (!is_numeric($v)) {
+                    $v = explode('/',$v);
+                    if ( count($v)==2 and !empty($v[1])) {
+                        $v = $v[0]/$v[1];
+                    } else {
+                        $v=0;
+                    }
+                }
                 $this->aperture = 'f/' . number_format($v, 1);
             }
-
             if (isset($exif['EXIF']['ExposureTime'])) {
-
-                eval('\$v=' . $exif['EXIF']['ExposureTime'] . ';');
-                if ($v < 1 && $v != 0 && is_numeric($v)) {
-                    $v = "1/" . round(1 / $v);
-                }
+                $v=$exif['EXIF']['ExposureTime'];
+//                if (!is_numeric($v)) {
+//                    $v = explode('/',$v);
+//                    if ( count($v)==2 and !empty($v[1])) {
+//                        $v = $v[0]/$v[1];
+//                    } else {
+//                        $v=0;
+//                    }
+//                }
                 $this->speed = $v . 's';
             }
             if (isset($exif['EXIF']['ISOSpeedRatings'])) {
                 $this->iso = $exif['EXIF']['ISOSpeedRatings'];
             }
             if (isset($exif['EXIF']['FocalLength'])) {
-                eval("\$v=" . $exif['EXIF']['FocalLength'] . ";");
+                $v=$exif['EXIF']['FocalLength'];
+                if (!is_numeric($v)) {
+                    $v = explode('/',$v);
+                    if ( count($v)==2 and !empty($v[1])) {
+                        $v = $v[0]/$v[1];
+                    } else {
+                        $v=0;
+                    }
+                }
                 $this->focal = number_format($v, 1) . 'mm';
             }
             if (isset($exif['EXIF']['DateTimeOriginal'])) {

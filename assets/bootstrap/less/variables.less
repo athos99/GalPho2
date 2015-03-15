@@ -21,17 +21,20 @@
 @brand-danger:          #d9534f;
 
 
+@brand : @gray;
+
+
 //== Scaffolding
 //
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-@body-bg:               #fff;
+@body-bg:               #000;
 //** Global text color on `<body>`.
-@text-color:            @gray-dark;
+@text-color:            @gray-lighter;
 
 //** Global textual link color.
-@link-color:            @brand-primary;
+@link-color:            #0a0;
 //** Link hover color set via `darken()` function.
 @link-hover-color:      darken(@link-color, 15%);
 //** Link hover decoration.
@@ -48,7 +51,7 @@
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
 
-@font-size-base:          14px;
+@font-size-base:          12px;
 @font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
 @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
 
@@ -438,20 +441,20 @@
 //##
 
 @pagination-color:                     @link-color;
-@pagination-bg:                        #fff;
-@pagination-border:                    #ddd;
+@pagination-bg:                        @gray-darker;
+@pagination-border:                    @gray-dark;
 
 @pagination-hover-color:               @link-hover-color;
 @pagination-hover-bg:                  @gray-lighter;
 @pagination-hover-border:              #ddd;
 
-@pagination-active-color:              #fff;
-@pagination-active-bg:                 @brand-primary;
-@pagination-active-border:             @brand-primary;
+@pagination-active-color:              @text-color;
+@pagination-active-bg:                 @brand;
+@pagination-active-border:             @gray-dark;
 
-@pagination-disabled-color:            @gray-light;
-@pagination-disabled-bg:               #fff;
-@pagination-disabled-border:           #ddd;
+@pagination-disabled-color:            @text-color;
+@pagination-disabled-bg:               @gray-base;
+@pagination-disabled-border:           @gray-dark;
 
 
 //== Pager
@@ -691,9 +694,9 @@
 //
 //##
 
-@panel-bg:                    #fff;
-@panel-body-padding:          15px;
-@panel-heading-padding:       10px 15px;
+@panel-bg:                    @gray-darker;
+@panel-body-padding:          5px;
+@panel-heading-padding:       5px 7px;
 @panel-footer-padding:        @panel-heading-padding;
 @panel-border-radius:         @border-radius-base;
 
@@ -701,9 +704,9 @@
 @panel-inner-border:          #ddd;
 @panel-footer-bg:             #f5f5f5;
 
-@panel-default-text:          @gray-dark;
-@panel-default-border:        #ddd;
-@panel-default-heading-bg:    #f5f5f5;
+@panel-default-text:          @text-color;
+@panel-default-border:        @gray;
+@panel-default-heading-bg:    @brand;
 
 @panel-primary-text:          #fff;
 @panel-primary-border:        @brand-primary;

@@ -42,7 +42,7 @@ class Galpho extends component
     {
         parent::init();
         $this->route = 'v';
-        $this->url = Yii::$app->getUrlManager()->createUrl($this->route) . '/';
+        $this->url = Yii::$app->getUrlManager()->createUrl($this->route) ;
     }
 
     public function setPath($path)
@@ -348,7 +348,7 @@ class Galpho extends component
 
     public function addFolder($name, $title, $description)
     {
-        $path = rtrim($this->getPath() . '/' . $name, '/');
+        $path = trim($this->getPath() . '/' . $name, '/');
         $dst = Yii::getAlias('@app/' . Yii::$app->params['image']['src'] . '/' . $path);
         if (!is_dir($dst)) {
             mkdir($dst, 0777, true);

@@ -3,6 +3,10 @@
 @lum1: #AAA;
 @lum4: #0FF;
 
+
+@background_block : #444;
+
+
 .opacity(@opacity) {
   opacity: @opacity;
   // IE8 filter
@@ -16,13 +20,25 @@
   transition: @transition;
 }
 
+
+
+
 body {
   padding-top: 50px; // top offset for header menu bar
 }
 
 .galpho {
 
-   .pagination-left, .pagination-center, .page-right {
+
+  h1,
+  h2,
+  h3{
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+
+
+    .pagination-left, .pagination-center, .page-right {
      display: inline-block;
    }
 
@@ -39,8 +55,8 @@ body {
 
   .galpho-thumb {
     border: 1px solid;
-    border-color: #fff #fff #ccc #ccc;
-    background-color: #eee;
+    border-color: #888 #888 #666 #666;
+    background-color: #333;
     &.galpho-thumb-img {
       .photo .zone {
         a, a:hover {
@@ -57,7 +73,7 @@ body {
       text-align: center;
 
       img {
-        border: 2px solid #fff;
+        border: 2px solid #888;
       }
 
       position: relative;
@@ -86,7 +102,7 @@ body {
     &:hover {
       background-color: #999;
       .zone {
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(64, 64, 64, 0.7);
         .transition(background-color .3s linear);
 
       }
