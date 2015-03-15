@@ -54,7 +54,7 @@ class Helper
 
         $id = self::getAutoId();
         $options = json_encode($options+['push'=>true,'replace'=>false,'timeout'=>1000,'scrollTo'=>0]);
-        $linkSelector = json_encode($linkSelector !== null ? $linkSelector : '#' . $id . ' a');
+        $linkSelector = json_encode($linkSelector !== null ? $linkSelector : '#' . $id . ' a [pjax]');
         $formSelector = json_encode($formSelector !== null ? $formSelector : '#' . $id . ' form');
         $view = Yii::$app->getView();
 
