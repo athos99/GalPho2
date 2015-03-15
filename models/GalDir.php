@@ -68,7 +68,7 @@ class GalDir extends GalDirBase
 
     public function getCoverElement()
     {
-        return $this->hasOne('GalElement', ['id' => 'element_id_cover']);
+        return $this->hasOne(GalElement::className(), ['id' => 'element_id_cover']);
     }
 
 
