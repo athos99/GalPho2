@@ -99,6 +99,56 @@ class FolderController extends BaseController
         ]);
     }
 
+    public function actionElement($id)
+    {
+
+        /** @var \app\galpho\Galpho $galpho */
+        $galpho = Yii::$app->get('galpho');
+        $galpho->setIdPath($id);
+        $model = GalDir::find()->where(['id' => $id])->localized('all')->one();
+//        $model = GalDir::findOne($id);
+        $model->setScenario('form');
+        $model::$langLanguages = $galpho->getLanguages();
+
+        if (isset(Yii::$app->request->post()['cancel'])) {
+            return Yii::$app->getResponse()->redirect($galpho->url . $galpho->path);
+        }
+        if (array_key_exists('save', $_POST)) {
+
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+
+
+                $galpho->renameFolder($model->url);
+                $galDir = GalDir::findOne($id);
+                $rawRights = ArrayHelper::getValue($_POST, 'r', []);
+                $rights = [];
+                foreach ($rawRights as $rightId => $right) {
+                    $value = 0;
+                    foreach ($right as $v) {
+                        $value += $v;
+                    }
+                    $rights[$rightId] = $value;
+                }
+                $galDir->saveRight($rights, !empty($_POST['children']));
+                return Yii::$app->getResponse()->redirect($galpho->url . $galpho->path);
+            }
+        }
+        $galGroup = new GalGroup();
+        $records = GalGroup::find()
+            ->with(['galRights' => function ($query) use ($id) {
+                    $query->andWhere(['dir_id' => $id]);
+                }])
+            ->orderBy('name')
+            ->all();
+
+        return $this->render('//admin/folder/index', [
+            'model' => $model,
+            'galpho' => $galpho,
+            'records' => $records,
+            'galGroup' => $galGroup
+        ]);
+    }
 
 }
 
