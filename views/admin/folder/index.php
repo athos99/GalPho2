@@ -45,7 +45,7 @@ echo Tabs::widget([
         ],
         [
             'label' => 'Tree',
-            'content' => $this->render('//admin/folder/cover', [
+            'content' => $this->render('//admin/folder/element', [
                     'model' => $model,
                     'galpho' => $galpho,
                     'form' => $form
