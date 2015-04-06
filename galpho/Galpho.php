@@ -42,7 +42,7 @@ class Galpho extends component
     {
         parent::init();
         $this->route = 'v';
-        $this->url = Yii::$app->getUrlManager()->createUrl($this->route) ;
+        $this->url = Yii::$app->getUrlManager()->createUrl($this->route) .'/';
     }
 
     public function setPath($path)
@@ -435,6 +435,10 @@ class Galpho extends component
     public function getLanguages()
     {
         return Yii::$app->params['language'];
+    }
+
+    public function getShortLanguages() {
+       return array_combine(array_keys( Yii::$app->params['language']), array_keys( Yii::$app->params['language']));
     }
 }
 

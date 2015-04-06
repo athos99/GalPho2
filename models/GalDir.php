@@ -3,7 +3,15 @@ namespace app\models;
 use yii;
 use yii\db\Query;
 use app\galpho\MultiLingualTrait;
-//use app\galpho\MultiLingualQuery;
+
+/**
+ * Class GalDir
+ * @package app\models
+ *
+ *
+ * @property GalElement $coverElement
+ * @property GalElement[] $galElementsLocalizedAll
+ */
 
 
 class GalDir extends GalDirBase
@@ -171,4 +179,14 @@ class GalDir extends GalDirBase
                 $query->andWhere(['group_id' => $idGroups]);
             }]);
     }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGalElementsLocalizedAll()
+    {
+        return $this->hasMany(GalElement::className(), ['dir_id' => 'id'])->localized('all');
+    }
+
 }

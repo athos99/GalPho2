@@ -5,9 +5,10 @@ use yii\helpers\ArrayHelper;
 use app\models\GalDir;
 use app\galpho;
 
-/*
+/**
  * @var yii\web\View $this
  * @var app\models\GalDir $model
+ * @var app\models\GalElement[] $galElements
  * @var ActiveForm $form
  * @var app\galpho\Galpho $galpho
  */
@@ -18,40 +19,49 @@ $cover = $model->coverElement;
 $dir = $cover->dir;
 $thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_SMALL_THUMB;
 $img = $thumbDir . $dir->path . '/' . $cover->name;
-?>   <table class="table">
-        <tr>
-            <td width="25%">
-                <h4><?= yii::t('app', 'Cover'); ?></h4>
 
-                <div><img src=<?= $img ?>></div>
-                <div><?= $dir->path . '/' . $cover->name ?></div>
-            </td>
-            <td width="25%">
+?>
+    <table class="table">
+
+        <?php foreach ($galElements as $element) :
+            if ($element->format == 'image') :
+                ?>
+                <tr>
+                <td width="25%">
+                    <h4><?= yii::t('app', 'Cover'); ?></h4>
+
+                    <div><img src=<?=
+                        $thumbDir . $model->path . '/' . $element->name;
+                        ?>></div>
+                </td>
+                <td width="25%">
 
 
-                <?=
-                $form->field($model, 'title')->widget(galpho\MultiLingualInput::className(), [
-                    'languages' => $galpho->getLanguages(),
-                    'labelOptions' => ['class' => 'col-sm-2 control-label'],
-                    'inputOptions' => ['class' => 'form-control'],
-                    'divInputOptions' => ['class' => 'col-sm-10 form-group-sm']
-                ]);?>
-            </td>
-            <td width="25%"><div class="xxxform-horizontal">
-                <?=
-                $form->field($model, 'description')->widget(galpho\MultiLingualInput::className(), [
-                    'languages' => $galpho->getLanguages(),
-                    'type' => 'textarea',
-                    'labelOptions' => ['class' => 'col-sm-2 control-label'],
-                    'inputOptions' => ['class' => 'form-control', 'cols'=>'3'],
-                    'divInputOptions' => ['class' => 'col-sm-10 form-group-sm']
-                ]);?></div>
-            </td>
-            <td>
-                <?= $form->field($model, 'url') ?>
-                <?= $form->field($model, 'auto_path')->checkbox() ?>
-            </td>
-        </tr>
+                    <?=
+                    $form->field($element, 'title')->widget(galpho\MultiLingualInput::className(), [
+                        'languages' => $galpho->getShortLanguages(),
+                        'labelOptions' => ['class' => 'col-sm-2 control-label'],
+                        'inputOptions' => ['class' => 'form-control'],
+                        'divInputOptions' => ['class' => 'col-sm-10 form-group-sm']
+                    ]);?>
+                </td>
+                <td width="25%">
+                    <div class="xxxform-horizontal">
+                        <?=
+                        $form->field($element, 'description')->widget(galpho\MultiLingualInput::className(), [
+                            'languages' => $galpho->getShortLanguages(),
+                            'type' => 'textarea',
+                            'labelOptions' => ['class' => 'col-sm-2 control-label'],
+                            'inputOptions' => ['class' => 'form-control', 'cols' => '3'],
+                            'divInputOptions' => ['class' => 'col-sm-10 form-group-sm']
+                        ]);?></div>
+                </td>
+                </tr>
+
+                ?>
+            <?php
+            endif;
+        endforeach ?>
     </table>
 
 <?php

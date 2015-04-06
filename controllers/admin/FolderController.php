@@ -54,8 +54,12 @@ class FolderController extends BaseController
         /** @var \app\galpho\Galpho $galpho */
         $galpho = Yii::$app->get('galpho');
         $galpho->setIdPath($id);
-        $model = GalDir::find()->where(['id' => $id])->localized('all')->one();
-//        $model = GalDir::findOne($id);
+        /** @var GalDir $model */
+        $model = GalDir::find()
+            ->with('galElementsLocalizedAll')
+            ->where(['id' => $id])->localized('all')->one();
+        $galElements = $model->galElementsLocalizedAll;
+
         $model->setScenario('form');
         $model::$langLanguages = $galpho->getLanguages();
 
@@ -93,6 +97,7 @@ class FolderController extends BaseController
 
         return $this->render('//admin/folder/index', [
             'model' => $model,
+            'galElements'=>&$galElements,
             'galpho' => $galpho,
             'records' => $records,
             'galGroup' => $galGroup

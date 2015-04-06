@@ -153,8 +153,8 @@ trait MultiLingualTrait
                     if (in_array($attribute, static::$langAttributes)) {
                         $first = true;
                         foreach (static::$langLanguages as $key => $language) {
-                            if ( $first || (get_class($validator)!== RequiredValidator::className()) ) {
-                            $validator->attributes[] = $attribute . '_' . $key ;
+                            if ($first || (get_class($validator) !== RequiredValidator::className())) {
+                                $validator->attributes[] = $attribute . '_' . $key;
                             }
                             $first = false;
                         }
@@ -167,11 +167,12 @@ trait MultiLingualTrait
     }
 
 
-
     public function __get($name)
     {
         if (($pos = strrpos($name, '_')) !== false) {
-            if (($attribute = $this->getAttribute(substr($name, 0, $pos))) !== null) {
+            $baseName = substr($name, 0, $pos);
+            if ($this->hasAttribute($baseName)) {
+                $attribute = $this->getAttribute($baseName);
                 return ArrayHelper::getValue($attribute, substr($name, $pos + 1));
             }
         }

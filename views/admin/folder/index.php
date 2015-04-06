@@ -1,14 +1,16 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+//use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\GalDir;
 use app\galpho;
 use \yii\bootstrap\Tabs;
 
-/*
+/**
  * @var $this yii\web\View
  * @var $model app\models\GalDir
+ * @var app\models\GalElement[] $galElements
  * @var $form ActiveForm
  * @var app\galpho\Galpho $galpho
  */
@@ -20,12 +22,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?><h1 class="page-title"><?= Html::encode($this->title) ?></h1>
 <div class="folder-form page-content">
-<?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(
+    [
+        'options' => ['class' => 'form-horizontal'],
+        'fieldConfig' => [
+            'labelOptions' => ['class' => 'control-label col-sm-1'],
+            'template' => "{label}\n<div class=\"col-sm-11\">{input}\n{hint}\n{error}</div>"
+        ],
+    ]); ?>
 <?php
 
 
 echo Tabs::widget([
     'items' => [
+
         [
             'label' => 'One',
             'active' => true,
@@ -47,6 +57,7 @@ echo Tabs::widget([
             'label' => 'Tree',
             'content' => $this->render('//admin/folder/element', [
                     'model' => $model,
+                    'galElements' => $galElements,
                     'galpho' => $galpho,
                     'form' => $form
                 ])

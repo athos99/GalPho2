@@ -34,7 +34,7 @@ class Helper
     {
         $id = self::getAutoId();
         $htmlClose = ($close) ? '<button type="button" class="close dialog-close" data-dismiss="modal" aria-label="Close" style="position:absolute;top:3px;right:3px"><span aria-hidden="true">&times;</span></button>' : '';
-        $html = '<div id="' . $id . '" class="modal fade"><div class="modal-dialog"><div class="modal-content">';
+        $html = '<div id="' . $id . '" class="modal fade"><div class="modal-dialog modal-lg"><div class="modal-content">';
         if ($header !== null) {
             $html .= '<div class="modal-header"><h2 class="modal-title" >' . $header . '</h2></div>';
         }
