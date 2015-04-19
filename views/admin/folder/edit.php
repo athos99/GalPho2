@@ -15,7 +15,7 @@ use app\galpho;
 
 $request = Yii::$app->getRequest();
 $cover = $model->coverElement;
-$imgCover = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_IMG . $cover->dir->path . '/' . $cover->name;
+$imgCover = $request->getBaseUrl() . app\galpho\Galpho::IMG_THUMB_IMG .'/'. $cover->dir->path . '/' . $cover->name;
 ?>
     <div class="row">
         <div class="col-md-2">

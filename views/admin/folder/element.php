@@ -17,7 +17,7 @@ $request = Yii::$app->getRequest();
 /** @var \app\models\GalElementBase $cover */
 $cover = $model->coverElement;
 $dir = $cover->dir;
-$thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_SMALL_THUMB;
+$thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_SMALL_THUMB.'/';
 $img = $thumbDir . $dir->path . '/' . $cover->name;
 $dirStructure = $galpho->getPathStructure();
 
@@ -54,9 +54,7 @@ $dirStructure = $galpho->getPathStructure();
                     <td width="25%">
                         <h4><?= yii::t('app', 'Cover'); ?></h4>
 
-                        <div><img src=<?=
-                            $thumbDir . $model->path . '/' . $element->name;
-                            ?>></div>
+                        <div><img src=<?=$thumbDir . $model->path . '/' . $element->name;?>></div>
                     </td>
                     <td width="25%">
 
