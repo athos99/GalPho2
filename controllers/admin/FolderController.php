@@ -60,6 +60,7 @@ class FolderController extends BaseController
             ->where(['id' => $id])->localized('all')->one();
         $galElements = $model->galElementsLocalizedAll;
 
+
         $model->setScenario('form');
         $model::$langLanguages = $galpho->getLanguages();
 

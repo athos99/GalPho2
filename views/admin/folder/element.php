@@ -19,34 +19,57 @@ $cover = $model->coverElement;
 $dir = $cover->dir;
 $thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_SMALL_THUMB;
 $img = $thumbDir . $dir->path . '/' . $cover->name;
+$dirStructure = $galpho->getPathStructure();
 
 ?>
     <table class="table">
+
+
+        <?php foreach ($dirStructure as $index => $directory) :
+            if ($index != '#') :
+                ?>
+                <tr>
+                    <td width="25%">
+
+                        <div><img src=<?= $thumbDir . $directory['#']['cover']; ?>></div>
+                    </td>
+                    <td width="25%">
+                        <?= Html::encode($directory['#']['name']); ?>
+                    </td>
+                    <td width="25%">
+                    </td>
+                </tr>
+
+                ?>
+            <?php
+            endif;
+        endforeach ?>
+
+
 
         <?php foreach ($galElements as $element) :
             if ($element->format == 'image') :
                 ?>
                 <tr>
-                <td width="25%">
-                    <h4><?= yii::t('app', 'Cover'); ?></h4>
+                    <td width="25%">
+                        <h4><?= yii::t('app', 'Cover'); ?></h4>
 
-                    <div><img src=<?=
-                        $thumbDir . $model->path . '/' . $element->name;
-                        ?>></div>
-                </td>
-                <td width="25%">
+                        <div><img src=<?=
+                            $thumbDir . $model->path . '/' . $element->name;
+                            ?>></div>
+                    </td>
+                    <td width="25%">
 
 
-                    <?=
-                    $form->field($element, 'title')->widget(galpho\MultiLingualInput::className(), [
-                        'languages' => $galpho->getShortLanguages(),
-                        'labelOptions' => ['class' => 'col-sm-2 control-label'],
-                        'inputOptions' => ['class' => 'form-control'],
-                        'divInputOptions' => ['class' => 'col-sm-10 form-group-sm']
-                    ]);?>
-                </td>
-                <td width="25%">
-                    <div class="xxxform-horizontal">
+                        <?=
+                        $form->field($element, 'title')->widget(galpho\MultiLingualInput::className(), [
+                            'languages' => $galpho->getShortLanguages(),
+                            'labelOptions' => ['class' => 'col-sm-2 control-label'],
+                            'inputOptions' => ['class' => 'form-control'],
+                            'divInputOptions' => ['class' => 'col-sm-10 form-group-sm']
+                        ]);?>
+                    </td>
+                    <td width="25%">
                         <?=
                         $form->field($element, 'description')->widget(galpho\MultiLingualInput::className(), [
                             'languages' => $galpho->getShortLanguages(),
@@ -54,8 +77,8 @@ $img = $thumbDir . $dir->path . '/' . $cover->name;
                             'labelOptions' => ['class' => 'col-sm-2 control-label'],
                             'inputOptions' => ['class' => 'form-control', 'cols' => '3'],
                             'divInputOptions' => ['class' => 'col-sm-10 form-group-sm']
-                        ]);?></div>
-                </td>
+                        ]);?>
+                    </td>
                 </tr>
 
                 ?>
