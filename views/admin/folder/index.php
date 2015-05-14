@@ -29,9 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'labelOptions' => ['class' => 'control-label col-sm-1'],
             'template' => "{label}\n<div class=\"col-sm-11\">{input}\n{hint}\n{error}</div>"
         ],
-    ]); ?>
-<?php
-
+    ]);
 
 echo Tabs::widget([
     'items' => [
@@ -66,12 +64,10 @@ echo Tabs::widget([
 ]);
 ?>
 
-    <div class="row">
-        <div class="form-group">
+        <div>
             <?= Html::resetButton(Yii::t('app/admin', 'Reset'), ['class' => 'btn btn-default']); ?>
             <?= Html::submitButton(Yii::t('app/admin', 'Cancel'), ['class' => 'btn btn-default  no-validation dialog-close', 'name' => 'cancel']) ?>
             <?= Html::submitButton(Yii::t('app/admin', 'Save'), ['class' => 'btn btn-primary', 'name' => 'save']) ?>
         </div>
-    </div>
 
 <?php ActiveForm::end();

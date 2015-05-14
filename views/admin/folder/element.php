@@ -20,7 +20,6 @@ $dir = $cover->dir;
 $thumbDir = $request->getBaseUrl() . app\galpho\Galpho::IMG_SMALL_THUMB.'/';
 $img = $thumbDir . $dir->path . '/' . $cover->name;
 $dirStructure = $galpho->getPathStructure();
-
 ?>
     <table class="table">
 
@@ -40,7 +39,7 @@ $dirStructure = $galpho->getPathStructure();
                     </td>
                 </tr>
 
-                ?>
+
             <?php
             endif;
         endforeach ?>
@@ -52,8 +51,7 @@ $dirStructure = $galpho->getPathStructure();
                 ?>
                 <tr>
                     <td width="25%">
-                        <h4><?= yii::t('app', 'Cover'); ?></h4>
-
+                    <h4><?= Html::encode($element->name)?></h4>
                         <div><img src=<?=$thumbDir . $model->path . '/' . $element->name;?>></div>
                     </td>
                     <td width="25%">
@@ -79,7 +77,7 @@ $dirStructure = $galpho->getPathStructure();
                     </td>
                 </tr>
 
-                ?>
+
             <?php
             endif;
         endforeach ?>
@@ -96,7 +94,5 @@ function _urlFolder() {
 $('#galdir-title').on('change.galpho keyup.galpho', _urlFolder);
 $('#galdir-auto_path').on('change.galpho', _urlFolder);
 eot;
-
-
 $this->registerJs($js, yii\web\View::POS_READY, null);
 
